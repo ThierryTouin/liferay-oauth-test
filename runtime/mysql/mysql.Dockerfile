@@ -1,0 +1,3 @@
+ARG BASE_IMAGE=mysql:8
+FROM ${BASE_IMAGE}
+
