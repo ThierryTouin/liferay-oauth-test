@@ -87,26 +87,39 @@ services:
     volumes:
       - ./kong/declarative:/kong/declarative/
       - ./kong/plugins:/kong/plugins/
+
   app1:
     hostname: app1.dev.local
     container_name: lfroauth-app1
     build:
-      context: ./front-end/app1-docker-example
+      context: ./front-end/app1
+      dockerfile: ../app1.Dockerfile
     ports:
       - 3000:3000
     volumes:
-      - ./front-end/app1-docker-example:/app/app1-docker-example
-      - /app/app1-docker-example/node_modules
-  app2:
-    hostname: app2.dev.local
-    container_name: lfroauth-app2
-    build:
-      context: ./front-end/app2-docker-example
-    ports:
-      - 3300:3300
-    volumes:
-      - ./front-end/app2-docker-example:/app/app2-docker-example
-      - /app/app2-docker-example/node_modules
+      - ./front-end/app1:/app/app1
+      - /app/app1/node_modules
+
+  # app1:
+  #   hostname: app1.dev.local
+  #   container_name: lfroauth-app1
+  #   build:
+  #     context: ./front-end/app1-docker-example
+  #   ports:
+  #     - 3000:3000
+  #   volumes:
+  #     - ./front-end/app1-docker-example:/app/app1-docker-example
+  #     - /app/app1-docker-example/node_modules
+  # app2:
+  #   hostname: app2.dev.local
+  #   container_name: lfroauth-app2
+  #   build:
+  #     context: ./front-end/app2-docker-example
+  #   ports:
+  #     - 3300:3300
+  #   volumes:
+  #     - ./front-end/app2-docker-example:/app/app2-docker-example
+  #     - /app/app2-docker-example/node_modules
 
 volumes:
   liferay_data:

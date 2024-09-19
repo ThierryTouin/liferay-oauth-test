@@ -16,16 +16,6 @@ class WebComponent extends HTMLElement {
 
   disconnectedCallback() {
 
-		//
-		// Unmount React tree to prevent memory leaks.
-		//
-		// See React documentation at
-		//
-		//     https://react.dev/reference/react-dom/client/createRoot#root-unmount
-		//
-		// for more information.
-		//
-
 		this.root.unmount();
 		delete this.root;
 	}
