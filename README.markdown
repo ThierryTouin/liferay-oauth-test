@@ -34,3 +34,6 @@ http://portal.dev.local
 ./install-licence.sh "/mnt/c/Soft/_binaries/Liferay/activation-key-dxpdevelopment-7.4-developeractivationkeys.xml"
 ```
 
+## Pour test
+https://github.com/tnishada/keycloak-react-js-example/blob/master/src/App.js
+

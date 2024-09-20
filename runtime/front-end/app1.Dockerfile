@@ -1,13 +1,17 @@
-FROM node:18.10.0-alpine3.15
+## Stage 1: Build Image
+FROM node:18-alpine as build
+
+ARG TITLE 
 
 WORKDIR /app
-
-COPY . .
-
-RUN ls /app
-
+COPY ./react-app/package*.json ./
 RUN npm install
+COPY ./react-app .
+RUN REACT_APP_TITLE=${TITLE} \
+    npm run build
 
-EXPOSE 3000
-
-CMD ["npm", "start"]
+## Stage 2, use the compiled app, ready for production with Nginx
+FROM nginx:1.21.6-alpine
+COPY --from=build /app/build /usr/share/nginx/html 
+EXPOSE 80 
+CMD ["nginx", "-g", "daemon off;"]

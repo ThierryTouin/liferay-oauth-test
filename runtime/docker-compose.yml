@@ -92,34 +92,16 @@ services:
     hostname: app1.dev.local
     container_name: lfroauth-app1
     build:
-      context: ./front-end/app1
-      dockerfile: ../app1.Dockerfile
+      context: ./front-end
+      dockerfile: ./app1.Dockerfile
+      args: 
+        - TITLE=react-app
     ports:
-      - 3000:3000
+      - 3000:80
     volumes:
-      - ./front-end/app1:/app/app1
-      - /app/app1/node_modules
+      - ./front-end/react-app:/app/app1
+      - /home/user1/node_modules:/app/react-app/node_modules
 
-  # app1:
-  #   hostname: app1.dev.local
-  #   container_name: lfroauth-app1
-  #   build:
-  #     context: ./front-end/app1-docker-example
-  #   ports:
-  #     - 3000:3000
-  #   volumes:
-  #     - ./front-end/app1-docker-example:/app/app1-docker-example
-  #     - /app/app1-docker-example/node_modules
-  # app2:
-  #   hostname: app2.dev.local
-  #   container_name: lfroauth-app2
-  #   build:
-  #     context: ./front-end/app2-docker-example
-  #   ports:
-  #     - 3300:3300
-  #   volumes:
-  #     - ./front-end/app2-docker-example:/app/app2-docker-example
-  #     - /app/app2-docker-example/node_modules
 
 volumes:
   liferay_data:

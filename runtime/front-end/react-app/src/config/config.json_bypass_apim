@@ -1,0 +1,7 @@
+{
+    "apiURLApim": "https://httpbin.org",
+    "endPointsApimUrls": {
+      "DEBUG": "/get"
+    }
+}
+  
