@@ -36,4 +36,8 @@ http://portal.dev.local
 
 ## Pour test
 https://github.com/tnishada/keycloak-react-js-example/blob/master/src/App.js
+https://developers.onelogin.com/quickstart/authentication/react
+https://github.com/onelogin/onelogin-oidc-react/blob/master/src/api/oidcApi.js
+
+
 
