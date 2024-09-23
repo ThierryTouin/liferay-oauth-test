@@ -2,15 +2,20 @@ import {AxiosClient} from './common/AxiosClient.js';
 //import {StorageService} from './common/StorageService.js';
 import config from '../config/config.json';
 
+
+
+
 export class ApimService extends AxiosClient {
 
     endPointsApimUrls = config.endPointsApimUrls;
 
     appId
 
-    constructor(appId) {
+    constructor(appId, authToken) {
 
         console.log("Initializing APIM Service ...");
+
+        console.log("authToken:" + authToken);
 
         const oAuth2ClientConfig = {
             "apiURL": config.apiURLApim,
@@ -18,9 +23,7 @@ export class ApimService extends AxiosClient {
             "headers": ["Content-Type: application/json"]
         }
 
-        //const storageService = new StorageService(appId);
-        //const authToken = storageService.getAccessToken();
-        const authToken = "sddsffsdsdfdfsdsf51654654";
+
         super(oAuth2ClientConfig, authToken);
 
         this.appId = appId;

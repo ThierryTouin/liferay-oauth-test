@@ -289,7 +289,7 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "http://portal.dev.local*"
+        "http://portal.dev.local*","http://app1.dev.local*","http://localhost*"
       ],
       "webOrigins": [],
       "notBefore": 0,

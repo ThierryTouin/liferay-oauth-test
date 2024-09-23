@@ -99,7 +99,7 @@ services:
     ports:
       - 3000:80
     volumes:
-      - ./front-end/react-app:/app/app1
+      - ./front-end/react-app:/app/react-app
       - /home/user1/node_modules:/app/react-app/node_modules
 
 
