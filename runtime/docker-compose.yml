@@ -97,7 +97,7 @@ services:
       args: 
         - TITLE=react-app
     ports:
-      - 3000:80
+      - 3001:80
     volumes:
       - ./front-end/react-app:/app/react-app
       - /home/user1/node_modules:/app/react-app/node_modules

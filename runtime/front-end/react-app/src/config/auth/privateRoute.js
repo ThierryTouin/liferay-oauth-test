@@ -25,7 +25,8 @@ const PrivateRoute = ({ children }) => {
     auth.signinRedirect({
       //redirect_uri: process.env.REACT_APP_PROJECT_URL.concat(originPath),
       //redirect_uri: 'http://app1.dev.local:3000'.concat(originPath),
-      redirect_uri: 'http://localhost:3000'.concat(originPath),
+      redirect_uri: 'http://app1.dev.local:3007'.concat(originPath),
+      //redirect_uri: 'http://localhost:3000'.concat(originPath),
     });
   }
 

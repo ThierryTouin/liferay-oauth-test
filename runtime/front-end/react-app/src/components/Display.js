@@ -14,6 +14,7 @@ const Display = ( props ) => {
 			try {
 				
 				const authToken = auth.user?.access_token;
+				//const authToken = "iuiuipuhpiuh";
 				console.log("authToken:" + authToken);
 
 				const apimClient = new ApimService(appId, authToken);
