@@ -10,6 +10,7 @@ const PrivateRoute = ({ children }) => {
       return <div>Signing you in...</div>;
     case 'signoutRedirect':
       return <div>Signing you out...</div>;
+    default: // Do nothing
   }
 
   if (auth.isLoading) {
