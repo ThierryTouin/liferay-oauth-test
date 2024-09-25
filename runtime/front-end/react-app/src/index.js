@@ -12,15 +12,15 @@ const oidcConfig = {
   //redirect_uri: window.location.origin,
 
 
-  // post_logout_redirect_uri: window.location.origin,
-  // response_type: 'code', // Utilisation du flux d'authentification code (PKCE)
-  // scope: 'openid profile email', // Scopes demandés lors de l'authentification
-  // automaticSilentRenew: true, // Renouvellement automatique du token en arrière-plan
-  // loadUserInfo: true, // Charger les informations supplémentaires de l'utilisateur après l'authentification
-  // silent_redirect_uri: window.location.origin + '/silent-renew', // URL pour le renouvellement silencieux du token
-  // onSigninCallback: () => {
-  //   window.history.replaceState({}, document.title, window.location.pathname);
-  // },
+  post_logout_redirect_uri: window.location.origin,
+  response_type: 'code', // Utilisation du flux d'authentification code (PKCE)
+  scope: 'openid profile email', // Scopes demandés lors de l'authentification
+  automaticSilentRenew: true, // Renouvellement automatique du token en arrière-plan
+  loadUserInfo: true, // Charger les informations supplémentaires de l'utilisateur après l'authentification
+  silent_redirect_uri: window.location.origin + '/silent-renew', // URL pour le renouvellement silencieux du token
+  onSigninCallback: () => {
+    window.history.replaceState({}, document.title, window.location.pathname);
+  },
 };
 
 

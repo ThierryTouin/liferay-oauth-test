@@ -8,6 +8,7 @@ startAll.sh
 ```
 http://portal.dev.local
 http://app1.dev.local:3007
+https://app1.dev.local:3008/
 ```
 
 ### APIM / API
@@ -35,10 +36,25 @@ http://app1.dev.local:3007
 ./install-licence.sh "/mnt/c/Soft/_binaries/Liferay/activation-key-dxpdevelopment-7.4-developeractivationkeys.xml"
 ```
 
+## Pour générer les certificat, nous utilisons un service dans le docker compose
+
+```
+./scripts/gen-certicate.sh
+```
+
+ou alors directement une commande du type :
+
+```
+docker run -v $PWD:/root/.local/share/mkcert brunopadz/mkcert-docker:latest \
+/bin/sh -c "mkcert -install && \
+mkcert -cert-file /root/.local/share/mkcert/mkcert.pem \
+-key-file /root/.local/share/mkcert/mkcert.key localhost.dev"
+```
+
 ## Pour test
 https://github.com/tnishada/keycloak-react-js-example/blob/master/src/App.js
 https://developers.onelogin.com/quickstart/authentication/react
 https://github.com/onelogin/onelogin-oidc-react/blob/master/src/api/oidcApi.js
-
+https://slash-root.fr/keycloak-installation-avec-docker-et-reverse-proxy-ssl-nginx/
 
 
