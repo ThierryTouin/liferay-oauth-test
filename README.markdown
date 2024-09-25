@@ -7,6 +7,7 @@ startAll.sh
 ### Liferay
 ```
 http://portal.dev.local
+http://app1.dev.local:3007
 ```
 
 ### APIM / API

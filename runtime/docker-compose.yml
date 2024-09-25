@@ -98,10 +98,24 @@ services:
         - TITLE=react-app
     ports:
       - 3007:80
+      - 3008:443  # HTTPS
     volumes:
       - ./front-end/react-app:/app/react-app
       - /home/user1/node_modules:/app/react-app/node_modules
+      - ./certs/app1.dev.local:/etc/nginx/ssl  # Montage des certificats
+    depends_on:
+      - mkcert
 
+  mkcert:
+    image: fuzzy/mkcert
+    container_name: mkcert
+    command: >
+      sh -c "
+      mkcert -install &&
+      mkcert -cert-file /certs/app1.dev.local.crt -key-file /certs/app1.dev.local.key app1.dev.local localhost 127.0.0.1 ::1"
+    volumes:
+      - ./certs:/certs
+    entrypoint: /bin/sh
 
 volumes:
   liferay_data:
