@@ -59,6 +59,17 @@ services:
       - start-dev
       - --import-realm
 
+  ssof:
+    build:
+      dockerfile: nginx/nginx.Dockerfile
+      context: .
+    hostname: ssof.dev.local
+    container_name: lfroauth-ssof
+    ports:
+      - "8043:443"
+    volumes:
+      - ./certs/ssof.dev.local:/etc/nginx/ssl  # Montage des certificats
+
   apim:
     hostname: apim.dev.local
     container_name: lfroauth-apim
@@ -114,7 +125,8 @@ services:
     command: >
       sh -c "
       mkcert -install &&
-      mkcert -cert-file /certs/app1.dev.local/app1.dev.local.crt -key-file /certs/app1.dev.local/app1.dev.local.key app1.dev.local localhost 127.0.0.1 ::1"
+      mkcert -cert-file /certs/app1.dev.local/app1.dev.local.crt -key-file /certs/app1.dev.local/app1.dev.local.key app1.dev.local localhost 127.0.0.1 ::1 &&
+      mkcert -cert-file /certs/ssof.dev.local/ssof.dev.local.crt -key-file /certs/ssof.dev.local/ssof.dev.local.key ssof.dev.local localhost 127.0.0.1 ::1"
     volumes:
       - ./certs:/certs
 

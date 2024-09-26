@@ -8,7 +8,9 @@ startAll.sh
 ```
 http://portal.dev.local
 http://app1.dev.local:3007
-https://app1.dev.local:3008/
+https://app1.dev.local:3008
+http://sso.dev.local:8080
+https://ssof.dev.local:8043
 ```
 
 ### APIM / API
