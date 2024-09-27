@@ -6,19 +6,24 @@ startAll.sh
 ## Accès 
 ### Liferay
 ```
-http://portal.dev.local
-http://app1.dev.local:3007
-https://app1.dev.local:3008
-http://sso.dev.local:8080
-https://ssof.dev.local:8043
+
+
+
+
+
 ```
 
-### APIM / API
+### Accès 
 
 | Service             | Title   | Links |
-| --------         | ------- | -------                                                        |
-| Kong GUI         | http://apim.dev.local:8002              | Kong administration |
-| Cities           | https://apim.dev.local:8443/cities      | Returned the headers of original request has a response |
+| --------        | ------- | -------                                                        |
+| Portail         | http://portal.dev.local              | Kong administration |
+| App ReactJS     | http://app1.dev.local:3007           | Unsecured |
+|                 | https://app1.dev.local:3008          | Secured |
+| Keycloak        | http://sso.dev.local:8080            | Unsecured |
+|                 | https://ssof.dev.local:8043          | Secured |
+| Kong GUI        | http://apim.dev.local:8002           | Kong administration |
+| Cities          | https://apim.dev.local:8443/cities   | Returned the headers of original request has a response |
 | Debug            | http://apim.dev.local:8800/debug/get    | Returned all french cities using the public french government API |
 
 ## Configuration
@@ -26,7 +31,7 @@ https://ssof.dev.local:8043
 ### Add in hosts file :
 ```
 127.0.0.1	portal.dev.local
-127.0.0.1	sso.dev.local
+127.0.0.1	sso.dev.local ssof.dev.local
 127.0.0.1	mail.dev.local
 127.0.0.1	apim.dev.local
 127.0.0.1	app1.dev.local

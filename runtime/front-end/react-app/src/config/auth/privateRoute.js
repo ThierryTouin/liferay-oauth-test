@@ -23,6 +23,10 @@ const PrivateRoute = ({ children }) => {
   }
   if (!auth.isAuthenticated) {
     let originPath = window.location.pathname;
+
+
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+    
     auth.signinRedirect({
       //redirect_uri: process.env.REACT_APP_PROJECT_URL.concat(originPath),
       //redirect_uri: 'http://app1.dev.local:3000'.concat(originPath),
