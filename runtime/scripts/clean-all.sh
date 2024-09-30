@@ -1,3 +1,3 @@
 #!/bin/sh 
 cd ..
-docker compose down --volume --rmi all
+docker compose down --volumes --rmi all

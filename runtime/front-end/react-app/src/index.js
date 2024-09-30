@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { AuthProvider } from "react-oidc-context";
 
 const oidcConfig = {
-  authority: "https://ssof.dev.local:8043/realms/Liferay",
+  authority: "https://sso.dev.local/realms/Liferay",
   client_id: "liferay",
   redirect_uri: window.location.origin + '/callback',
   //redirect_uri: window.location.origin,

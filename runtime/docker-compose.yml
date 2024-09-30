@@ -1,6 +1,8 @@
 version: "3"
 name: "lfroauth"
 services:
+
+
   liferay:
     hostname: portal.dev.local
     container_name: lfroauth-liferay
@@ -8,7 +10,7 @@ services:
       dockerfile: liferay/liferay.Dockerfile
       context: .
     ports:
-      - "80:8080"
+      - "8081:8080"
     env_file:
       - ./liferay/variables.env
     volumes:
@@ -19,18 +21,28 @@ services:
       - db
       - sso
     entrypoint: /usr/local/bin/wait-for -t 60 db:3306 -- /usr/local/bin/liferay_entrypoint.sh
+
+
+
   db:
     container_name: lfroauth-db
     build:
       dockerfile: mysql/mysql.Dockerfile
       context: .
-    env_file:
-      - ./mysql/variables.env
+    # env_file:
+    #   - ./mysql/variables.env
+    environment: 
+       MYSQL_ROOT_PASSWORD: kerri
+       MYSQL_USER: keycloak 
+       MYSQL_PASSWORD: keycloak
+       MYSQL_DATABASE: keycloak
+
     volumes:
       - ./mysql/initdb.d:/docker-entrypoint-initdb.d
       - db_data:/var/lib/mysql
     cap_add:
       - SYS_NICE
+
   mail:
     hostname: mail.dev.local
     container_name: lfroauth-mail
@@ -41,16 +53,31 @@ services:
       - "5000:80"
     volumes:
       - smtp_data:/smtp4dev
+
+
   sso:
     build:
       dockerfile: keycloak/keycloak.Dockerfile
       context: .
     hostname: sso.dev.local
     container_name: lfroauth-sso
-    ports:
-      - "8080:8080"
-    env_file:
-      - ./keycloak/variables.env
+    # ports:
+    #   - "8080:8080"
+    # env_file:
+    #   - ./keycloak/variables.env
+    environment: 
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: kerri
+      DB_ADDR: db
+      DB_USER: keycloak
+      DB_PASSWORD: keycloak
+      DB_PORT: "3306"
+      DB_DATABASE: keycloak
+      KEYCLOAK_IMPORT: /opt/keycloak/data/import/liferay-realm.json
+      KC_PROXY_ADDRESS_FORWARDING: "true"
+      KC_HOSTNAME_STRICT: "false"
+      KC_HOSTNAME: sso.dev.local
+
     volumes:
       - ./keycloak/liferay-realm.json:/opt/keycloak/data/import/liferay-realm.json
     depends_on:
@@ -58,17 +85,111 @@ services:
     command:
       - start-dev
       - --import-realm
+    # labels:
+    #   - "traefik.enable=true"
+    #   - "traefik.http.routers.lfroauth_keycloak.rule=Host(`sso.dev.local`)"
+    #   - "traefik.http.routers.lfroauth_keycloak.entrypoints=websecure"
+    #   - "traefik.http.routers.keycloak.tls.certresolver=myresolver"
+    #   - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
+    #   - "traefik.http.services.keycloak.loadbalancer.server.scheme=http"
+    # environment:
+    #   - KEYCLOAK_FRONTEND_URL=https://sso.dev.local
+    #   - PROXY_ADDRESS_FORWARDING=true
+    labels:
+      - "traefik.enable=true"
+      #- "traefik.http.routers.keycloak.rule=Host(`${KC_HOSTNAME}`)"
+      - "traefik.http.routers.keycloak.rule=Host(`sso.dev.local`)"
+      - "traefik.http.routers.keycloak.service=keycloak"
+      - "traefik.http.routers.keycloak.entrypoints=websecure"
+      - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
+      - "traefik.http.routers.keycloak.tls=true"
+      - "traefik.http.routers.keycloak.tls.certresolver=letsencrypt"
+      - "traefik.http.services.keycloak.loadbalancer.passhostheader=true"
+      - "traefik.http.routers.keycloak.middlewares=compresstraefik"
+      - "traefik.http.middlewares.compresstraefik.compress=true"
 
-  ssof:
+
+  # ssof:
+  #   build:
+  #     dockerfile: nginx/nginx.Dockerfile
+  #     context: .
+  #   hostname: ssof.dev.local
+  #   container_name: lfroauth-ssof
+  #   ports:
+  #     - "8043:443"
+  #   volumes:
+  #     - ./certs/ssof.dev.local:/etc/nginx/ssl  # Montage des certificats
+
+
+  traefik:
     build:
-      dockerfile: nginx/nginx.Dockerfile
-      context: .
-    hostname: ssof.dev.local
-    container_name: lfroauth-ssof
+      context: .    
+      dockerfile: traefik/traefik.Dockerfile    
+    env_file:
+      - ./traefik/variables.env      
+    container_name: lfroauth-traefik
     ports:
-      - "8043:443"
+      - "80:80"
+      - "443:443"
+    # volumes:
+    #   - "/var/run/docker.sock:/var/run/docker.sock"
+    #   - ./traefik/config/traefik.toml:/etc/traefik/traefik.toml
+    #   - traefik-acme:/acme/acme.json 
+    #restart: unless-stopped
+    # command:
+    #   #- "--log.level=DEBUG"
+    # labels:
+    #   - "traefik.enable=true"
+    #   - "traefik.http.routers.dashboard.rule=Host(`traefik.dev.local`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+    #   - "traefik.http.routers.dashboard.service=api@internal"
+    command:
+      #- "--log.level=${TRAEFIK_LOG_LEVEL}"
+      - "--log.level=warn"
+      - "--accesslog=true"
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+      - "--ping=true"
+      - "--ping.entrypoint=ping"
+      - "--entryPoints.ping.address=:8082"
+      - "--entryPoints.web.address=:80"
+      - "--entryPoints.websecure.address=:443"
+      - "--providers.docker=true"
+      - "--providers.docker.endpoint=unix:///var/run/docker.sock"
+      - "--providers.docker.exposedByDefault=false"
+      - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
+      #- "--certificatesresolvers.letsencrypt.acme.email=${TRAEFIK_ACME_EMAIL}"
+      - "--certificatesresolvers.letsencrypt.acme.email=contact@superman.com"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/etc/traefik/acme/acme.json"
+      - "--metrics.prometheus=true"
+      - "--metrics.prometheus.buckets=0.1,0.3,1.2,5.0"
+      - "--global.checkNewVersion=true"
+      - "--global.sendAnonymousUsage=false"
     volumes:
-      - ./certs/ssof.dev.local:/etc/nginx/ssl  # Montage des certificats
+      - /var/run/docker.sock:/var/run/docker.sock
+      - traefik-certificates:/etc/traefik/acme
+    healthcheck:
+      test: ["CMD", "wget", "http://localhost:8082/ping","--spider"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    labels:
+      - "traefik.enable=true"
+      #- "traefik.http.routers.dashboard.rule=Host(`${TRAEFIK_HOSTNAME}`)"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.dev.local`)"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.entrypoints=websecure"
+      - "traefik.http.services.dashboard.loadbalancer.server.port=8080"
+      - "traefik.http.routers.dashboard.tls=true"
+      - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt"
+      - "traefik.http.services.dashboard.loadbalancer.passhostheader=true"
+      - "traefik.http.routers.dashboard.middlewares=authtraefik"
+      #- "traefik.http.middlewares.authtraefik.basicauth.users=${TRAEFIK_BASIC_AUTH}"
+      - "traefik.http.middlewares.authtraefik.basicauth.users=traefikadmin:{SHA}8zP75UfUnFQj1l/b1NwWwlIPDHY="
+      - "traefik.http.routers.http-catchall.rule=HostRegexp(`{host:.+}`)"
+      - "traefik.http.routers.http-catchall.entrypoints=web"
+      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
 
   apim:
     hostname: apim.dev.local
@@ -114,19 +235,19 @@ services:
       - ./front-end/react-app:/app/react-app
       - /home/user1/node_modules:/app/react-app/node_modules
       - ./certs/app1.dev.local:/etc/nginx/ssl  # Montage des certificats
-    # depends_on:
-    #   - mkcert
+    depends_on:
+      - mkcert
+
 
   mkcert:
     build:
       context: ./mkcert
       dockerfile: ./mkcert.Dockerfile
-    container_name: mkcert
+    container_name: lfroauth-mkcert
     command: >
       sh -c "
       mkcert -install &&
-      mkcert -cert-file /certs/app1.dev.local/app1.dev.local.crt -key-file /certs/app1.dev.local/app1.dev.local.key app1.dev.local localhost 127.0.0.1 ::1 &&
-      mkcert -cert-file /certs/ssof.dev.local/ssof.dev.local.crt -key-file /certs/ssof.dev.local/ssof.dev.local.key ssof.dev.local localhost 127.0.0.1 ::1"
+      mkcert -cert-file /certs/app1.dev.local/app1.dev.local.crt -key-file /certs/app1.dev.local/app1.dev.local.key app1.dev.local localhost 127.0.0.1 ::1"
     volumes:
       - ./certs:/certs
 
@@ -135,3 +256,4 @@ volumes:
   liferay_data:
   smtp_data:
   db_data:
+  traefik-certificates:

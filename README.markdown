@@ -17,21 +17,22 @@ startAll.sh
 
 | Service             | Title   | Links |
 | --------        | ------- | -------                                                        |
-| Portail         | http://portal.dev.local              | Kong administration |
-| App ReactJS     | http://app1.dev.local:3007           | Unsecured |
-|                 | https://app1.dev.local:3008          | Secured |
-| Keycloak        | http://sso.dev.local:8080            | Unsecured |
-|                 | https://ssof.dev.local:8043          | Secured |
+| Portail         | http://portal.dev.local:8081/              | |
+| App ReactJS     | https://app1.dev.local:3008          | Secured |
+| Keycloak        | https://sso.dev.local            | Unsecured |
 | Kong GUI        | http://apim.dev.local:8002           | Kong administration |
 | Cities          | https://apim.dev.local:8443/cities   | Returned the headers of original request has a response |
-| Debug            | http://apim.dev.local:8800/debug/get    | Returned all french cities using the public french government API |
+| Debug           | http://apim.dev.local:8800/debug/get    | Returned all french cities using the public french government API |
+
+
+https://traefik.dev.local traefikadmin / traefikadmin
 
 ## Configuration
 
 ### Add in hosts file :
 ```
 127.0.0.1	portal.dev.local
-127.0.0.1	sso.dev.local ssof.dev.local
+127.0.0.1	sso.dev.local 
 127.0.0.1	mail.dev.local
 127.0.0.1	apim.dev.local
 127.0.0.1	app1.dev.local
@@ -64,4 +65,6 @@ https://developers.onelogin.com/quickstart/authentication/react
 https://github.com/onelogin/onelogin-oidc-react/blob/master/src/api/oidcApi.js
 https://slash-root.fr/keycloak-installation-avec-docker-et-reverse-proxy-ssl-nginx/
 
+## A garder
 
+https://sso.dev.local/realms/Liferay/.well-known/openid-configuration
