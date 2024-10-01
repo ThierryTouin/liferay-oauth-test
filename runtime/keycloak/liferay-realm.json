@@ -291,7 +291,7 @@
       "redirectUris": [
         "http://portal.dev.local*","https://app1.dev.local*"
       ],
-      "webOrigins": [],
+      "webOrigins": ["*"],
       "notBefore": 0,
       "bearerOnly": false,
       "consentRequired": false,

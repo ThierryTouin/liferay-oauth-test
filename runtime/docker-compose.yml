@@ -21,7 +21,22 @@ services:
       - db
       - sso
     entrypoint: /usr/local/bin/wait-for -t 60 db:3306 -- /usr/local/bin/liferay_entrypoint.sh
-
+    environment:
+      LIFERAY_VIRTUAL_PERIOD_HOSTS_PERIOD_VALID_PERIOD_HOSTS: "*"
+      LIFERAY_WEB_PERIOD_SERVER_PERIOD_HTTPS_PERIOD_PORT: 443
+      LIFERAY_WEB_PERIOD_SERVER_PERIOD_PROTOCOL: "https"
+      
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.liferay.rule=Host(`portal.dev.local`)"
+      - "traefik.http.routers.liferay.service=liferay"
+      - "traefik.http.routers.liferay.entrypoints=websecure"
+      - "traefik.http.services.liferay.loadbalancer.server.port=8080"
+      - "traefik.http.routers.liferay.tls=true"
+      - "traefik.http.routers.liferay.tls.certresolver=letsencrypt"
+      - "traefik.http.services.liferay.loadbalancer.passhostheader=true"
+      - "traefik.http.routers.liferay.middlewares=compresstraefik"
+      - "traefik.http.middlewares.compresstraefik.compress=true"
 
 
   db:
@@ -29,14 +44,8 @@ services:
     build:
       dockerfile: mysql/mysql.Dockerfile
       context: .
-    # env_file:
-    #   - ./mysql/variables.env
-    environment: 
-       MYSQL_ROOT_PASSWORD: kerri
-       MYSQL_USER: keycloak 
-       MYSQL_PASSWORD: keycloak
-       MYSQL_DATABASE: keycloak
-
+    env_file:
+      - ./mysql/variables.env
     volumes:
       - ./mysql/initdb.d:/docker-entrypoint-initdb.d
       - db_data:/var/lib/mysql
@@ -66,17 +75,39 @@ services:
     # env_file:
     #   - ./keycloak/variables.env
     environment: 
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: kerri
-      DB_ADDR: db
-      DB_USER: keycloak
-      DB_PASSWORD: keycloak
-      DB_PORT: "3306"
-      DB_DATABASE: keycloak
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+
+      KC_DB: mysql
+      KC_DB_URL_HOST: db
+      KC_DB_PORT: 3306
+      KC_DB_URL_DATABASE: keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloak
+      
       KEYCLOAK_IMPORT: /opt/keycloak/data/import/liferay-realm.json
-      KC_PROXY_ADDRESS_FORWARDING: "true"
-      KC_HOSTNAME_STRICT: "false"
+
       KC_HOSTNAME: sso.dev.local
+      KC_HOSTNAME_STRICT: false
+      KC_PROXY: edge
+
+      # KEYCLOAK_USER: keycloak
+      # KEYCLOAK_PASSWORD: keycloak
+      # DB_ADDR: db
+      # DB_USER: keycloak
+      # DB_PASSWORD: keycloak
+      # DB_PORT: "3306"
+      # DB_DATABASE: keycloak
+      
+      # KC_PROXY_ADDRESS_FORWARDING: "true"
+      # # This is required to run keycloak behind traefik
+      # PROXY_ADDRESS_FORWARDING: true
+      # # What's our hostname?
+      # KEYCLOAK_HOSTNAME: sso.dev.local
+      # #KC_HOSTNAME_STRICT_HTTPS: "false"
+      # KC_HTTP_ENABLED: "true"
+      # KC_PROXY_HEADERS: xforwarded
+      # KC_HEALTH_ENABLED: "true"
 
     volumes:
       - ./keycloak/liferay-realm.json:/opt/keycloak/data/import/liferay-realm.json

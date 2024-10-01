@@ -1,7 +1,7 @@
 //import logo from './logo.svg';
 import './App.css';
 import Display from "./components/Display.js";
-import PrivateRoute from "./config/auth/privateRoute.js";
+import PrivateRoute from "./config/auth/PrivateRoute.js";
 
 
 function App() {

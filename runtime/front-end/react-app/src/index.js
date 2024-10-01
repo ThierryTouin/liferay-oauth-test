@@ -4,14 +4,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { AuthProvider } from "react-oidc-context";
+import Sample from "./components/Sample.js";
+
 
 const oidcConfig = {
   authority: "https://sso.dev.local/realms/Liferay",
   client_id: "liferay",
-  redirect_uri: window.location.origin + '/callback',
-  //redirect_uri: window.location.origin,
-
-
+  //redirect_uri: window.location.origin + '/callback',
+  redirect_uri: window.location.origin,
   post_logout_redirect_uri: window.location.origin,
   response_type: 'code', // Utilisation du flux d'authentification code (PKCE)
   scope: 'openid profile email', // Scopes demandés lors de l'authentification
@@ -23,13 +23,38 @@ const oidcConfig = {
   },
 };
 
+// const oidcConfig = {
+//   authority: "https://dev-tselqke8frbhb3x1.us.auth0.com/",
+//   client_id: "T9mJRCFqp9CH85W5aORs5gAluWkGjEsy",
+//   //redirect_uri: window.location.origin + '/callback',
+//   redirect_uri: window.location.href,
+//   post_logout_redirect_uri: window.location.origin,
+//   response_type: 'code', // Utilisation du flux d'authentification code (PKCE)
+//   scope: 'openid profile email', // Scopes demandés lors de l'authentification
+//   automaticSilentRenew: true, // Renouvellement automatique du token en arrière-plan
+//   loadUserInfo: true, // Charger les informations supplémentaires de l'utilisateur après l'authentification
+//   silent_redirect_uri: window.location.origin + '/silent-renew', // URL pour le renouvellement silencieux du token
+//   onSigninCallback: () => {
+//     window.history.replaceState({}, document.title, window.location.pathname);
+//   },
+// };
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <AuthProvider {...oidcConfig}>
+    {/* <AuthProvider {...oidcConfig}>
       <App />
-    </AuthProvider>
+    </AuthProvider> */}
+
+    <AuthProvider {...oidcConfig}>
+      <Sample
+          key="labels"
+          apiUrl="url"
+          labels="labelsMap"
+      />
+    </AuthProvider>,
+
   </React.StrictMode>
 );
 

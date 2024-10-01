@@ -1,0 +1,24 @@
+authorizationEndPoint="https://dev-tselqke8frbhb3x1.us.auth0.com/authorize"
+customAuthorizationRequestParameters=[ \
+  ]
+customTokenRequestParameters=[ \
+  ]
+discoveryEndPoint="https://dev-tselqke8frbhb3x1.us.auth0.com/.well-known/openid-configuration"
+discoveryEndPointCacheInMillis=L"360000"
+idTokenSigningAlgValues=[ \
+  "RS256", \
+  ]
+issuerURL="https://dev-tselqke8frbhb3x1.us.auth0.com"
+jwksURI="https://dev-tselqke8frbhb3x1.us.auth0.com/.well-known/jwks.json"
+openIdConnectClientId="T9mJRCFqp9CH85W5aORs5gAluWkGjEsy"
+openIdConnectClientSecret="E6BEw-DxOuDbc_9P7r266tJlbZc55Cukx8fVN4KvXAgwqLsTfLe6aYZuo94We3sP"
+providerName="Keycloak"
+registeredIdTokenSigningAlg=""
+scopes="openid\ email\ profile"
+subjectTypes=[ \
+  "public", \
+  "pairwise", \
+  ]
+tokenConnectionTimeout=I"1000"
+tokenEndPoint="https://dev-tselqke8frbhb3x1.us.auth0.com/oauth/token"
+userInfoEndPoint="https://dev-tselqke8frbhb3x1.us.auth0.com/userinfo"

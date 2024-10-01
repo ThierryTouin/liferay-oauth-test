@@ -17,15 +17,16 @@ startAll.sh
 
 | Service             | Title   | Links |
 | --------        | ------- | -------                                                        |
-| Portail         | http://portal.dev.local:8081/              | |
-| App ReactJS     | https://app1.dev.local:3008          | Secured |
-| Keycloak        | https://sso.dev.local            | Unsecured |
+| Portail         | https://portal.dev.local              | |
+| App ReactJS     | https://app1.dev.local:3008          |  |
+| Keycloak        | https://sso.dev.local            |  |
 | Kong GUI        | http://apim.dev.local:8002           | Kong administration |
 | Cities          | https://apim.dev.local:8443/cities   | Returned the headers of original request has a response |
 | Debug           | http://apim.dev.local:8800/debug/get    | Returned all french cities using the public french government API |
+| Traefik         | https://traefik.dev.local            |  traefikadmin / traefikadmin |
 
 
-https://traefik.dev.local traefikadmin / traefikadmin
+
 
 ## Configuration
 
