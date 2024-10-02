@@ -67,5 +67,6 @@ https://github.com/onelogin/onelogin-oidc-react/blob/master/src/api/oidcApi.js
 https://slash-root.fr/keycloak-installation-avec-docker-et-reverse-proxy-ssl-nginx/
 
 ## A garder
-
 https://sso.dev.local/realms/Liferay/.well-known/openid-configuration
+
+## Vrac

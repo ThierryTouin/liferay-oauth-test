@@ -1,0 +1,8 @@
+{
+    "apiURLApim": "https://apim.dev.local:8443",
+    "endPointsApimUrls": {
+      "DEBUG": "/debug/get",
+      "COMMUNES": "/communes"
+    }
+}
+  

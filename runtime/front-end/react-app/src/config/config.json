@@ -1,6 +1,7 @@
 {
-  "apiURLApim": "https://httpbin.org",
+  "apiURLApim": "https://apim.dev.local:8443",
   "endPointsApimUrls": {
-    "DEBUG": "/get"
+    "DEBUG": "/debug/get",
+    "COMMUNES": "/communes"
   }
 }

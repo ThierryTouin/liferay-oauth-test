@@ -90,25 +90,6 @@ services:
       KC_HOSTNAME: sso.dev.local
       KC_HOSTNAME_STRICT: false
       KC_PROXY: edge
-
-      # KEYCLOAK_USER: keycloak
-      # KEYCLOAK_PASSWORD: keycloak
-      # DB_ADDR: db
-      # DB_USER: keycloak
-      # DB_PASSWORD: keycloak
-      # DB_PORT: "3306"
-      # DB_DATABASE: keycloak
-      
-      # KC_PROXY_ADDRESS_FORWARDING: "true"
-      # # This is required to run keycloak behind traefik
-      # PROXY_ADDRESS_FORWARDING: true
-      # # What's our hostname?
-      # KEYCLOAK_HOSTNAME: sso.dev.local
-      # #KC_HOSTNAME_STRICT_HTTPS: "false"
-      # KC_HTTP_ENABLED: "true"
-      # KC_PROXY_HEADERS: xforwarded
-      # KC_HEALTH_ENABLED: "true"
-
     volumes:
       - ./keycloak/liferay-realm.json:/opt/keycloak/data/import/liferay-realm.json
     depends_on:
@@ -116,16 +97,6 @@ services:
     command:
       - start-dev
       - --import-realm
-    # labels:
-    #   - "traefik.enable=true"
-    #   - "traefik.http.routers.lfroauth_keycloak.rule=Host(`sso.dev.local`)"
-    #   - "traefik.http.routers.lfroauth_keycloak.entrypoints=websecure"
-    #   - "traefik.http.routers.keycloak.tls.certresolver=myresolver"
-    #   - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
-    #   - "traefik.http.services.keycloak.loadbalancer.server.scheme=http"
-    # environment:
-    #   - KEYCLOAK_FRONTEND_URL=https://sso.dev.local
-    #   - PROXY_ADDRESS_FORWARDING=true
     labels:
       - "traefik.enable=true"
       #- "traefik.http.routers.keycloak.rule=Host(`${KC_HOSTNAME}`)"
@@ -162,17 +133,6 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    # volumes:
-    #   - "/var/run/docker.sock:/var/run/docker.sock"
-    #   - ./traefik/config/traefik.toml:/etc/traefik/traefik.toml
-    #   - traefik-acme:/acme/acme.json 
-    #restart: unless-stopped
-    # command:
-    #   #- "--log.level=DEBUG"
-    # labels:
-    #   - "traefik.enable=true"
-    #   - "traefik.http.routers.dashboard.rule=Host(`traefik.dev.local`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
-    #   - "traefik.http.routers.dashboard.service=api@internal"
     command:
       #- "--log.level=${TRAEFIK_LOG_LEVEL}"
       - "--log.level=warn"
@@ -197,7 +157,8 @@ services:
       - "--global.sendAnonymousUsage=false"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - traefik-certificates:/etc/traefik/acme
+      - ./traefik/config/acme:/etc/traefik/acme
+      #- ./traefik/config/certs:/etc/traefik/certs
     healthcheck:
       test: ["CMD", "wget", "http://localhost:8082/ping","--spider"]
       interval: 10s
@@ -237,7 +198,9 @@ services:
       KONG_ADMIN_ERROR_LOG: /dev/stderr
       KONG_ADMIN_LISTEN: 0.0.0.0:8001
       KONG_ADMIN_GUI_URL: http://apim.dev.local:8002
-      KONG_PLUGINS: bundled,oauth-liferay-introspect
+      KONG_PLUGINS: bundled,oidc,oauth-liferay-introspect
+      #KONG_PLUGINS: bundled,oauth-liferay-introspect
+      KONG_LOG_LEVEL: debug
     ports: 
       - 8800:8000
       - 8443:8443
@@ -250,6 +213,8 @@ services:
     volumes:
       - ./kong/declarative:/kong/declarative/
       - ./kong/plugins:/kong/plugins/
+
+
 
   app1:
     hostname: app1.dev.local
