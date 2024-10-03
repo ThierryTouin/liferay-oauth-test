@@ -4,7 +4,7 @@ services:
 
 
   liferay:
-    hostname: portal.dev.local
+    #hostname: portal.dev.local
     container_name: lfroauth-liferay
     build:
       dockerfile: liferay/liferay.Dockerfile
@@ -37,7 +37,9 @@ services:
       - "traefik.http.services.liferay.loadbalancer.passhostheader=true"
       - "traefik.http.routers.liferay.middlewares=compresstraefik"
       - "traefik.http.middlewares.compresstraefik.compress=true"
-
+      - "traefik.docker.network=traefik_proxy"
+    networks:
+      - traefik_proxy
 
   db:
     container_name: lfroauth-db
@@ -51,6 +53,8 @@ services:
       - db_data:/var/lib/mysql
     cap_add:
       - SYS_NICE
+    networks:
+      - traefik_proxy
 
   mail:
     hostname: mail.dev.local
@@ -62,7 +66,8 @@ services:
       - "5000:80"
     volumes:
       - smtp_data:/smtp4dev
-
+    networks:
+      - traefik_proxy
 
   sso:
     build:
@@ -109,7 +114,9 @@ services:
       - "traefik.http.services.keycloak.loadbalancer.passhostheader=true"
       - "traefik.http.routers.keycloak.middlewares=compresstraefik"
       - "traefik.http.middlewares.compresstraefik.compress=true"
-
+      - "traefik.docker.network=traefik_proxy"
+    networks:
+      - traefik_proxy
 
   # ssof:
   #   build:
@@ -182,9 +189,14 @@ services:
       - "traefik.http.routers.http-catchall.entrypoints=web"
       - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - traefik.docker.network=traefik_proxy
+    networks:
+      proxy:
+        aliases:
+          - sso.dev.local
 
   apim:
-    hostname: apim.dev.local
+    ##hostname: apim.dev.local
     container_name: lfroauth-apim
     build:
       dockerfile: kong/kong.Dockerfile
@@ -213,7 +225,8 @@ services:
     volumes:
       - ./kong/declarative:/kong/declarative/
       - ./kong/plugins:/kong/plugins/
-
+    networks:
+      - traefik_proxy
 
 
   app1:
@@ -233,7 +246,8 @@ services:
       - ./certs/app1.dev.local:/etc/nginx/ssl  # Montage des certificats
     depends_on:
       - mkcert
-
+    networks:
+      - traefik_proxy
 
   mkcert:
     build:
@@ -246,10 +260,18 @@ services:
       mkcert -cert-file /certs/app1.dev.local/app1.dev.local.crt -key-file /certs/app1.dev.local/app1.dev.local.key app1.dev.local localhost 127.0.0.1 ::1"
     volumes:
       - ./certs:/certs
-
+    networks:
+      - traefik_proxy
 
 volumes:
   liferay_data:
   smtp_data:
   db_data:
   traefik-certificates:
+
+
+networks:
+  proxy:
+    driver: bridge
+  traefik_proxy:
+    external: true
