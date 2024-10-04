@@ -65,6 +65,12 @@ mkcert -cert-file /root/.local/share/mkcert/mkcert.pem \
 -key-file /root/.local/share/mkcert/mkcert.key localhost.dev"
 ```
 
+## Test communication from container to another
+```
+docker exec -it lfroauth-liferay sh -c "curl -k -v https://sso.dev.local"
+```
+
+
 ## Pour test
 https://github.com/tnishada/keycloak-react-js-example/blob/master/src/App.js
 https://developers.onelogin.com/quickstart/authentication/react
@@ -73,5 +79,6 @@ https://slash-root.fr/keycloak-installation-avec-docker-et-reverse-proxy-ssl-ngi
 
 ## A garder
 https://sso.dev.local/realms/Liferay/.well-known/openid-configuration
+
 
 ## Vrac

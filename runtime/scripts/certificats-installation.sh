@@ -7,8 +7,8 @@ docker cp sso.dev.local.der lfroauth-liferay:/opt/liferay
 
 # sudo docker exec -u root -it lfroauth-liferay bash  
 
-sudo docker exec -u root -it lfroauth-liferay keytool -import -alias sso.dev.local -keystore /usr/lib/jvm/zulu11/lib/security/cacerts -storepass changeit -file sso.dev.local.der -noprompt
+sudo docker exec -u root -it lfroauth-liferay keytool -import -alias sso.dev.local -keystore /usr/lib/jvm/zulu21/lib/security/cacerts -storepass changeit -file sso.dev.local.der -noprompt
 
-# keytool -list -v -keystore /usr/lib/jvm/zulu11/lib/security/cacerts -storepass changeit 
+# keytool -list -v -keystore /usr/lib/jvm/zulu21/lib/security/cacerts -storepass changeit 
 
 rm sso.dev.local.crt sso.dev.local.der

@@ -37,9 +37,10 @@ services:
       - "traefik.http.services.liferay.loadbalancer.passhostheader=true"
       - "traefik.http.routers.liferay.middlewares=compresstraefik"
       - "traefik.http.middlewares.compresstraefik.compress=true"
-      - "traefik.docker.network=traefik_proxy"
+      - "traefik.docker.network=devnet"
     networks:
-      - traefik_proxy
+      - internal
+      - devnet
 
   db:
     container_name: lfroauth-db
@@ -54,7 +55,7 @@ services:
     cap_add:
       - SYS_NICE
     networks:
-      - traefik_proxy
+      - internal
 
   mail:
     hostname: mail.dev.local
@@ -67,13 +68,13 @@ services:
     volumes:
       - smtp_data:/smtp4dev
     networks:
-      - traefik_proxy
+      - devnet
 
   sso:
     build:
       dockerfile: keycloak/keycloak.Dockerfile
       context: .
-    hostname: sso.dev.local
+    #hostname: sso.dev.local
     container_name: lfroauth-sso
     # ports:
     #   - "8080:8080"
@@ -114,9 +115,11 @@ services:
       - "traefik.http.services.keycloak.loadbalancer.passhostheader=true"
       - "traefik.http.routers.keycloak.middlewares=compresstraefik"
       - "traefik.http.middlewares.compresstraefik.compress=true"
-      - "traefik.docker.network=traefik_proxy"
+      - "traefik.docker.network=devnet"
     networks:
-      - traefik_proxy
+      - internal
+      - devnet
+
 
   # ssof:
   #   build:
@@ -189,11 +192,13 @@ services:
       - "traefik.http.routers.http-catchall.entrypoints=web"
       - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - traefik.docker.network=traefik_proxy
     networks:
-      proxy:
-        aliases:
-          - sso.dev.local
+      - devnet
+    # networks:
+    #   proxy:
+    #     aliases:
+    #       - sso.dev.local
+    #       - portal.dev.local
 
   apim:
     ##hostname: apim.dev.local
@@ -226,7 +231,7 @@ services:
       - ./kong/declarative:/kong/declarative/
       - ./kong/plugins:/kong/plugins/
     networks:
-      - traefik_proxy
+      - devnet
 
 
   app1:
@@ -247,7 +252,7 @@ services:
     depends_on:
       - mkcert
     networks:
-      - traefik_proxy
+      - devnet
 
   mkcert:
     build:
@@ -260,8 +265,7 @@ services:
       mkcert -cert-file /certs/app1.dev.local/app1.dev.local.crt -key-file /certs/app1.dev.local/app1.dev.local.key app1.dev.local localhost 127.0.0.1 ::1"
     volumes:
       - ./certs:/certs
-    networks:
-      - traefik_proxy
+
 
 volumes:
   liferay_data:
@@ -271,7 +275,6 @@ volumes:
 
 
 networks:
-  proxy:
-    driver: bridge
-  traefik_proxy:
+  internal: # communication betwwen db and other container sso, portal 
+  devnet:
     external: true
