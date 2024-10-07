@@ -106,7 +106,8 @@ services:
     labels:
       - "traefik.enable=true"
       #- "traefik.http.routers.keycloak.rule=Host(`${KC_HOSTNAME}`)"
-      - "traefik.http.routers.keycloak.rule=Host(`sso.dev.local`)"
+      #- "traefik.http.routers.keycloak.rule=Host(`sso.dev.local`)"
+      - "traefik.http.routers.keycloak.rule=Host(`horribly-ideal-halibut.ngrok-free.app`)"      
       - "traefik.http.routers.keycloak.service=keycloak"
       - "traefik.http.routers.keycloak.entrypoints=websecure"
       - "traefik.http.services.keycloak.loadbalancer.server.port=8080"

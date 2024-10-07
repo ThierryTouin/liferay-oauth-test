@@ -68,6 +68,8 @@ mkcert -cert-file /root/.local/share/mkcert/mkcert.pem \
 ## Test communication from container to another
 ```
 docker exec -it lfroauth-liferay sh -c "curl -k -v https://sso.dev.local"
+docker exec -it lfroauth-liferay sh -c "curl -k -v https://horribly-ideal-halibut.ngrok-free.app"
+
 ```
 
 
