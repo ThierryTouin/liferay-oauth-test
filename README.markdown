@@ -84,3 +84,5 @@ https://sso.dev.local/realms/Liferay/.well-known/openid-configuration
 
 
 ## Vrac
+—serversTransport.insecureSkipVerify=true ???
+com.sun.net.ssl.checkRevocation=false
