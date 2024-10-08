@@ -1,0 +1,13 @@
+#
+# Certificates Definition
+#  1. For end-point iam.smc.lab.local
+#  2. For end-pint portal.smc.lab.local
+#
+
+[[tls.certificates]]
+   certFile = "/configuration/files/sso.dev.local.crt"
+   keyFile = "/configuration/files/sso.dev.local.key"
+
+[[tls.certificates]]
+   certFile = "/configuration/files/portal.dev.local.crt"
+   keyFile = "/configuration/files/portal.dev.local.key"

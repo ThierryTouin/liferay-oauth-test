@@ -18,7 +18,8 @@ openssl x509 -in $DOMAIN.crt -out $DOMAIN.der -outform DER
 
 #keytool -delete -noprompt -alias $DOMAIN -keystore $CACERTS_LIFERAY_PATH -storepass changeit
 
-keytool -import -alias $DOMAIN -keystore $CACERTS_LIFERAY_PATH -storepass changeit -file $DOMAIN.der -noprompt
+#keytool -import -alias $DOMAIN -keystore $CACERTS_LIFERAY_PATH -storepass changeit -file $DOMAIN.der -noprompt
+keytool -import -alias $DOMAIN -keystore $CACERTS_LIFERAY_PATH -storepass changeit -file $DOMAIN.der -noprompt -trustcacerts 
 
 keytool -list -v -keystore $CACERTS_LIFERAY_PATH -storepass changeit -alias $DOMAIN
 

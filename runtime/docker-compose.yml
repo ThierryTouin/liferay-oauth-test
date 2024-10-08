@@ -26,7 +26,7 @@ services:
       LIFERAY_VIRTUAL_PERIOD_HOSTS_PERIOD_VALID_PERIOD_HOSTS: "*"
       LIFERAY_WEB_PERIOD_SERVER_PERIOD_HTTPS_PERIOD_PORT: 443
       LIFERAY_WEB_PERIOD_SERVER_PERIOD_PROTOCOL: "https"
-      LIFERAY_JVM_OPTS: "-Djavax.net.ssl.trustStore=/opt/liferay/certificates/cacerts"
+      #LIFERAY_JVM_OPTS: "-Djavax.net.ssl.trustStore=/opt/liferay/certificates/cacerts"
       
     labels:
       - "traefik.enable=true"
@@ -109,6 +109,8 @@ services:
       - "traefik.enable=true"
       #- "traefik.http.routers.keycloak.rule=Host(`${KC_HOSTNAME}`)"
       - "traefik.http.routers.keycloak.rule=Host(`sso.dev.local`)"
+      # - "traefik.http.routers.keycloak.tls.domains[0].main=dev.local"
+      # - "traefik.http.routers.keycloak.tls.domains[0].sans=*.dev.local"
       #- "traefik.http.routers.keycloak.rule=Host(`horribly-ideal-halibut.ngrok-free.app`)"      
       - "traefik.http.routers.keycloak.service=keycloak"
       - "traefik.http.routers.keycloak.entrypoints=websecure"
@@ -148,7 +150,7 @@ services:
       - "443:443"
     command:
       #- "--log.level=${TRAEFIK_LOG_LEVEL}"
-      - "--log.level=warn"
+      - "--log.level=INFO"
       - "--accesslog=true"
       - "--api.dashboard=true"
       - "--api.insecure=true"
@@ -160,24 +162,30 @@ services:
       - "--providers.docker=true"
       - "--providers.docker.endpoint=unix:///var/run/docker.sock"
       - "--providers.docker.exposedByDefault=false"
-      - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
-      #- "--certificatesresolvers.letsencrypt.acme.email=${TRAEFIK_ACME_EMAIL}"
-      - "--certificatesresolvers.letsencrypt.acme.email=contact@superman.com"
-      - "--certificatesresolvers.letsencrypt.acme.storage=/etc/traefik/acme/acme.json"
-      - "--metrics.prometheus=true"
-      - "--metrics.prometheus.buckets=0.1,0.3,1.2,5.0"
+      # - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
+      # #- "--certificatesresolvers.letsencrypt.acme.email=${TRAEFIK_ACME_EMAIL}"
+      # - "--certificatesresolvers.letsencrypt.acme.email=contact@superman.com"
+      # - "--certificatesresolvers.letsencrypt.acme.storage=/etc/traefik/acme/acme.json"
+      - --providers.file.directory=/configuration/
+      - --providers.file.watch=true
+      #- "--metrics.prometheus=true"
+      #- "--metrics.prometheus.buckets=0.1,0.3,1.2,5.0"
       - "--global.checkNewVersion=true"
       - "--global.sendAnonymousUsage=false"
+      - --serversTransport.insecureSkipVerify=true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - traefik-letsencrypt:/etc/traefik/acme
+      #- traefik-letsencrypt:/etc/traefik/acme
       #- ./traefik/config/certs:/etc/traefik/certs
+      - ./traefik/providers:/configuration/
     healthcheck:
       test: ["CMD", "wget", "http://localhost:8082/ping","--spider"]
       interval: 10s
       timeout: 5s
       retries: 3
       start_period: 5s
+    depends_on:
+      - mkcert      
     labels:
       - "traefik.enable=true"
       #- "traefik.http.routers.dashboard.rule=Host(`${TRAEFIK_HOSTNAME}`)"
@@ -265,9 +273,12 @@ services:
     command: >
       sh -c "
       mkcert -install &&
-      mkcert -cert-file /certs/app1.dev.local/app1.dev.local.crt -key-file /certs/app1.dev.local/app1.dev.local.key app1.dev.local localhost 127.0.0.1 ::1"
+      mkcert -cert-file /certs/app1.dev.local/app1.dev.local.crt -key-file /certs/app1.dev.local/app1.dev.local.key app1.dev.local localhost 127.0.0.1 ::1 &&
+      mkcert -cert-file /traefik/providers/files/sso.dev.local.crt -key-file /traefik/providers/files/sso.dev.local.key sso.dev.local localhost 127.0.0.1 ::1 &&
+      mkcert -cert-file /traefik/providers/files/portal.dev.local.crt -key-file /traefik/providers/files/portal.dev.local.key portal.dev.local localhost 127.0.0.1 ::1"
     volumes:
       - ./certs:/certs
+      - ./traefik/providers:/traefik/providers
 
 
 volumes:
