@@ -1,5 +1,41 @@
 ## Architectures
 
+### Traefik network
+
+```mermaid
+graph  LR
+
+%% Nodes
+
+RProxy[Traefik<br>traefik.dev.local]
+Portal[Liferay<br>portal.dev.local]
+C([client])
+SSO([Keycloak<br>sso.dev.local])
+
+
+%% Links	
+
+C -- https --> RProxy;
+subgraph Environement
+    RProxy -- http --> SSO;
+    RProxy -- http --> Portal;
+end
+
+%% Defining node styles
+
+  classDef plain fill:#ddd,stroke:#fff,stroke-width:4px,color:#000;
+  classDef k8s fill:#326ce5,stroke:#fff,stroke-width:4px,color:#fff;
+  classDef cluster fill:#fff,stroke:#bbb,stroke-width:2px,color:#326ce5;
+  
+%% Assigning styles to nodes
+
+  class Portal,SSO k8s;
+  class C plain;
+  class RProxy cluster;
+```
+
+### Oauth system
+
 ```mermaid
 
 graph  LR
@@ -7,7 +43,6 @@ graph  LR
 %% Nodes
 
 APP1[ReactJS<br>app1.dev.local:3008]
-RProxy[Traefik<br>traefik.dev.local]
 Portal[Liferay<br>portal.dev.local]
 APIM[Kong<br>apim.dev.local:8443]
 API[API]
@@ -17,15 +52,13 @@ SSO([Keycloak<br>sso.dev.local])
 
 %% Links	
 
-C <--> RProxy;
 C <--> APP1 ;
+C <--> Portal ;
 subgraph Environement
-    RProxy <--> SSO;
-    RProxy <--> Portal;
     APP1 <--> SSO;
-	Portal <--> SSO;
-	APIM <--> SSO;
 	APP1 <--> APIM;
+	APIM <--> SSO;
+	Portal <--> SSO;
 	%%APP1-.servi par.-SRV;
 end
 
@@ -39,7 +72,7 @@ APIM <--> API;
   
 %% Assigning styles to nodes
 
-  class SRV,APP1,APIM,API,SSO k8s;
+  class Portal,APP1,APIM,API,SSO k8s;
   class C plain;
   class cluster cluster;
 	
