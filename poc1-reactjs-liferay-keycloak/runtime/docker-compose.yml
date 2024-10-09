@@ -19,8 +19,12 @@ services:
       - ./liferay/scripts:/mnt/liferay/scripts
       - ./liferay/deploy:/opt/liferay/deploy
     depends_on:
-      - db
-      - sso
+      sso:
+        condition: service_started
+      db:
+          condition: service_healthy
+
+
     entrypoint: /usr/local/bin/wait-for -t 60 db:3306 -- /usr/local/bin/liferay_entrypoint.sh
     environment:
       LIFERAY_VIRTUAL_PERIOD_HOSTS_PERIOD_VALID_PERIOD_HOSTS: "*"
@@ -58,6 +62,10 @@ services:
       - SYS_NICE
     networks:
       - internal
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
 
   mail:
     hostname: mail.dev.local
@@ -101,7 +109,8 @@ services:
     volumes:
       - ./keycloak/liferay-realm.json:/opt/keycloak/data/import/liferay-realm.json
     depends_on:
-      - db
+      db:
+          condition: service_healthy
     command:
       - start-dev
       - --import-realm
@@ -184,9 +193,10 @@ services:
         aliases:
           - sso.dev.local
           - portal.dev.local
+          - apim.dev.local
 
   apim:
-    #hostname: apim.dev.local
+    #hostname: ${KONG_VIRTUAL_HOST}
     container_name: lfroauth-apim
     build:
       dockerfile: kong/kong.Dockerfile
@@ -199,19 +209,38 @@ services:
       KONG_PROXY_ERROR_LOG: /dev/stderr
       KONG_ADMIN_ERROR_LOG: /dev/stderr
       KONG_ADMIN_LISTEN: 0.0.0.0:8001
-      KONG_ADMIN_GUI_URL: http://apim.dev.local:8002
+      KONG_ADMIN_GUI_URL: http://${KONG_VIRTUAL_HOST}:8002
       #KONG_PLUGINS: bundled,oidc,oauth-liferay-introspect
-      KONG_PLUGINS: bundled,oauth-liferay-introspect
-      KONG_LOG_LEVEL: warn
+      #KONG_PLUGINS: bundled,oauth-liferay-introspect
+      KONG_PLUGINS: bundled
+      KONG_LOG_LEVEL: ${KONG_LOG_LEVEL}
+      VIRTUAL_HOST: ${KONG_VIRTUAL_HOST}
+      VIRTUAL_PORT: 8000
     ports: 
-      - 8800:8000
-      - 8443:8443
-      - 8001:8001  
-      - 8444:8444
-      - 8002:8002  
-      - 8445:8445  
-      - 8003:8003  
-      - 8004:8004
+      - 8000:8000
+      - 8001:8001
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.kong.rule=Host(`${KONG_VIRTUAL_HOST}`)"
+      - "traefik.http.routers.kong.service=kong"
+      - "traefik.http.routers.kong.entrypoints=websecure"
+      - "traefik.http.routers.kong.tls=true"
+      - "traefik.http.routers.kong.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.kong.middlewares=compresstraefik"
+      - "traefik.http.services.kong.loadbalancer.server.port=8000"
+      - "traefik.http.services.kong.loadbalancer.passhostheader=true"
+      - "traefik.http.middlewares.compresstraefik.compress=true"
+      - "traefik.docker.network=devnet"
+
+    # ports: 
+    #   - 8800:8000
+    #   - 8443:8443
+    #   - 8001:8001  
+    #   - 8444:8444
+    #   - 8002:8002  
+    #   - 8445:8445  
+    #   - 8003:8003  
+    #   - 8004:8004
     volumes:
       - ./kong/declarative:/kong/declarative/
       - ./kong/plugins:/kong/plugins/
@@ -257,6 +286,7 @@ services:
     command: >
       sh -c "
       openssl req -x509 -newkey rsa:4096 -keyout /certs/app1.dev.local/app1.dev.local.key -out /certs/app1.dev.local/app1.dev.local.crt -days 365 -nodes -subj /CN=app1.dev.local &&
+      openssl req -x509 -newkey rsa:4096 -keyout /traefik/providers/files/apim.dev.local.key -out /traefik/providers/files/apim.dev.local.crt -days 365 -nodes -subj /CN=apim.dev.local &&
       openssl req -x509 -newkey rsa:4096 -keyout /traefik/providers/files/portal.dev.local.key -out /traefik/providers/files/portal.dev.local.crt -days 365 -nodes -subj /CN=portal.dev.local &&
       openssl req -x509 -newkey rsa:4096 -keyout /traefik/providers/files/sso.dev.local.key -out /traefik/providers/files/sso.dev.local.crt -days 365 -nodes -subj /CN=sso.dev.local"
     volumes:

@@ -1,7 +1,5 @@
 #
 # Certificates Definition
-#  1. For end-point iam.smc.lab.local
-#  2. For end-pint portal.smc.lab.local
 #
 
 [[tls.certificates]]
@@ -11,3 +9,7 @@
 [[tls.certificates]]
    certFile = "/configuration/files/portal.dev.local.crt"
    keyFile = "/configuration/files/portal.dev.local.key"
+
+[[tls.certificates]]
+   certFile = "/configuration/files/apim.dev.local.crt"
+   keyFile = "/configuration/files/apim.dev.local.key"   

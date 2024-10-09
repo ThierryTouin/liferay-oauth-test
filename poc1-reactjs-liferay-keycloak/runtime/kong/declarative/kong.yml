@@ -32,21 +32,21 @@ services:
       paths:
         - /cities
       strip_path: true
-plugins: 
-  - name: oauth-liferay-introspect
-    config:
-      introspection_endpoint: https://sso.dev.local/o/oauth2/introspect
-      client_id: liferay
-    enabled: true
-  # - name: oidc
-  #   config: 
-  #     discovery: https://sso.dev.local/realms/Liferay/.well-known/openid-configuration
-  #     client_id: liferay
-  #     client_secret: liferay
+# plugins: 
+#   - name: oauth-liferay-introspect
+#     config:
+#       introspection_endpoint: https://sso.dev.local/o/oauth2/introspect
+#       client_id: liferay
+#     enabled: true
+#   # - name: oidc
+#   #   config: 
+#   #     discovery: https://sso.dev.local/realms/Liferay/.well-known/openid-configuration
+#   #     client_id: liferay
+#   #     client_secret: liferay
 
-  - name: cors
-    config:
-      origins:
-        - '^http://.*$'
-        - '^https://.*$'
-      credentials: true
+#   - name: cors
+#     config:
+#       origins:
+#         - '^http://.*$'
+#         - '^https://.*$'
+#       credentials: true
