@@ -183,8 +183,8 @@ services:
     networks:
       devnet:
         aliases:
-          - sso.dev.local
-          - portal.dev.local
+          - ${KEYCLOAK_HOSTNAME}
+          - ${LFR_HOSTNAME}
           - ${KONG_HOSTNAME}
 
   apim:
@@ -204,7 +204,8 @@ services:
       #KONG_ADMIN_GUI_URL: http://localhost:8002
       #KONG_PLUGINS: bundled,oidc,oauth-liferay-introspect
       #KONG_PLUGINS: bundled,oauth-liferay-introspect
-      KONG_PLUGINS: bundled
+      #KONG_PLUGINS: bundled
+      KONG_PLUGINS: bundled,jwt-keycloak
       KONG_LOG_LEVEL: ${KONG_LOG_LEVEL}
       # VIRTUAL_HOST: ${KONG_HOSTNAME}
       # VIRTUAL_PORT: 8000
