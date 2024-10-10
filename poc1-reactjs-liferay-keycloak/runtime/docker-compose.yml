@@ -4,15 +4,15 @@ services:
 
 
   liferay:
-    #hostname: portal.dev.local
+    #hostname: ${LFR_HOSTNAME}
     container_name: lfroauth-liferay
     build:
       dockerfile: liferay/liferay.Dockerfile
       context: .
     ports:
       - "8081:8080"
-    env_file:
-      - ./liferay/variables.env
+    # env_file:
+    #   - ./liferay/variables.env
     volumes:
       - liferay_data:/opt/liferay/data
       - ./liferay/files:/mnt/liferay/files
@@ -34,7 +34,7 @@ services:
       
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.liferay.rule=Host(`portal.dev.local`)"
+      - "traefik.http.routers.liferay.rule=Host(`${LFR_HOSTNAME}`)"
       - "traefik.http.routers.liferay.service=liferay"
       - "traefik.http.routers.liferay.entrypoints=websecure"
       - "traefik.http.services.liferay.loadbalancer.server.port=8080"
@@ -84,7 +84,7 @@ services:
     build:
       dockerfile: keycloak/keycloak.Dockerfile
       context: .
-    #hostname: sso.dev.local
+    #hostname: ${KEYCLOAK_HOSTNAME}
     container_name: lfroauth-sso
     # ports:
     #   - "8080:8080"
@@ -100,10 +100,8 @@ services:
       KC_DB_URL_DATABASE: keycloak
       KC_DB_USERNAME: keycloak
       KC_DB_PASSWORD: keycloak
-      
       KEYCLOAK_IMPORT: /opt/keycloak/data/import/liferay-realm.json
-
-      KC_HOSTNAME: sso.dev.local
+      KC_HOSTNAME: ${KEYCLOAK_HOSTNAME}
       KC_HOSTNAME_STRICT: false
       KC_PROXY: edge
     volumes:
@@ -116,8 +114,7 @@ services:
       - --import-realm
     labels:
       - "traefik.enable=true"
-      #- "traefik.http.routers.keycloak.rule=Host(`${KC_HOSTNAME}`)"
-      - "traefik.http.routers.keycloak.rule=Host(`sso.dev.local`)"
+      - "traefik.http.routers.keycloak.rule=Host(`${KEYCLOAK_HOSTNAME}`)"
       - "traefik.http.routers.keycloak.service=keycloak"
       - "traefik.http.routers.keycloak.entrypoints=websecure"
       - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
@@ -135,15 +132,12 @@ services:
     build:
       context: .    
       dockerfile: traefik/traefik.Dockerfile    
-    env_file:
-      - ./traefik/variables.env      
     container_name: lfroauth-traefik
     ports:
       - "80:80"
       - "443:443"
     command:
-      #- "--log.level=${TRAEFIK_LOG_LEVEL}"
-      - "--log.level=INFO"
+      - "--log.level=${TRAEFIK_LOG_LEVEL}"
       - "--accesslog=true"
       - "--api.dashboard=true"
       - "--api.insecure=true"
@@ -173,8 +167,7 @@ services:
       - gencert      
     labels:
       - "traefik.enable=true"
-      #- "traefik.http.routers.dashboard.rule=Host(`${TRAEFIK_HOSTNAME}`)"
-      - "traefik.http.routers.dashboard.rule=Host(`traefik.dev.local`)"
+      - "traefik.http.routers.dashboard.rule=Host(`${TRAEFIK_HOSTNAME}`)"
       - "traefik.http.routers.dashboard.service=api@internal"
       - "traefik.http.routers.dashboard.entrypoints=websecure"
       - "traefik.http.services.dashboard.loadbalancer.server.port=8080"
@@ -182,8 +175,7 @@ services:
       - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt"
       - "traefik.http.services.dashboard.loadbalancer.passhostheader=true"
       - "traefik.http.routers.dashboard.middlewares=authtraefik"
-      #- "traefik.http.middlewares.authtraefik.basicauth.users=${TRAEFIK_BASIC_AUTH}"
-      - "traefik.http.middlewares.authtraefik.basicauth.users=traefikadmin:{SHA}8zP75UfUnFQj1l/b1NwWwlIPDHY="
+      - "traefik.http.middlewares.authtraefik.basicauth.users=${TRAEFIK_BASIC_AUTH}"
       - "traefik.http.routers.http-catchall.rule=HostRegexp(`{host:.+}`)"
       - "traefik.http.routers.http-catchall.entrypoints=web"
       - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
@@ -193,10 +185,10 @@ services:
         aliases:
           - sso.dev.local
           - portal.dev.local
-          - apim.dev.local
+          - ${KONG_HOSTNAME}
 
   apim:
-    #hostname: ${KONG_VIRTUAL_HOST}
+    #hostname: ${KONG_HOSTNAME}
     container_name: lfroauth-apim
     build:
       dockerfile: kong/kong.Dockerfile
@@ -209,19 +201,22 @@ services:
       KONG_PROXY_ERROR_LOG: /dev/stderr
       KONG_ADMIN_ERROR_LOG: /dev/stderr
       KONG_ADMIN_LISTEN: 0.0.0.0:8001
-      KONG_ADMIN_GUI_URL: http://${KONG_VIRTUAL_HOST}:8002
+      #KONG_ADMIN_GUI_URL: http://localhost:8002
       #KONG_PLUGINS: bundled,oidc,oauth-liferay-introspect
       #KONG_PLUGINS: bundled,oauth-liferay-introspect
       KONG_PLUGINS: bundled
       KONG_LOG_LEVEL: ${KONG_LOG_LEVEL}
-      VIRTUAL_HOST: ${KONG_VIRTUAL_HOST}
-      VIRTUAL_PORT: 8000
+      # VIRTUAL_HOST: ${KONG_HOSTNAME}
+      # VIRTUAL_PORT: 8000
     ports: 
       - 8000:8000
       - 8001:8001
+      - 8002:8002
+      - 8444:8444
+      - 8445:8445 
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.kong.rule=Host(`${KONG_VIRTUAL_HOST}`)"
+      - "traefik.http.routers.kong.rule=Host(`${KONG_HOSTNAME}`)"
       - "traefik.http.routers.kong.service=kong"
       - "traefik.http.routers.kong.entrypoints=websecure"
       - "traefik.http.routers.kong.tls=true"

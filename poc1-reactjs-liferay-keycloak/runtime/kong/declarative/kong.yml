@@ -32,6 +32,13 @@ services:
       paths:
         - /cities
       strip_path: true
+- name: kong-admin
+  url: http://localhost:8001
+  routes:
+  - name: kong-admin-route
+    paths:
+    - /admin
+
 # plugins: 
 #   - name: oauth-liferay-introspect
 #     config:

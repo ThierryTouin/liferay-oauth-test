@@ -97,9 +97,12 @@ startAll.sh
 | App ReactJS     | https://app1.dev.local:3008          |  |
 | Keycloak        | https://sso.dev.local            |  |
 | Kong GUI        | http://apim.dev.local:8002           | Kong administration |
-| Cities          | https://apim.dev.local:8443/cities   | Returned the headers of original request has a response |
-| Debug           | http://apim.dev.local:8800/debug/get    | Returned all french cities using the public french government API |
+| Cities          | https://apim.dev.local/cities   | Returned the headers of original request has a response |
+| Debug           | https://apim.dev.local/debug/get    | Returned all french cities using the public french government API |
 | Traefik         | https://traefik.dev.local            |  traefikadmin / traefikadmin |
+| Mail            | http://localhost:5000            |  smtp4dev |
+
+
 
 
 
