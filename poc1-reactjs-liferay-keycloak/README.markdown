@@ -137,6 +137,8 @@ https://github.com/tnishada/keycloak-react-js-example/blob/master/src/App.js
 https://developers.onelogin.com/quickstart/authentication/react
 https://github.com/onelogin/onelogin-oidc-react/blob/master/src/api/oidcApi.js
 https://slash-root.fr/keycloak-installation-avec-docker-et-reverse-proxy-ssl-nginx/
+https://stackoverflow.com/questions/51132711/introspection-endpoint-of-keycloak-server
+
 
 
 
