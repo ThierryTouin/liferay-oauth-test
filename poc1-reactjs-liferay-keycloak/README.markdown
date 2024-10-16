@@ -31,7 +31,7 @@ end
   
 %% Assigning styles to nodes
 
-  class Portal,SSO k8s;
+  class Portal,SSO,Apim k8s;
   class C plain;
   class RProxy cluster;
 ```
