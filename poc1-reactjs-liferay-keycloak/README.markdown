@@ -9,6 +9,7 @@ graph  LR
 
 RProxy[Traefik<br>traefik.dev.local]
 Portal[Liferay<br>portal.dev.local]
+Apim[Apim<br>apim.dev.local]
 C([client])
 SSO([Keycloak<br>sso.dev.local])
 
@@ -19,6 +20,7 @@ C -- https --> RProxy;
 subgraph Environement
     RProxy -- http --> SSO;
     RProxy -- http --> Portal;
+    RProxy -- http --> Apim;
 end
 
 %% Defining node styles
@@ -122,6 +124,7 @@ startAll.sh
 
 ```
 ./install-licence.sh "/mnt/c/Soft/_binaries/Liferay/activation-key-dxpdevelopment-7.4-developeractivationkeys.xml"
+./install-licence.sh "/mnt/disque1/Soft/_binaries/Liferay/activation-key-dxpdevelopment-7.4-developeractivationkeys2.xml"
 ```
 
 ## Test communication from container to another
