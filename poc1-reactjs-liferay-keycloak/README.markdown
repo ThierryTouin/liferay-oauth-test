@@ -36,7 +36,7 @@ end
   class RProxy cluster;
 ```
 
-### Oauth system
+### Architecture
 
 ```mermaid
 
@@ -46,7 +46,7 @@ graph  LR
 
 APP1[ReactJS<br>app1.dev.local:3008]
 Portal[Liferay<br>portal.dev.local]
-APIM[Kong<br>apim.dev.local:8443]
+APIM[Kong<br>apim.dev.local]
 API[API]
 C([client])
 SSO([Keycloak<br>sso.dev.local])
