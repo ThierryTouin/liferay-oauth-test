@@ -1,6 +1,6 @@
-## Architectures
+## 1. Project technical description
 
-### Traefik network
+#### Traefik network
 
 ```mermaid
 graph  LR
@@ -36,7 +36,7 @@ end
   class RProxy cluster;
 ```
 
-### Architecture
+#### Architecture
 
 ```mermaid
 
@@ -77,42 +77,42 @@ APIM <--> API;
   class Portal,APP1,APIM,API,SSO k8s;
   class C plain;
   class cluster cluster;
-	
-
-
 ```
-## Start Runtime
+## 3. Usefull commands & tips
+
+#### Start all containers stack
 ```
 cd ./poc1-reactjs-liferay-keycloak/runtime/scripts
 startAll.sh
+
 ```
 
-## Accès 
-### Liferay
+#### Test communication between containers
+```
+docker exec -it lfroauth-liferay sh -c "curl -k -v https://sso.dev.local"
+```
 
+## 2. Access 
 
+#### URLs 
 
-### Accès 
+| Service             | Links   | Description |
+| --------            | ------- | -------                                                                                            |
+| Portal              | https://portal.dev.local             | Liferay                                                               |
+| ReactJS App         | https://app1.dev.local:3008          |                                                                       |
+| SSO GUI             | https://sso.dev.local                | Keycloak                                                              |
+| SSO Config          | https://sso.dev.local/realms/Liferay/.well-known/openid-configuration | Display SSO configuration            |
+| Apim GUI            | http://apim.dev.local:8002           | Kong administration                                                   |
+| Cities API          | https://apim.dev.local/cities        | Returned the headers of original request has a response               |
+| Debug API           | https://apim.dev.local/debug/get     | Returned all french cities using the public french government API     |
+| Traefik  GUI        | https://traefik.dev.local            | Credentials : traefikadmin / traefikadmin                             |
+| Mail                | http://localhost:5000                | smtp4dev                                                              |
 
-| Service             | Title   | Links |
-| --------        | ------- | -------                                                        |
-| Portail         | https://portal.dev.local              | |
-| App ReactJS     | https://app1.dev.local:3008          |  |
-| Keycloak        | https://sso.dev.local            |  |
-| Kong GUI        | http://apim.dev.local:8002           | Kong administration |
-| Cities          | https://apim.dev.local/cities   | Returned the headers of original request has a response |
-| Debug           | https://apim.dev.local/debug/get    | Returned all french cities using the public french government API |
-| Traefik         | https://traefik.dev.local            |  traefikadmin / traefikadmin |
-| Mail            | http://localhost:5000            |  smtp4dev |
+## 3. Configuration
 
+#### Configure hosts file
 
-
-
-
-
-## Configuration
-
-### Add in hosts file :
+Add following lines at the end of the file to properly configure domains
 ```
 127.0.0.1	portal.dev.local
 127.0.0.1	sso.dev.local 
@@ -121,29 +121,27 @@ startAll.sh
 127.0.0.1	app1.dev.local
 ```
 
-### Install licence only after the first start
+#### Environment configuration
+
+Edit .env file to customize paths regarding your environment
+
+1. Liferay license file path configuration
+```
+# Path to license file (to customize according to your env)
+LFR_LICENSE_FILE_PATH=<UPDATE_WITH_YOUR_PATH>>
 
 ```
-./install-licence.sh "/mnt/c/Soft/_binaries/Liferay/activation-key-dxpdevelopment-7.4-developeractivationkeys.xml"
-./install-licence.sh "/mnt/disque1/Soft/_binaries/Liferay/activation-key-dxpdevelopment-7.4-developeractivationkeys2.xml"
-```
 
-## Test communication from container to another
-```
-docker exec -it lfroauth-liferay sh -c "curl -k -v https://sso.dev.local"
-```
-## A garder
-https://sso.dev.local/realms/Liferay/.well-known/openid-configuration
+## 4. References & Documentation
 
-
-## Pour test
+#### For testing
 https://github.com/tnishada/keycloak-react-js-example/blob/master/src/App.js
 https://developers.onelogin.com/quickstart/authentication/react
 https://github.com/onelogin/onelogin-oidc-react/blob/master/src/api/oidcApi.js
 https://slash-root.fr/keycloak-installation-avec-docker-et-reverse-proxy-ssl-nginx/
 https://stackoverflow.com/questions/51132711/introspection-endpoint-of-keycloak-server
 
-### OIDC Setup with Traefik
+#### OIDC Setup with Traefik examples
 https://techblog.smc.it/en/2021-10-15/how-to-connect-keycloak-liferay-openid-connect
 https://github.com/smclab/keycloak-openid-connect-liferay/tree/master/config/keycloak/export
 
