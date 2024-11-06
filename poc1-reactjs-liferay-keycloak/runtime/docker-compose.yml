@@ -30,7 +30,7 @@ services:
       LIFERAY_VIRTUAL_PERIOD_HOSTS_PERIOD_VALID_PERIOD_HOSTS: "*"
       LIFERAY_WEB_PERIOD_SERVER_PERIOD_HTTPS_PERIOD_PORT: 443
       LIFERAY_WEB_PERIOD_SERVER_PERIOD_PROTOCOL: "https"
-      LIFERAY_JVM_OPTS: "-Xms2560m -Xmx4096m -Djavax.net.ssl.trustStore=/opt/liferay/certificates/cacerts"
+      LIFERAY_JVM_OPTS: "-Xms1024m -Xmx4096m -Djavax.net.ssl.trustStore=/opt/liferay/certificates/cacerts"
       
     labels:
       - "traefik.enable=true"
@@ -149,11 +149,11 @@ services:
       - "--providers.docker=true"
       - "--providers.docker.endpoint=unix:///var/run/docker.sock"
       - "--providers.docker.exposedByDefault=false"
-      - --providers.file.directory=/configuration/
-      - --providers.file.watch=true
+      - "--providers.file.directory=/configuration/"
+      - "--providers.file.watch=true"
       - "--global.checkNewVersion=true"
       - "--global.sendAnonymousUsage=false"
-      - --serversTransport.insecureSkipVerify=true
+      - "--serversTransport.insecureSkipVerify=true"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./traefik/providers:/configuration/

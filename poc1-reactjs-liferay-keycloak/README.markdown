@@ -83,7 +83,14 @@ APIM <--> API;
 #### Start all containers stack
 ```
 cd ./poc1-reactjs-liferay-keycloak/runtime/scripts
-startAll.sh
+start-all.sh
+
+```
+
+#### Clean current compose containers, images and volumes
+```
+cd ./poc1-reactjs-liferay-keycloak/runtime/scripts
+clean-all.sh
 
 ```
 
