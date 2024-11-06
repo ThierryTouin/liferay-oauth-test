@@ -83,6 +83,7 @@ APIM <--> API;
 ```
 ## Start Runtime
 ```
+cd ./poc1-reactjs-liferay-keycloak/runtime/scripts
 startAll.sh
 ```
 
@@ -141,6 +142,11 @@ https://developers.onelogin.com/quickstart/authentication/react
 https://github.com/onelogin/onelogin-oidc-react/blob/master/src/api/oidcApi.js
 https://slash-root.fr/keycloak-installation-avec-docker-et-reverse-proxy-ssl-nginx/
 https://stackoverflow.com/questions/51132711/introspection-endpoint-of-keycloak-server
+
+### OIDC Setup with Traefik
+https://techblog.smc.it/en/2021-10-15/how-to-connect-keycloak-liferay-openid-connect
+https://github.com/smclab/keycloak-openid-connect-liferay/tree/master/config/keycloak/export
+
 
 
 

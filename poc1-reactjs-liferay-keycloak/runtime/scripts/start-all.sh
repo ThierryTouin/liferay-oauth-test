@@ -2,6 +2,15 @@
 echo " Start"
 cd ..
 
+NETWORK="devnet"
+if docker network inspect ${NETWORK} > /dev/null 2>&1
+then
+    echo "Network '${NETWORK}' already exists"
+else
+    echo "Network '${NETWORK}' doesn't exist; creating it"
+    docker network create ${NETWORK} > /dev/null
+fi
+
 #docker compose up
 echo " Starting MySQL"
 docker compose up -d db
@@ -29,5 +38,5 @@ echo " Starting Liferay"
 docker compose up -d liferay
 echo " Done."
 
-echo " Installation Liferay licence"
+echo " Liferay licence intallation"
 ./scripts/install-licence.sh "/mnt/c/Soft/_binaries/Liferay/activation-key-dxpdevelopment-7.4-developeractivationkeys.xml"  
