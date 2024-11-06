@@ -1,7 +1,13 @@
 #!/bin/bash
-echo " Start"
-cd ..
+echo " Starting compose Stack"
 
+# Sourcing env variables
+echo " Sourcing environment variables"
+source ./env.sh
+echo " Done."
+
+# Creating missing network if needed
+echo " Creating missing ressources"
 NETWORK="devnet"
 if docker network inspect ${NETWORK} > /dev/null 2>&1
 then
@@ -10,8 +16,11 @@ else
     echo "Network '${NETWORK}' doesn't exist; creating it"
     docker network create ${NETWORK} > /dev/null
 fi
+echo " Done."
 
-#docker compose up
+cd ..
+
+# Starting all container
 echo " Starting MySQL"
 docker compose up -d db
 echo " Done."
@@ -38,5 +47,6 @@ echo " Starting Liferay"
 docker compose up -d liferay
 echo " Done."
 
-echo " Liferay licence intallation"
-./scripts/install-licence.sh "/mnt/c/Soft/_binaries/Liferay/activation-key-dxpdevelopment-7.4-developeractivationkeys.xml"  
+echo " Installing Liferay license from $LFR_LICENSE_FILE_PATH to Liferay container"
+./scripts/install-licence.sh $LFR_LICENSE_FILE_PATH
+echo " Done."
