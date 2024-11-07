@@ -130,9 +130,16 @@ Add following lines at the end of the file to properly configure domains
 
 #### Environment configuration
 
-Edit .env file to customize paths regarding your environment
+Copy .env-template file to customize installation regarding your environment
 
 1. Liferay license file path configuration
+```
+cd ./poc1-reactjs-liferay-keycloak/runtime
+cp -f ./.env-template ./.env
+
+```
+
+2. Liferay license file path configuration
 ```
 # Path to license file (to customize according to your env)
 LFR_LICENSE_FILE_PATH=<UPDATE_WITH_YOUR_PATH>>
