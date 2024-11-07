@@ -1,4 +1,3 @@
-version: "3"
 name: "lfroauth"
 services:
 
@@ -268,24 +267,11 @@ services:
   ## generate automatically selsigned certificate
   gencert: 
     container_name: lfroauth-gencert
-    # build:
-    #   context: ./certs
-    #   dockerfile: ./mkcert.Dockerfile
-    # command: >
-    #   sh -c "
-    #   mkcert -install &&
-    #   mkcert -cert-file /certs/app1.dev.local/app1.dev.local.crt -key-file /certs/app1.dev.local/app1.dev.local.key app1.dev.local localhost 127.0.0.1 ::1 &&
-    #   mkcert -cert-file /traefik/providers/files/sso.dev.local.crt -key-file /traefik/providers/files/sso.dev.local.key sso.dev.local &&
-    #   mkcert -cert-file /traefik/providers/files/portal.dev.local.crt -key-file /traefik/providers/files/portal.dev.local.key portal.dev.local localhost 127.0.0.1 ::1"
     build:
       context: ./certs
       dockerfile: ./openssl.Dockerfile
     command: >
-      sh -c "
-      openssl req -x509 -newkey rsa:4096 -keyout /certs/app1.dev.local/app1.dev.local.key -out /certs/app1.dev.local/app1.dev.local.crt -days 365 -nodes -subj /CN=app1.dev.local &&
-      openssl req -x509 -newkey rsa:4096 -keyout /traefik/providers/files/apim.dev.local.key -out /traefik/providers/files/apim.dev.local.crt -days 365 -nodes -subj /CN=apim.dev.local &&
-      openssl req -x509 -newkey rsa:4096 -keyout /traefik/providers/files/portal.dev.local.key -out /traefik/providers/files/portal.dev.local.crt -days 365 -nodes -subj /CN=portal.dev.local &&
-      openssl req -x509 -newkey rsa:4096 -keyout /traefik/providers/files/sso.dev.local.key -out /traefik/providers/files/sso.dev.local.crt -days 365 -nodes -subj /CN=sso.dev.local"
+      sh "/certs/scripts/certs.sh"
     volumes:
       - ./certs:/certs
       - ./traefik/providers:/traefik/providers
