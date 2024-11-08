@@ -43,7 +43,7 @@ echo " Starting App1"
 docker compose up -d app1
 echo " Done."
 
-./scripts/spinner.sh sleep 180s
+./scripts/spinner.sh sleep 5s
 
 echo " Starting Liferay"
 docker compose up -d portal

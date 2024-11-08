@@ -1,7 +1,6 @@
 name: "lfroauth"
 services:
 
-
   portal:
     #hostname: ${LFR_HOSTNAME}
     container_name: lfroauth-portal
@@ -19,18 +18,17 @@ services:
       - ./liferay/deploy:/opt/liferay/deploy
     depends_on:
       sso:
-        condition: service_started
+        condition: service_healthy
       db:
-          condition: service_healthy
-
-
+        condition: service_healthy
+      traefik:
+        condition: service_healthy
     entrypoint: /usr/local/bin/wait-for -t 60 db:3306 -- /usr/local/bin/liferay_entrypoint.sh
     environment:
       LIFERAY_VIRTUAL_PERIOD_HOSTS_PERIOD_VALID_PERIOD_HOSTS: "*"
       LIFERAY_WEB_PERIOD_SERVER_PERIOD_HTTPS_PERIOD_PORT: 443
       LIFERAY_WEB_PERIOD_SERVER_PERIOD_PROTOCOL: "https"
       LIFERAY_JVM_OPTS: "-Xms1024m -Xmx4096m -Djavax.net.ssl.trustStore=/opt/liferay/certificates/cacerts"
-      
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.liferay.rule=Host(`${LFR_HOSTNAME}`)"
@@ -83,31 +81,29 @@ services:
     build:
       dockerfile: keycloak/keycloak.Dockerfile
       context: .
-    #hostname: ${KEYCLOAK_HOSTNAME}
     container_name: lfroauth-sso
-    # ports:
-    #   - "8080:8080"
-    # env_file:
-    #   - ./keycloak/variables.env
     environment: 
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
-
       KC_DB: mysql
       KC_DB_URL_HOST: db
       KC_DB_PORT: 3306
       KC_DB_URL_DATABASE: keycloak
       KC_DB_USERNAME: keycloak
       KC_DB_PASSWORD: keycloak
-      KEYCLOAK_IMPORT: /opt/keycloak/data/import/liferay-realm.json
+      KC_HEALTH_ENABLED: true
+      KC_METRICS_ENABLE: true
       KC_HOSTNAME: ${KEYCLOAK_HOSTNAME}
       KC_HOSTNAME_STRICT: false
       KC_PROXY: edge
+      KEYCLOAK_IMPORT: /opt/keycloak/data/import/liferay-realm.json
     volumes:
       - ./keycloak/liferay-realm.json:/opt/keycloak/data/import/liferay-realm.json
     depends_on:
       db:
-          condition: service_healthy
+        condition: service_healthy
+      traefik:
+        condition: service_healthy
     command:
       - start-dev
       - --import-realm
@@ -126,6 +122,11 @@ services:
     networks:
       - internal
       - devnet
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:8080/health/ready | grep -q 'UP' || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   traefik:
     build:
@@ -226,23 +227,15 @@ services:
       - "traefik.http.services.kong.loadbalancer.passhostheader=true"
       - "traefik.http.middlewares.compresstraefik.compress=true"
       - "traefik.docker.network=devnet"
-
-    # ports: 
-    #   - 8800:8000
-    #   - 8443:8443
-    #   - 8001:8001  
-    #   - 8444:8444
-    #   - 8002:8002  
-    #   - 8445:8445  
-    #   - 8003:8003  
-    #   - 8004:8004
     volumes:
       - ./kong/declarative:/kong/declarative/
       - ./kong/plugins:/kong/plugins/
       - ./traefik/providers/files/:/usr/local/share/ca-certificates
+    depends_on:
+      traefik:
+        condition: service_healthy
     networks:
       - devnet
-
 
   app1:
     hostname: app1.dev.local
@@ -264,7 +257,7 @@ services:
     networks:
       - devnet
 
-  ## generate automatically selsigned certificate
+  ## generate automatically selsigned certificate if needed
   gencert: 
     container_name: lfroauth-gencert
     build:
@@ -275,7 +268,6 @@ services:
     volumes:
       - ./certs:/certs
       - ./traefik/providers:/traefik/providers
-
 
 volumes:
   liferay_data:
