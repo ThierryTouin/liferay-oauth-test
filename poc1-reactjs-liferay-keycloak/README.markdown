@@ -96,7 +96,7 @@ clean-all.sh
 
 #### Test communication between containers
 ```
-docker exec -it lfroauth-liferay sh -c "curl -k -v https://sso.dev.local"
+docker exec -it lfroauth-portal sh -c "curl -k -v https://sso.dev.local"
 ```
 
 ## 2. Access 

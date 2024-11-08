@@ -2,9 +2,9 @@ name: "lfroauth"
 services:
 
 
-  liferay:
+  portal:
     #hostname: ${LFR_HOSTNAME}
-    container_name: lfroauth-liferay
+    container_name: lfroauth-portal
     build:
       dockerfile: liferay/liferay.Dockerfile
       context: .

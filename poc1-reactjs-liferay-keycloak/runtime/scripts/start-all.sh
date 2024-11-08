@@ -46,7 +46,7 @@ echo " Done."
 ./scripts/spinner.sh sleep 180s
 
 echo " Starting Liferay"
-docker compose up -d liferay
+docker compose up -d portal
 echo " Done."
 
 echo " Installing Liferay license from $LFR_LICENSE_FILE_PATH to Liferay container"

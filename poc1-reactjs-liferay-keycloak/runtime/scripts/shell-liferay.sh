@@ -1,2 +1,2 @@
 #!/bin/bash
-docker container exec -it lfroauth-liferay /bin/bash
+docker container exec -it lfroauth-portal /bin/bash

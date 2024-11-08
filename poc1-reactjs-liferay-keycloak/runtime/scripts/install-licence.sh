@@ -7,4 +7,4 @@ then
     exit 1
 fi
 
-docker cp $1 lfroauth-liferay:/opt/liferay/deploy
+docker cp $1 lfroauth-portal:/opt/liferay/deploy
