@@ -2,12 +2,11 @@
 
 DOMAIN="sso.dev.local"
 
-mkdir $LIFERAY_HOME/certificates
+mkdir -p $LIFERAY_HOME/certificates
 
 SOURCE_PATH=$LIFERAY_HOME/certificates
 CACERTS_ORIGIN_PATH=/usr/lib/jvm/zulu21/lib/security/cacerts
 CACERTS_LIFERAY_PATH=$SOURCE_PATH/cacerts
-DOMAIN="sso.dev.local"
 
 echo "Copying the default keystore to a new path"
 

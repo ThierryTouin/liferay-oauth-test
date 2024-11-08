@@ -3,7 +3,7 @@ echo " Starting compose Stack"
 
 # Sourcing env variables
 echo " Sourcing environment variables"
-# Because of WSL we need to convert .env file to unix
+# Because of WSL we need to force convertion of .env file to unix
 dos2unix ./env.sh
 source ./env.sh
 echo " Done."
