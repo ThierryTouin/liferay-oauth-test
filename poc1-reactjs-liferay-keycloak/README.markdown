@@ -10,6 +10,7 @@ graph  LR
 RProxy[Traefik<br>traefik.dev.local]
 Portal[Liferay<br>portal.dev.local]
 Apim[Apim<br>apim.dev.local]
+App1[Apim<br>app1.dev.local]
 C([client])
 SSO([Keycloak<br>sso.dev.local])
 
@@ -20,6 +21,7 @@ C -- https --> RProxy;
 subgraph Environement
     RProxy -- http --> SSO;
     RProxy -- http --> Portal;
+    RProxy -- http --> App1;
     RProxy -- http --> Apim;
 end
 
@@ -44,7 +46,7 @@ graph  LR
 
 %% Nodes
 
-APP1[ReactJS<br>app1.dev.local:3008]
+APP1[ReactJS<br>app1.dev.local]
 Portal[Liferay<br>portal.dev.local]
 APIM[Kong<br>apim.dev.local]
 API[API]
@@ -106,7 +108,7 @@ docker exec -it lfroauth-portal sh -c "curl -k -v https://sso.dev.local"
 | Service             | Links   | Description |
 | --------            | ------- | -------                                                                                            |
 | Portal              | https://portal.dev.local             | Liferay                                                               |
-| ReactJS App         | https://app1.dev.local:3008          |                                                                       |
+| ReactJS App         | https://app1.dev.local          |                                                                       |
 | SSO GUI             | https://sso.dev.local                | Keycloak                                                              |
 | SSO Config          | https://sso.dev.local/realms/Liferay/.well-known/openid-configuration | Display SSO configuration            |
 | Apim GUI            | http://apim.dev.local:8002           | Kong administration                                                   |

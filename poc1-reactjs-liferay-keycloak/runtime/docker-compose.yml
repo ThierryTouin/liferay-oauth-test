@@ -2,7 +2,6 @@ name: "lfroauth"
 services:
 
   portal:
-    #hostname: ${LFR_HOSTNAME}
     container_name: lfroauth-portal
     build:
       dockerfile: liferay/liferay.Dockerfile
@@ -247,13 +246,24 @@ services:
         - TITLE=react-app
     ports:
       - 3007:80
-      - 3008:443  # HTTPS
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app1.rule=Host(`${APP1_HOSTNAME}`)"
+      - "traefik.http.routers.app1.service=app1"
+      - "traefik.http.routers.app1.entrypoints=websecure"
+      - "traefik.http.routers.app1.tls=true"
+      - "traefik.http.routers.app1.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.app1.middlewares=compresstraefik"
+      - "traefik.http.services.app1.loadbalancer.server.port=80"
+      - "traefik.http.services.app1.loadbalancer.passhostheader=true"
+      - "traefik.http.middlewares.compresstraefik.compress=true"
+      - "traefik.docker.network=devnet"
     volumes:
       - ./front-end/react-app:/app/react-app
       - /home/user1/node_modules:/app/react-app/node_modules
-      - ./certs/app1.dev.local:/etc/nginx/ssl  # Montage des certificats
     depends_on:
-      - gencert
+      traefik:
+        condition: service_healthy
     networks:
       - devnet
 
@@ -274,7 +284,6 @@ volumes:
   smtp_data:
   db_data:
   traefik-letsencrypt:
-
 
 networks:
   internal: # communication betwwen db and other container sso, portal 
