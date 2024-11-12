@@ -10,7 +10,7 @@ graph  LR
 RProxy[Traefik<br>traefik.dev.local]
 Portal[Liferay<br>portal.dev.local]
 Apim[Apim<br>apim.dev.local]
-App1[Apim<br>app1.dev.local]
+App1[App1<br>app1.dev.local]
 C([client])
 SSO([Keycloak<br>sso.dev.local])
 
