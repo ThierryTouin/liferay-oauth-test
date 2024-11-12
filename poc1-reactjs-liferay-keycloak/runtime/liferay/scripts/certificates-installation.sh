@@ -4,11 +4,11 @@ DOMAIN="sso.dev.local"
 PORT=443
 
 # Test if the server is reachable on the specified port
-if ! nc -z -w 5 $DOMAIN $PORT &> /dev/null
-then
-    echo -e "\033[31mError: $DOMAIN is not reachable on port $PORT\033[0m"
-    exit 1
-fi
+# if ! nc -z -w 5 $DOMAIN $PORT &> /dev/null
+# then
+    # echo -e "\033[31mError: $DOMAIN is not reachable on port $PORT\033[0m"
+    # exit 1
+# fi
 
 mkdir -p $LIFERAY_HOME/certificates
 

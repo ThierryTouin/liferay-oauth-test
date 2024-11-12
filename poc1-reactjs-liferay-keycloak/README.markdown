@@ -99,7 +99,7 @@ clean-all.sh
 docker exec -it lfroauth-portal sh -c "curl -k -v https://sso.dev.local"
 ```
 
-## 2. Access 
+## 2. Services Access 
 
 #### URLs 
 
@@ -145,6 +145,91 @@ cp -f ./.env-template ./.env
 # Path to license file (to customize according to your env)
 LFR_LICENSE_FILE_PATH=<UPDATE_WITH_YOUR_PATH>>
 
+```
+
+## 5. Troubleshooting
+
+### 1. Check security exception for self signed certificates
+
+Add security exception for all certificates in your prefered brower
+1. From the project root folder  open index.html
+![Project Home](./images/home.png "Project home")
+2. Open each URL and add certificate exception
+![Self Signed Exception](./images/exception.png "Self Signed Exception")
+
+### 2. Check self-signed certificates import in Liferay keystore
+Verify that the custom script for importing certificates into the keystore has been executed correctly.
+
+Here is the execution trace without any expected errors.
+
+```
+lfroauth-portal   | [LIFERAY] Executing scripts in /mnt/liferay/scripts:
+lfroauth-portal   |
+lfroauth-portal   | [LIFERAY] Executing certificates-installation.sh.
+lfroauth-portal   | Copying the default keystore to a new path
+lfroauth-portal   | depth=0 CN = sso.dev.local
+lfroauth-portal   | verify error:num=18:self-signed certificate
+lfroauth-portal   | verify return:1
+lfroauth-portal   | depth=0 CN = sso.dev.local
+lfroauth-portal   | verify return:1
+lfroauth-portal   | DONE
+lfroauth-portal   | Certificate was added to keystore
+lfroauth-portal   | Alias name: sso.dev.local
+lfroauth-portal   | Creation date: Nov 12, 2024
+lfroauth-portal   | Entry type: trustedCertEntry
+lfroauth-portal   |
+lfroauth-portal   | Owner: CN=sso.dev.local
+lfroauth-portal   | Issuer: CN=sso.dev.local
+lfroauth-portal   | Serial number: 773b0edc7258e39ff74cfffdb0bc9632e9ac103
+lfroauth-portal   | Valid from: Thu Nov 07 16:12:44 GMT 2024 until: Fri Nov 07 16:12:44 GMT 2025
+lfroauth-portal   | Certificate fingerprints:
+lfroauth-portal   |      SHA1: 7A:AC:D7:80:70:97:51:5A:5B:69:65:F0:C9:65:4B:7D:98:87:50:D9
+lfroauth-portal   |      SHA256: A9:49:94:C9:0C:21:00:07:AD:41:64:25:66:F0:B1:4E:A2:94:9F:75:F8:D5:D3:EF:CD:6D:90:D0:C9:50:53:AE
+lfroauth-portal   | Signature algorithm name: SHA256withRSA
+lfroauth-portal   | Subject Public Key Algorithm: 4096-bit RSA key
+lfroauth-portal   | Version: 3
+lfroauth-portal   |
+lfroauth-portal   | Extensions:
+lfroauth-portal   |
+lfroauth-portal   | #1: ObjectId: 2.5.29.35 Criticality=false
+lfroauth-portal   | AuthorityKeyIdentifier [
+lfroauth-portal   | KeyIdentifier [
+lfroauth-portal   | 0000: 54 80 39 0F 62 4C 7D A4   30 B3 C4 5B 07 30 43 E9  T.9.bL..0..[.0C.
+lfroauth-portal   | 0010: 52 24 12 4B                                        R$.K
+lfroauth-portal   | ]
+lfroauth-portal   | ]
+lfroauth-portal   |
+lfroauth-portal   | #2: ObjectId: 2.5.29.19 Criticality=true
+lfroauth-portal   | BasicConstraints:[
+lfroauth-portal   |   CA:true
+lfroauth-portal   |   PathLen: no limit
+lfroauth-portal   | ]
+lfroauth-portal   |
+lfroauth-portal   | #3: ObjectId: 2.5.29.14 Criticality=false
+lfroauth-portal   | SubjectKeyIdentifier [
+lfroauth-portal   | KeyIdentifier [
+lfroauth-portal   | 0000: 54 80 39 0F 62 4C 7D A4   30 B3 C4 5B 07 30 43 E9  T.9.bL..0..[.0C.
+lfroauth-portal   | 0010: 52 24 12 4B                                        R$.K
+lfroauth-portal   | ]
+lfroauth-portal   | ]
+lfroauth-portal   |
+lfroauth-portal   |
+```
+
+### 3. Error copying Liferay license fron start-all.sh 
+
+If you are using WSL, Windows characters may have been written in the .env file, which causes an error when using the ./start-all.sh script.
+```
+ to Liferay containericense from /home/user1/dev/git/activation-key-dxpdevelopment-7.4-inetum.xml
+: no such file or directoryctivation-key-dxpdevelopment-7.4-inetum.xml
+```
+ If you are in this situation, simply copy the license manually using the provided script.
+ ```
+./install-licence.sh "<PATH_To_YOUR_LICENSE_FILE>"
+```
+Sample
+```
+./install-licence.sh "/mnt/disque1/Soft/_binaries/Liferay/activation-key-dxpdevelopment-7.4-developeractivationkeys2.xml"
 ```
 
 ## 4. References & Documentation
