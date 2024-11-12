@@ -1,0 +1,17 @@
+########################################## Get token2  ##########################################
+POST https://sso.dev.local/realms/Liferay/protocol/openid-connect/token HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+client_id=liferay
+&grant_type=password
+&client_secret=BHvaWOGwi7GFtlzB4vvOghgkE1qnkT24
+&username=jda@liferay.com
+&password=jda
+
+########################################## INTROSPECT SAMPLE ##########################################
+POST https://sso.dev.local/realms/Liferay/protocol/openid-connect/token/introspect HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+token=eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJKM0FUeklFQWhucFI4Z1F5SmdmaFRWUldvZ3NtaE5taU9OY3UtVko1Nk1JIn0.eyJleHAiOjE3MzE0MzA2NjUsImlhdCI6MTczMTQzMDM2NSwianRpIjoiZjgzOTE4YmQtMjhhMS00Y2U3LWFjMDEtMzcyODFjNDQ3Mzk2IiwiaXNzIjoiaHR0cHM6Ly9zc28uZGV2LmxvY2FsL3JlYWxtcy9MaWZlcmF5IiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjE1YjdjNzFjLTU5NjUtNGViMi05ZDJkLTQzZjliMGJlYzE3OCIsInR5cCI6IkJlYXJlciIsImF6cCI6ImxpZmVyYXkiLCJzZXNzaW9uX3N0YXRlIjoiMThmNWZjNDUtMzNkZS00MDYxLWFhMjQtNWUwZTk0YmZkMTVhIiwiYWxsb3dlZC1vcmlnaW5zIjpbIioiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwiZGVmYXVsdC1yb2xlcy1saWZlcmF5IiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50Iiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiMThmNWZjNDUtMzNkZS00MDYxLWFhMjQtNWUwZTk0YmZkMTVhIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiamRhIGpkYSIsInByZWZlcnJlZF91c2VybmFtZSI6ImpkYUBsaWZlcmF5LmNvbSIsImdpdmVuX25hbWUiOiJqZGEiLCJmYW1pbHlfbmFtZSI6ImpkYSIsImVtYWlsIjoiamRhQGxpZmVyYXkuY29tIn0.CtXUH2PacPx9BK4UMxBHdjexR4Li-MGpFNOp4TMrdhUxnm1X_oMn4zLBqe9yTTcAST8x7Z9wPnd67zqz2D69aF6ieFLGHcWN8_leBF9LnhYsYDcl1P9uppus4ZAjmkmIsctbFR3F5aDG6O48erfy9mU7CC5Bf_wcFEJgQWw-LCUcswzZN3TeqH049BVBWA7jrDh7qyzmmczJIoAJaH3fge0apJqDbmQOLtJ47fRdq2wh4hRqjn0HWvlw948zXS0Sq5Q7PzaFqUto9gnVtsO2H-pk2hA7Xn-ydKS2zamwhxPlZt6W9aUmLQmhOmeu0-Iy7Kh1dRlcuIepyoBvkJwJyw
+&client_secret=BHvaWOGwi7GFtlzB4vvOghgkE1qnkT24
+&client_id=liferay

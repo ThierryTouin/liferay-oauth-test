@@ -287,7 +287,7 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
+      "secret": "BHvaWOGwi7GFtlzB4vvOghgkE1qnkT24",
       "redirectUris": [
         "https://portal.dev.local*","https://app1.dev.local*"
       ],
@@ -299,7 +299,7 @@
       "implicitFlowEnabled": false,
       "directAccessGrantsEnabled": true,
       "serviceAccountsEnabled": false,
-      "publicClient": true,
+      "publicClient": false,
       "frontchannelLogout": false,
       "protocol": "openid-connect",
       "attributes": {
