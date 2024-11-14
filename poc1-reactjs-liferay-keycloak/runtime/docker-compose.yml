@@ -28,7 +28,17 @@ services:
       LIFERAY_WEB_PERIOD_SERVER_PERIOD_HTTPS_PERIOD_PORT: 443
       LIFERAY_WEB_PERIOD_SERVER_PERIOD_PROTOCOL: "https"
       LIFERAY_JVM_OPTS: "-Xms1024m -Xmx4096m -Djavax.net.ssl.trustStore=/opt/liferay/certificates/cacerts"
-    labels:
+      LIFERAY_INCLUDE_MINUS_AND_MINUS_OVERRIDE: portal-developer.properties
+      LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_DRIVER_UPPERCASEC_LASS_UPPERCASEN_AME: com.mysql.cj.jdbc.Driver
+      LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_URL: jdbc:mysql://lfroauth-db/lportal?characterEncoding=UTF-8&dontTrackOpenResources=true&holdResultsOpenOverStatementClose=true&serverTimezone=GMT&useFastDateParsing=false&useUnicode=true
+      LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_USERNAME: liferay
+      LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_PASSWORD: liferay
+      LIFERAY_ADMIN_PERIOD_EMAIL_PERIOD_FROM_PERIOD_NAME: Liferay Demo
+      LIFERAY_ADMIN_PERIOD_EMAIL_PERIOD_FROM_PERIOD_ADDRESS: no-reply@liferay.demo
+      LIFERAY_MAIL_PERIOD_SESSION_PERIOD_MAIL_PERIOD_SMTP_PERIOD_HOST: mail
+      LIFERAY_MAIL_PERIOD_SESSION_PERIOD_MAIL_PERIOD_POP_NUMBER3__PERIOD_HOST: mail
+      LIFERAY_MAIL_PERIOD_SESSION_PERIOD_MAIL_PERIOD_SMTP_PERIOD_STARTTLS_PERIOD_ENABLE: false
+    labels:  
       - "traefik.enable=true"
       - "traefik.http.routers.liferay.rule=Host(`${LFR_HOSTNAME}`)"
       - "traefik.http.routers.liferay.service=liferay"
@@ -187,7 +197,6 @@ services:
           - ${KONG_HOSTNAME}
 
   apim:
-    #hostname: ${KONG_HOSTNAME}
     container_name: lfroauth-apim
     build:
       dockerfile: kong/kong.Dockerfile
@@ -200,14 +209,8 @@ services:
       KONG_PROXY_ERROR_LOG: /dev/stderr
       KONG_ADMIN_ERROR_LOG: /dev/stderr
       KONG_ADMIN_LISTEN: 0.0.0.0:8001
-      #KONG_ADMIN_GUI_URL: http://localhost:8002
-      #KONG_PLUGINS: bundled,oidc,oauth-liferay-introspect
       KONG_PLUGINS: bundled,oauth-liferay-introspect
-      #KONG_PLUGINS: bundled
-      #KONG_PLUGINS: bundled,oidc
       KONG_LOG_LEVEL: ${KONG_LOG_LEVEL}
-      # VIRTUAL_HOST: ${KONG_HOSTNAME}
-      # VIRTUAL_PORT: 8000
     ports: 
       - 8000:8000
       - 8001:8001
