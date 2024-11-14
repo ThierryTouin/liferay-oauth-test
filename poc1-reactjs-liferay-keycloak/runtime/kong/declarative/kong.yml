@@ -40,24 +40,10 @@ services:
     - /admin
 
 plugins: 
-  - name: oauth-liferay-introspect
+  - name: oauth-token-simple-validation
     config:
-      introspection_endpoint: https://sso.dev.local/realms/Liferay/protocol/openid-connect/token/introspect
       client_id: liferay
     enabled: true
-  # - name: oidc
-  #   config: 
-  #     discovery: https://sso.dev.local/realms/Liferay/.well-known/openid-configuration
-  #     client_id: liferay
-  #     client_secret: liferay
-
-  # - name: jwt-keycloak
-  #   config: 
-  #     allowed_iss: https://sso.dev.local/realms/Liferay
-
-
-
-
   - name: cors
     config:
       origins:

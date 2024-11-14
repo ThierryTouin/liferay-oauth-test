@@ -1,7 +1,7 @@
 local typedefs = require "kong.db.schema.typedefs"
 
 
-local PLUGIN_NAME = "oauth-liferay-introspect"
+local PLUGIN_NAME = "oauth-token-simple-validation"
 
 local typedefs = require "kong.db.schema.typedefs"
 local url = require "socket.url"
@@ -26,12 +26,8 @@ local schema = {
       config = {
         type = "record",
         fields = {
-          { introspection_endpoint = { type = "string", required = true, custom_validator = validate_url } },
           { client_id = { type = "string", required = true } },
           { token_header = { type = "string", required = true, default = "Authorization" } },
-          { hide_credentials = { type = "boolean", required = true, default = true } },
-          { allow_anonymous = { type = "boolean", required = true, default = false } },
-          { ttl = { type = "number", required = true, default = 30 } },
         }
       }
     }
