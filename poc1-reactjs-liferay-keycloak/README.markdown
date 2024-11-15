@@ -108,8 +108,8 @@ docker exec -it lfroauth-portal sh -c "curl -k -v https://sso.dev.local"
 | Service             | Links   | Description |
 | --------            | ------- | -------                                                                                            |
 | Portal              | https://portal.dev.local             | Liferay                                                               |
-| ReactJS App         | https://app1.dev.local          |                                                                       |
-| SSO GUI             | https://sso.dev.local                | Keycloak                                                              |
+| ReactJS App         | https://app1.dev.local          |                                                                            |
+| SSO GUI             | https://sso.dev.local                | Keycloak Credentials : admin / Admin                                  |
 | SSO Config          | https://sso.dev.local/realms/Liferay/.well-known/openid-configuration | Display SSO configuration            |
 | Apim GUI            | http://apim.dev.local:8002           | Kong administration                                                   |
 | Cities API          | https://apim.dev.local/cities        | Returned the headers of original request has a response               |

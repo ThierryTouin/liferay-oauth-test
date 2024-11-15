@@ -43,6 +43,8 @@ plugins:
   - name: oauth-token-simple-validation
     config:
       client_id: liferay
+      # Used by plugin to retrieve public key for validate token
+      realms_certs_url: https://sso.dev.local/realms/Liferay/protocol/openid-connect/certs
     enabled: true
   - name: cors
     config:

@@ -28,6 +28,7 @@ local schema = {
         fields = {
           { client_id = { type = "string", required = true } },
           { token_header = { type = "string", required = true, default = "Authorization" } },
+          { realms_certs_url = { type = "string", required = true} },
         }
       }
     }
