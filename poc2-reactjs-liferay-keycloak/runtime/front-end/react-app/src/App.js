@@ -1,11 +1,8 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+//import logo from './logo.svg';
+import './App.css';
 import { AuthProvider } from "react-oidc-context";
 import Sample from "./components/Sample.js";
-
+import PrivateRoute from "./config/auth/PrivateRoute.js";
 
 const oidcConfig = {
   authority: "https://sso.dev.local/realms/Liferay",
@@ -22,22 +19,15 @@ const oidcConfig = {
   },
 };
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
+
+function App() {
+  return (
     <AuthProvider {...oidcConfig}>
-    <h1>APP1 from POC1</h1>
-      <Sample
-          key="labels"
-          apiUrl="url"
-          labels="labelsMap"
-      />
-    </AuthProvider>,
+      <PrivateRoute/> 
+      <h1>APP2 from POC2</h1>
+      <Sample/>
+    </AuthProvider>
+  );
+}
 
-  </React.StrictMode>
-);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+export default App;

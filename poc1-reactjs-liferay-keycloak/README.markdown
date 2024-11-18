@@ -10,12 +10,12 @@ graph  LR
 
 %% Nodes
 
-APP1[ReactJS<br>app1.dev.local]
-Portal[Liferay<br>portal.dev.local]
-APIM[Kong<br>apim.dev.local]
+APP1[App1 - ReactJS<br>app1.dev.local]
+Portal[Portal - Liferay<br>portal.dev.local]
+APIM[APIM - Kong<br>apim.dev.local]
 API[Public API]
 C([client])
-SSO([Keycloak<br>sso.dev.local])
+SSO([SSO - Keycloak<br>sso.dev.local])
 
 
 %% Links	
@@ -44,7 +44,11 @@ APIM <--> API;
   class C plain;
   class cluster cluster;
 ```
-## 2. Usefull commands & tips
+## 2. Initial Setup 
+
+see [Initial Setup](../README.markdown#2-initial-setup)
+
+## 3. Usefull commands & tips
 
 #### Start all containers stack
 ```

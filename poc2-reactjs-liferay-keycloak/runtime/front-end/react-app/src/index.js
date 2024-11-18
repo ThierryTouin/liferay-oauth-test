@@ -1,0 +1,60 @@
+import React from 'react';
+import './index.css';
+import App from './App';
+import {createRoot} from 'react-dom/client';
+import reportWebVitals from './reportWebVitals';
+
+const ELEMENT_ID = 'app1-docker-example';
+
+class WebComponent extends HTMLElement {
+
+  connectedCallback() {
+		this.root = createRoot(this);
+
+		this.root.render(<App />);
+  }
+
+  disconnectedCallback() {
+
+		//
+		// Unmount React tree to prevent memory leaks.
+		//
+		// See React documentation at
+		//
+		//     https://react.dev/reference/react-dom/client/createRoot#root-unmount
+		//
+		// for more information.
+		//
+
+		this.root.unmount();
+		delete this.root;
+	}
+}
+
+if (!customElements.get(ELEMENT_ID)) {
+  console.log('Registering ' + ELEMENT_ID + ' as custom element');
+  customElements.define(ELEMENT_ID, WebComponent);
+} else {
+  console.log('Skipping registration for ' + ELEMENT_ID + ' (already registered)');
+}
+
+/*const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+
+    <AuthProvider {...oidcConfig}>
+      <h1>APP1 from POC2</h1>
+      <Sample
+          key="labels"
+          apiUrl="url"
+          labels="labelsMap"
+      />
+    </AuthProvider>,
+
+  </React.StrictMode>
+);*/
+
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();

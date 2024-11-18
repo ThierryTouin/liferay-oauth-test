@@ -4,10 +4,10 @@ This project presents several scenarios for integrating frontend applications in
 
 There is scenarions illustrated by the demonstrators :
 
-| Scenario | Title   | Links   | Description |
-| -------- | ------- | ------- | -------                                                         |
-| POC 1    | Pure SSO | [Further information](./poc1-reactjs-liferay-keycloak/README.md) | |
-| POC 2    | Oauth Silent Authent + Client Extension| [Further information](./poc2-reactjs-liferay-keycloak/README.md) | |
+| Scenario | Title   | Links   |
+| -------- | ------- | ------- |                                                         
+| POC 1    | Pure SSO | [Further information](./poc1-reactjs-liferay-keycloak/README.md) | 
+| POC 2    | Oauth Silent Authent + Client Extension| [Further information](./poc2-reactjs-liferay-keycloak/README.md) | 
 
 #### 1. Focus on certificates
 
@@ -38,7 +38,7 @@ Add following lines at the end of the file to properly configure domains
 127.0.0.1	mail.dev.local
 127.0.0.1	apim.dev.local
 127.0.0.1	app1.dev.local
-127.0.0.1 traefik.dev.local
+127.0.0.1	traefik.dev.local
 ```
 
 #### 2. Environment configuration

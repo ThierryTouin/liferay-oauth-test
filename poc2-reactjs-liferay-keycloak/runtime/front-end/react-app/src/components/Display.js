@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useAuth } from "react-oidc-context";
-
 import {ApimService} from '../services/ApimService.js';
 
 const Display = ( props ) => {
@@ -30,7 +29,7 @@ const Display = ( props ) => {
 	}, [appId]);
 
 	return !debugData ? (
-		<div>Loading POC 1...</div>
+		<div>Loading POC2 ...</div>
 	) : (
 		<div>
 			<h2>APP1 : HttpBin Debug Response</h2>

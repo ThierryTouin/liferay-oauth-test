@@ -1,0 +1,302 @@
+name: "lfroauth"
+services:
+
+  portal:
+    container_name: lfroauth-portal
+    build:
+      dockerfile: liferay/liferay.Dockerfile
+      context: .
+    ports:
+      - "8081:8080"
+    # env_file:
+    #   - ./liferay/variables.env
+    volumes:
+      - liferay_data:/opt/liferay/data
+      - ./liferay/files:/mnt/liferay/files
+      - ./liferay/scripts:/mnt/liferay/scripts
+      - ./liferay/deploy:/opt/liferay/deploy
+    depends_on:
+      sso:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+      traefik:
+        condition: service_healthy
+    entrypoint: /usr/local/bin/wait-for -t 60 db:3306 -- /usr/local/bin/liferay_entrypoint.sh
+    environment:
+      LIFERAY_VIRTUAL_PERIOD_HOSTS_PERIOD_VALID_PERIOD_HOSTS: "*"
+      LIFERAY_WEB_PERIOD_SERVER_PERIOD_HTTPS_PERIOD_PORT: 443
+      LIFERAY_WEB_PERIOD_SERVER_PERIOD_PROTOCOL: "https"
+      LIFERAY_JVM_OPTS: "-Xms1024m -Xmx4096m -Djavax.net.ssl.trustStore=/opt/liferay/certificates/cacerts"
+      LIFERAY_INCLUDE_MINUS_AND_MINUS_OVERRIDE: portal-developer.properties
+      LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_DRIVER_UPPERCASEC_LASS_UPPERCASEN_AME: com.mysql.cj.jdbc.Driver
+      LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_URL: jdbc:mysql://lfroauth-db/lportal?characterEncoding=UTF-8&dontTrackOpenResources=true&holdResultsOpenOverStatementClose=true&serverTimezone=GMT&useFastDateParsing=false&useUnicode=true
+      LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_USERNAME: liferay
+      LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_PASSWORD: liferay
+      LIFERAY_ADMIN_PERIOD_EMAIL_PERIOD_FROM_PERIOD_NAME: Liferay Demo
+      LIFERAY_ADMIN_PERIOD_EMAIL_PERIOD_FROM_PERIOD_ADDRESS: no-reply@liferay.demo
+      LIFERAY_MAIL_PERIOD_SESSION_PERIOD_MAIL_PERIOD_SMTP_PERIOD_HOST: mail
+      LIFERAY_MAIL_PERIOD_SESSION_PERIOD_MAIL_PERIOD_POP_NUMBER3__PERIOD_HOST: mail
+      LIFERAY_MAIL_PERIOD_SESSION_PERIOD_MAIL_PERIOD_SMTP_PERIOD_STARTTLS_PERIOD_ENABLE: false
+      # Used by .config files to create client extensions as remote apps in Liferay Control Panel
+      APP1_REMOTE_DOMAIN: "https://app1.dev.local"
+    labels:  
+      - "traefik.enable=true"
+      - "traefik.http.routers.liferay.rule=Host(`${LFR_HOSTNAME}`)"
+      - "traefik.http.routers.liferay.service=liferay"
+      - "traefik.http.routers.liferay.entrypoints=websecure"
+      - "traefik.http.services.liferay.loadbalancer.server.port=8080"
+      - "traefik.http.routers.liferay.tls=true"
+      - "traefik.http.routers.liferay.tls.certresolver=letsencrypt"
+      - "traefik.http.services.liferay.loadbalancer.passhostheader=true"
+      - "traefik.http.routers.liferay.middlewares=compresstraefik"
+      - "traefik.http.middlewares.compresstraefik.compress=true"
+      - "traefik.docker.network=devnet"
+    networks:
+      - internal
+      - devnet
+
+  db:
+    container_name: lfroauth-db
+    build:
+      dockerfile: mysql/mysql.Dockerfile
+      context: .
+    env_file:
+      - ./mysql/variables.env
+    volumes:
+      - ./mysql/initdb.d:/docker-entrypoint-initdb.d
+      - db_data:/var/lib/mysql
+    cap_add:
+      - SYS_NICE
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  mail:
+    hostname: mail.dev.local
+    container_name: lfroauth-mail
+    build:
+      dockerfile: smtp4dev/smtp4dev.Dockerfile
+      context: .
+    ports:
+      - "5000:80"
+    volumes:
+      - smtp_data:/smtp4dev
+    networks:
+      - devnet
+
+  sso:
+    build:
+      dockerfile: keycloak/keycloak.Dockerfile
+      context: .
+    container_name: lfroauth-sso
+    environment: 
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: mysql
+      KC_DB_URL_HOST: db
+      KC_DB_PORT: 3306
+      KC_DB_URL_DATABASE: keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloak
+      KC_HEALTH_ENABLED: true
+      KC_METRICS_ENABLE: true
+      KC_HOSTNAME: ${KEYCLOAK_HOSTNAME}
+      KC_HOSTNAME_STRICT: false
+      KC_PROXY: edge
+      KEYCLOAK_IMPORT: /opt/keycloak/data/import/liferay-realm.json
+    volumes:
+      - ./keycloak/liferay-realm.json:/opt/keycloak/data/import/liferay-realm.json
+    depends_on:
+      db:
+        condition: service_healthy
+      traefik:
+        condition: service_healthy
+    command:
+      - start-dev
+      - --import-realm
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.keycloak.rule=Host(`${KEYCLOAK_HOSTNAME}`)"
+      - "traefik.http.routers.keycloak.service=keycloak"
+      - "traefik.http.routers.keycloak.entrypoints=websecure"
+      - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
+      - "traefik.http.routers.keycloak.tls=true"
+      - "traefik.http.routers.keycloak.tls.certresolver=letsencrypt"
+      - "traefik.http.services.keycloak.loadbalancer.passhostheader=true"
+      - "traefik.http.routers.keycloak.middlewares=compresstraefik"
+      - "traefik.http.middlewares.compresstraefik.compress=true"
+      - "traefik.docker.network=devnet"
+    networks:
+      - internal
+      - devnet
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s http://localhost:8080/health/ready | grep -q 'UP' || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  traefik:
+    build:
+      context: .    
+      dockerfile: traefik/traefik.Dockerfile    
+    container_name: lfroauth-traefik
+    ports:
+      - "80:80"
+      - "443:443"
+    command:
+      - "--log.level=${TRAEFIK_LOG_LEVEL}"
+      - "--accesslog=true"
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+      - "--ping=true"
+      - "--ping.entrypoint=ping"
+      - "--entryPoints.ping.address=:8082"
+      - "--entryPoints.web.address=:80"
+      - "--entryPoints.websecure.address=:443"
+      - "--providers.docker=true"
+      - "--providers.docker.endpoint=unix:///var/run/docker.sock"
+      - "--providers.docker.exposedByDefault=false"
+      - "--providers.file.directory=/configuration/"
+      - "--providers.file.watch=true"
+      - "--global.checkNewVersion=true"
+      - "--global.sendAnonymousUsage=false"
+      - "--serversTransport.insecureSkipVerify=true"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik/providers:/configuration/
+    healthcheck:
+      test: ["CMD", "wget", "http://localhost:8082/ping","--spider"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    depends_on:
+      - gencert      
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`${TRAEFIK_HOSTNAME}`)"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.entrypoints=websecure"
+      - "traefik.http.services.dashboard.loadbalancer.server.port=8080"
+      - "traefik.http.routers.dashboard.tls=true"
+      - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt"
+      - "traefik.http.services.dashboard.loadbalancer.passhostheader=true"
+      - "traefik.http.routers.dashboard.middlewares=authtraefik"
+      - "traefik.http.middlewares.authtraefik.basicauth.users=${TRAEFIK_BASIC_AUTH}"
+      - "traefik.http.routers.http-catchall.rule=HostRegexp(`{host:.+}`)"
+      - "traefik.http.routers.http-catchall.entrypoints=web"
+      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+    networks:
+      devnet:
+        aliases:
+          - ${KEYCLOAK_HOSTNAME}
+          - ${LFR_HOSTNAME}
+          - ${KONG_HOSTNAME}
+
+  apim:
+    container_name: lfroauth-apim
+    build:
+      dockerfile: kong/kong.Dockerfile
+      context: .
+    environment:
+      KONG_DATABASE: off
+      KONG_DECLARATIVE_CONFIG: /kong/declarative/kong.yml
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001
+      KONG_PLUGINS: bundled,oauth-token-simple-validation
+      KONG_LOG_LEVEL: ${KONG_LOG_LEVEL}
+    ports: 
+      - 8000:8000
+      - 8001:8001
+      - 8002:8002
+      - 8444:8444
+      - 8445:8445 
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.kong.rule=Host(`${KONG_HOSTNAME}`)"
+      - "traefik.http.routers.kong.service=kong"
+      - "traefik.http.routers.kong.entrypoints=websecure"
+      - "traefik.http.routers.kong.tls=true"
+      - "traefik.http.routers.kong.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.kong.middlewares=compresstraefik"
+      - "traefik.http.services.kong.loadbalancer.server.port=8000"
+      - "traefik.http.services.kong.loadbalancer.passhostheader=true"
+      - "traefik.http.middlewares.compresstraefik.compress=true"
+      - "traefik.docker.network=devnet"
+    volumes:
+      - ./kong/declarative:/kong/declarative/
+      - ./kong/plugins:/kong/plugins/
+      - ./traefik/providers/files/:/usr/local/share/ca-certificates
+    depends_on:
+      traefik:
+        condition: service_healthy
+      sso:
+        condition: service_healthy
+    networks:
+      - devnet
+
+  app1:
+    hostname: app1.dev.local
+    container_name: lfroauth-app1
+    build:
+      context: ./front-end
+      dockerfile: ./app1.Dockerfile
+      args: 
+        - TITLE=react-app
+    ports:
+      - 3007:80
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app1.rule=Host(`${APP1_HOSTNAME}`)"
+      - "traefik.http.routers.app1.service=app1"
+      - "traefik.http.routers.app1.entrypoints=websecure"
+      - "traefik.http.routers.app1.tls=true"
+      - "traefik.http.routers.app1.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.app1.middlewares=compresstraefik"
+      - "traefik.http.services.app1.loadbalancer.server.port=80"
+      - "traefik.http.services.app1.loadbalancer.passhostheader=true"
+      - "traefik.http.middlewares.compresstraefik.compress=true"
+      - "traefik.docker.network=devnet"
+    volumes:
+      - ./front-end/react-app:/app/react-app
+      - /home/user1/node_modules:/app/react-app/node_modules
+    depends_on:
+      traefik:
+        condition: service_healthy
+      sso:
+        condition: service_healthy
+      apim:
+        condition: service_healthy
+    networks:
+      - devnet
+
+  ## generate automatically selsigned certificate if needed
+  gencert: 
+    container_name: lfroauth-gencert
+    build:
+      context: ./certs
+      dockerfile: ./openssl.Dockerfile
+    command: >
+      sh "/certs/scripts/certs.sh"
+    volumes:
+      - ./certs:/certs
+      - ./traefik/providers:/traefik/providers
+
+volumes:
+  liferay_data:
+  smtp_data:
+  db_data:
+  traefik-letsencrypt:
+
+networks:
+  internal: # communication betwwen db and other container sso, portal 
+  devnet:
+    external: true
