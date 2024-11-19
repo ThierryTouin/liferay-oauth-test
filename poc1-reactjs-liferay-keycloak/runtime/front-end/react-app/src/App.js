@@ -7,7 +7,7 @@ import PrivateRoute from "./config/auth/PrivateRoute.js";
 function App() {
   return (
     <div className="App">
-     <PrivateRoute/> 
+      <PrivateRoute/> 
       <Display appId="appId1"/>
     </div>
   );

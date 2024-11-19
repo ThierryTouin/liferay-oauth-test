@@ -4,7 +4,17 @@ Content-Type: application/x-www-form-urlencoded
 
 client_id=liferay
 &grant_type=password
-&client_secret=BHvaWOGwi7GFtlzB4vvOghgkE1qnkT24
+&client_secret=<secret>
+&username=jda@liferay.com
+&password=jda
+
+########################################## Get token silent  ##########################################
+POST https://sso.dev.local/realms/Liferay/protocol/openid-connect/token HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+client_id=liferay
+&response_type=token
+&client_secret=<secret>
 &username=jda@liferay.com
 &password=jda
 

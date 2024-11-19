@@ -1,6 +1,5 @@
 import React from 'react';
 import { useAuth, hasAuthParams } from "react-oidc-context";
-import DisplayData from './DisplayData.js';
 import Display from './Display.js';
 
 function Sample(props) {
@@ -30,10 +29,6 @@ function Sample(props) {
     if (auth.isAuthenticated) {
         return (
         <div>
-            {/* <DisplayData
-                apiUrl={props.apiUrl}
-                labels={props.labels}
-            /> */}
             <Display />
         </div>
         );
