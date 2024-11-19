@@ -135,7 +135,7 @@ end
 
 | Service             | Links   | Description |
 | --------            | ------- | -------                                                                                            |
-| Portal              | https://portal.dev.local             | Liferay                                                               |
+| Portal              | https://portal.dev.local             | Liferay Credentials : superadmin@liferay.com / test                                                              |
 | ReactJS App         | https://app1.dev.local          |                                                                            |
 | SSO GUI             | https://sso.dev.local                | Keycloak Credentials : admin / Admin                                  |
 | SSO Config          | https://sso.dev.local/realms/Liferay/.well-known/openid-configuration | Display SSO configuration            |

@@ -1,4 +1,3 @@
-#ARG BASE_IMAGE=liferay/dxp:2024.q1.5
 ARG BASE_IMAGE=liferay/dxp:2024.q3.2
 FROM ${BASE_IMAGE}
 

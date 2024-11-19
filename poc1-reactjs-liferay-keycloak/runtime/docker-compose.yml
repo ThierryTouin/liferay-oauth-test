@@ -14,7 +14,6 @@ services:
       - liferay_data:/opt/liferay/data
       - ./liferay/files:/mnt/liferay/files
       - ./liferay/scripts:/mnt/liferay/scripts
-      - ./liferay/deploy:/opt/liferay/deploy
     depends_on:
       sso:
         condition: service_healthy
