@@ -7,6 +7,10 @@ WORKDIR /app
 COPY ./react-app/package*.json ./
 RUN npm install
 COPY ./react-app .
+
+# react-app-rewired to personnalise webPack configuration
+RUN npm install react-app-rewired --save-dev
+
 RUN REACT_APP_TITLE=${TITLE} \
     npm run build
 

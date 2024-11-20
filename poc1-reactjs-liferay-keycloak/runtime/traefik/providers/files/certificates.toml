@@ -12,4 +12,8 @@
 
 [[tls.certificates]]
    certFile = "/configuration/files/apim.dev.local.crt"
-   keyFile = "/configuration/files/apim.dev.local.key"   
+   keyFile = "/configuration/files/apim.dev.local.key"
+
+[[tls.certificates]]
+   certFile = "/configuration/files/app1.dev.local.crt"
+   keyFile = "/configuration/files/app1.dev.local.key"       
