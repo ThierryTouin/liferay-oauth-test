@@ -145,17 +145,27 @@ end
 | Traefik  GUI        | https://traefik.dev.local            | Credentials : traefikadmin / traefikadmin                             |
 | Mail                | http://localhost:5000                | smtp4dev                                                              |
 
-## 5. Troubleshooting
+## 5. IMPORTANT : Troubleshooting
 
-### 1. Check security exception for self signed certificates
+#### 1. Check security exception for self signed certificates
 
-Add security exception for all certificates in your prefered brower
+**IMPORTANT** : Add security exception for all certificates in your prefered browser
+
 1. From the project root folder  open index.html
 ![Project Home](./images/home.png "Project home")
-2. Open each URL and add certificate exception
+
+2. Open **each URL** and then add certificate exception
 ![Self Signed Exception](./images/exception.png "Self Signed Exception")
 
-### 2. Check self-signed certificates import in Liferay keystore
+##### 1.a CORS error samples if certificate execption is not correcty set
+
+**Sample 01 : CORS error loading APP1 outside Liferay**
+![CORS Error 01](./images/Error-CORS.png "CORS error loading app1")
+
+**Sample 02 : CORS error loading bundle.js for APP1 deployed as web component inside Liferay**
+![CORS Error 02](./images/Error-CORS2.png "CORS error loading app1")
+
+#### 2. Check self-signed certificates import in Liferay keystore
 Verify that the custom script for importing certificates into the keystore has been executed correctly.
 
 Here is the execution trace without any unexpected error.

@@ -4,11 +4,13 @@ import { AuthProvider } from "react-oidc-context";
 import Sample from "./components/Sample.js";
 import PrivateRoute from "./config/auth/PrivateRoute.js";
 
+const defaultURL = window.location.origin + window.location.pathname;
+
 const oidcConfig = {
   authority: "https://sso.dev.local/realms/Liferay",
   client_id: "liferay",
-  redirect_uri: window.location.origin,
-  post_logout_redirect_uri: window.location.origin,
+  redirect_uri: defaultURL,
+  post_logout_redirect_uri: defaultURL,
   response_type: 'code', // Use of the code authentication flow (PKCE)
   scope: 'openid profile email', // Scopes requested during authentication
   automaticSilentRenew: true, // Automatic token renewal in the background
