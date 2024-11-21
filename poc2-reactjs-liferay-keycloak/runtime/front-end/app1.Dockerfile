@@ -10,6 +10,7 @@ COPY ./react-app .
 
 # react-app-rewired to personnalise webPack configuration
 RUN npm install react-app-rewired --save-dev
+RUN npm install react-router-dom
 
 RUN REACT_APP_TITLE=${TITLE} \
     npm run build

@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { AuthProvider } from "react-oidc-context";
 import Sample from "./components/Sample.js";
@@ -26,12 +25,8 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <AuthProvider {...oidcConfig}>
-    <h1>APP1 from POC1</h1>
-      <Sample
-          key="labels"
-          apiUrl="url"
-          labels="labelsMap"
-      />
+      <h1>APP1 from POC1</h1>
+      <Sample/>
     </AuthProvider>,
 
   </React.StrictMode>

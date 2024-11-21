@@ -1,8 +1,7 @@
 //import logo from './logo.svg';
 import './App.css';
 import { AuthProvider } from "react-oidc-context";
-import Sample from "./components/Sample.js";
-import PrivateRoute from "./config/auth/PrivateRoute.js";
+import AppRoutes from "./components/routes/AppRoutes";
 
 const defaultURL = window.location.origin + window.location.pathname;
 
@@ -25,9 +24,7 @@ const oidcConfig = {
 function App() {
   return (
     <AuthProvider {...oidcConfig}>
-      <PrivateRoute/> 
-      <h1>APP2 from POC2</h1>
-      <Sample/>
+      <AppRoutes />
     </AuthProvider>
   );
 }

@@ -21,7 +21,7 @@ For more information see
 
 #### 2. Focus on access token validation
 
-Token validation relies on a simplified specific token validation plugin. This plugin validates only the cryptographic signature and the expiration time. The code for this plugin is provided here.
+Token validation relies on a simplified Kong specific token validation plugin. This plugin validates only the cryptographic signature and the expiration time. The code for this plugin is provided here.
 
 ```
 /home/dev/git/liferay-oauth-test/poc<NUMBER>-reactjs-liferay-keycloak/runtime/kong/plugins/oauth-token-simple-validation/handler.lua
