@@ -1,8 +1,8 @@
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Navigate } from 'react-router-dom';
 import { useAuth, hasAuthParams } from "react-oidc-context";
-import { Portal } from "../../services/common/Portal";
+import { Portal } from "../services/common/Portal";
 
 const ProtectedRoute = ({ children }) => {
   const oidc = useAuth();
@@ -10,12 +10,14 @@ const ProtectedRoute = ({ children }) => {
   // Use a ref to track if a sign-in attempt has been made
   const hasTriedSignin = useRef(false);
 
+  // Using useEffect to force component rerendering
+  const [isRedirectingPortalLogin, setIsRedirectingPortalLogin] = useState(false);
+
   useEffect(() => {
     const tryAuthentication = async () => {
       // Check if running inside Liferay or standalone
       const isInPortal = Portal.isInPortal();
       const isPortalSignedIn = Portal.isPortalSignedIn();
-
       console.log(`APP 1 is running in ${isInPortal ? "Liferay" : "standalone"} mode`);
 
       if (
@@ -36,7 +38,7 @@ const ProtectedRoute = ({ children }) => {
               await oidc.signinSilent();
             } else {
               console.log("Skipping silent redirect...");
-              return <Navigate to="/portal-login" replace />;
+              setIsRedirectingPortalLogin(true);
             }
 
           } else {
@@ -53,6 +55,10 @@ const ProtectedRoute = ({ children }) => {
     tryAuthentication();
     
   }, [oidc]);
+
+  if (isRedirectingPortalLogin) {
+    return <Navigate to="/portal-login" replace />;
+  }
 
   // Render loading state during authentication process
   if (oidc.isLoading) {

@@ -1,3 +1,10 @@
+## 0. Todo (To be deleted)
+1. CSS files not loaded
+2. Follow requests and understand underlying behavior
+3. Centralized logout 
+4. Testing multiple application in portal
+
+
 ## 1. Technical Solution
 
 This demo showcases Liferay's ability to integrate a React application using a web component through the mechanism called client extension. The React application obtains the OAuth security token using the silent mode. Technically, this involves acquiring a token via an invisible iframe, assuming the user is already logged in (i.e., the user has successfully entered their login/password on the SSO server).
@@ -99,6 +106,11 @@ The following changes were made:
     Ensured all JavaScript files are merged into one, named bundle.js.
 
 This adjustment ensures that Liferay can properly load and render the React app without issues related to dynamic chunk file names.
+
+#### 3. Important: Use HashRouter for Liferay Compatibility
+
+Liferay does not fully support `BrowserRouter` due to its clean URL routing, which conflicts with Liferay's own URL management system. To ensure proper navigation and integration within Liferay, you must use `HashRouter`, which relies on fragment-based routing (e.g., `http://example.com/#/route`). This avoids conflicts and ensures seamless functionality. Update your routing setup and any relevant URLs (e.g., `silent_redirect_uri`) to include hash fragments, and test thoroughly to prevent navigation issues. Using `BrowserRouter` may lead to broken routes and unexpected behavior within the Liferay environment.
+
 
 
 

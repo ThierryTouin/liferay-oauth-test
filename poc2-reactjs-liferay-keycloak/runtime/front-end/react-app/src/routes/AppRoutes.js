@@ -1,11 +1,12 @@
 import React from "react";
 // Important to use HashRouter in Liferay context
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
-import Display from "../Display";
+import Display from "../components/Display";
 import ProtectedRoute from "./ProtectedRoute";
 import SilentRenew from "./SilentRenew";
 import NotFound from "./NotFound";
 import PortalLogin from "./PortalLogin";
+import Logout from "./Logout";
 
 const AppRoutes = () => (
   <Router>
@@ -25,6 +26,9 @@ const AppRoutes = () => (
       
       {/* Silent renew route */}
       <Route path="/silent-renew" element={<SilentRenew />} />
+
+      {/* Logout route */}
+      <Route path="/logout" element={<Logout />} />
       
       {/* Fallback route */}
       <Route path="*" element={<NotFound />} />

@@ -1,6 +1,7 @@
 import './App.css';
 import { AuthProvider } from "react-oidc-context";
-import AppRoutes from "./components/routes/AppRoutes";
+import AppRoutes from "./routes/AppRoutes";
+import LogoutHandler from "./services/common/LogoutHandler";
 
 const defaultURL = window.location.origin + window.location.pathname;
 
@@ -8,7 +9,7 @@ const oidcConfig = {
   authority: "https://sso.dev.local/realms/Liferay",
   client_id: "liferay",
   redirect_uri: defaultURL,
-  post_logout_redirect_uri: defaultURL,
+  post_logout_redirect_uri: defaultURL + '#logout',
   response_type: 'code', // Use of the code authentication flow (PKCE)
   scope: 'openid profile email', // Scopes requested during authentication
   automaticSilentRenew: true, // Automatic token renewal in the background
@@ -23,7 +24,9 @@ const oidcConfig = {
 function App() {
   return (
     <AuthProvider {...oidcConfig}>
+      {/* <LogoutHandler> */}
       <AppRoutes />
+      {/* </LogoutHandler> */}
     </AuthProvider>
   );
 }
