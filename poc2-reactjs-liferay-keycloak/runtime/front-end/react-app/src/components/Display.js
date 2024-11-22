@@ -32,7 +32,7 @@ const Display = ( props ) => {
 		<div>Loading POC2 ...</div>
 	) : (
 		<div>
-			<h2>APP2 : HttpBin Debug Response</h2>
+			<h2>APP1 : HttpBin Debug Response from POC2</h2>
 
             <pre>
                 {JSON.stringify(debugData, null, 2)}

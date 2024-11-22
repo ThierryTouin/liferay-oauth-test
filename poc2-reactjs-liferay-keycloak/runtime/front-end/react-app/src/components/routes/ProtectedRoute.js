@@ -1,72 +1,71 @@
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Navigate } from 'react-router-dom';
 import { useAuth, hasAuthParams } from "react-oidc-context";
+import { Portal } from "../../services/common/Portal";
 
 const ProtectedRoute = ({ children }) => {
   const oidc = useAuth();
-  const [hasTriedSignin, setHasTriedSignin] = React.useState(false);
 
-  /*useEffect(() => {
-    const trySilentAuthentication = async () => {
-      if (!oidc.isAuthenticated) {
+  // Use a ref to track if a sign-in attempt has been made
+  const hasTriedSignin = useRef(false);
+
+  useEffect(() => {
+    const tryAuthentication = async () => {
+      // Check if running inside Liferay or standalone
+      const isInPortal = Portal.isInPortal();
+      const isPortalSignedIn = Portal.isPortalSignedIn();
+
+      console.log(`APP 1 is running in ${isInPortal ? "Liferay" : "standalone"} mode`);
+
+      if (
+        !hasAuthParams() && // No authentication params in URL
+        !oidc.isAuthenticated && // User is not authenticated
+        !oidc.activeNavigator && // No ongoing OIDC operation
+        !oidc.isLoading && // Not currently loading
+        !hasTriedSignin.current // No prior sign-in attempt
+      ) {
+       
+        hasTriedSignin.current = true;
         try {
-          // Tente de récupérer un token silencieusement
-          await oidc.signinSilent();
-          console.log("Silent authentication succeeded");
+          if (isInPortal) {
+
+            if (isPortalSignedIn) {
+              // Silent sign-in for Liferay environment
+              console.log("Attempting silent authentication...");
+              await oidc.signinSilent();
+            } else {
+              console.log("Skipping silent redirect...");
+              return <Navigate to="/portal-login" replace />;
+            }
+
+          } else {
+            // Redirect-based sign-in for standalone mode
+            console.log("Redirecting to signin...");
+            await oidc.signinRedirect();
+          }
         } catch (error) {
-          console.error("Silent authentication failed:", error);
+          console.error("Authentication failed:", error);
         }
       }
     };
 
-    if (!oidc.isLoading) {
-      trySilentAuthentication();
-    }
+    tryAuthentication();
+    
   }, [oidc]);
 
-  if (oidc.isLoading) {
-    return <div>Loading...</div>; // Affiche un loader pendant le chargement
-  }
-
-  if (!oidc.isAuthenticated) {
-    return <div>User is not connected</div>;
-  } else {
-    // Si authentifié, affiche les enfants (le contenu protégé)
-    return children;
-  }*/
-
-   useEffect(() => {
-    const tryAuthentication = async () => {
-        if (!hasAuthParams() &&
-            !oidc.isAuthenticated && !oidc.activeNavigator && !oidc.isLoading &&
-            !hasTriedSignin
-        ) {
-          console.log("Redirecting to signin ...")
-          setHasTriedSignin(true);
-          await oidc.signinRedirect();
-        }
-    };
-
-    if (!oidc.isLoading && !oidc.isAuthenticated && !hasTriedSignin) {
-      tryAuthentication();
-    }
-
-  }, [oidc, hasTriedSignin]);
-
-
+  // Render loading state during authentication process
   if (oidc.isLoading) {
     return <div>Signing you in/out...</div>;
   }
 
+  // Redirect to home if not authenticated
   if (!oidc.isAuthenticated) {
     return <Navigate to="/" replace />;
   }
 
-  if (oidc.isAuthenticated) {
-    return children;
-  }
-
+  // Render children if authenticated
+  return children;
 };
 
 export default ProtectedRoute;
