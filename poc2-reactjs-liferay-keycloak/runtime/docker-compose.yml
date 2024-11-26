@@ -246,10 +246,10 @@ services:
     hostname: app1.dev.local
     container_name: lfroauth-app1
     build:
-      context: ./front-end
+      context: ./front-end/app1
       dockerfile: ./app1.Dockerfile
       args: 
-        - TITLE=react-app
+        - TITLE=App1
     ports:
       - 3007:80
     labels:
@@ -265,7 +265,7 @@ services:
       - "traefik.http.middlewares.compresstraefik.compress=true"
       - "traefik.docker.network=devnet"
     volumes:
-      - ./front-end/react-app:/app/react-app
+      - ./front-end/app1/react-app:/app/react-app
       - /home/user1/node_modules:/app/react-app/node_modules
     depends_on:
       traefik:
