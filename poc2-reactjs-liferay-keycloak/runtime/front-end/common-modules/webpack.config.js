@@ -1,42 +1,43 @@
 const path = require('path');
 
 module.exports = {
-  mode: 'production',  // Optimisation pour la production
+  mode: 'production',  // Optimization for production
   
-  // Entrée de Webpack pour spécifier le fichier principal (index.js)
-  entry: './src/index.js',  // Tu peux étendre ceci avec un glob si nécessaire
+  // Webpack entry to specify the main file (index.js)
+  entry: './src/index.js',  // You can extend this with a glob if necessary
   
   output: {
-    // Répertoire de sortie pour le bundle compilé
+    // Output directory for the compiled bundle
     path: path.resolve(__dirname, 'dist'),
     
-    // Nom du fichier du bundle
+    // Bundle file name
+    // WARNING !!!! this name must match the one configured in package.json
     filename: 'common-modules.bundle.js',
     
-    // Exposition de ce module comme une bibliothèque UMD
+    // Expose this module as a UMD library
     library: 'common-modules', 
     libraryTarget: 'umd', 
   },
 
   resolve: {
-    // Extensions à résoudre automatiquement
-    extensions: ['.js', '.jsx'],  // Inclure les extensions .js et .jsx
+    // Extensions to resolve automatically
+    extensions: ['.js', '.jsx'],  // Include .js and .jsx extensions
   },
   
   module: {
     rules: [
       {
-        test: /\.jsx?$/,  // Cibler les fichiers .js et .jsx
-        exclude: /node_modules/,  // Ne pas inclure les fichiers dans node_modules
+        test: /\.jsx?$/,  // Target .js and .jsx files
+        exclude: /node_modules/,  // Do not include files in node_modules
         use: {
           loader: 'babel-loader',
           options: {
             presets: [
-              '@babel/preset-env',   // Transpile le JavaScript moderne
-              '@babel/preset-react', // Support pour JSX et React
+              '@babel/preset-env',   // Transpile modern JavaScript
+              '@babel/preset-react', // Support for JSX and React
             ],
             plugins: [
-              '@babel/plugin-syntax-dynamic-import',  // Permet les imports dynamiques
+              '@babel/plugin-syntax-dynamic-import',  // Allows dynamic imports
             ],
           },
         },
@@ -44,4 +45,3 @@ module.exports = {
     ],
   },
 };
-
