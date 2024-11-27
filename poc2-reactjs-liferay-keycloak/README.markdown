@@ -1,8 +1,9 @@
 ## 0. Todo (To be deleted)
 1. CSS files not loaded
 2. Follow requests and understand underlying behavior
-3. Centralized logout 
+3. Centralized logout & Switch language
 4. Testing multiple application in portal
+5. Split bundle.js => https://learn.liferay.com/w/dxp/liferay-development/customizing-liferays-look-and-feel/bundling-resources-in-a-javascript-import-map-entry-client-extension/javascript-import-map-entry-yaml-configuration-reference#usage-details
 
 
 ## 1. Technical Solution
