@@ -2,7 +2,6 @@ import './App.css';
 import { AuthProvider } from "react-oidc-context";
 import AppRoutes from "./routes/AppRoutes";
 import LogoutHandler from "./services/common/LogoutHandler";
-import { helloWorld } from "common-modules"
 
 const defaultURL = window.location.origin + window.location.pathname;
 
@@ -21,15 +20,7 @@ const oidcConfig = {
   },
 };
 
-
 function App() {
-
-  //const language = defaultLanguage;
-
-  //Test if import from common module work as expected
-  //console.log("IMPORTED LANGUAGE > " + language);
-
-  helloWorld();
 
   return (
     <AuthProvider {...oidcConfig}>

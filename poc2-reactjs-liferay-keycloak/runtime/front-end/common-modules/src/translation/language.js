@@ -1,6 +1,7 @@
-export const availableLanguages = {
+
+const availableLanguages = {
     FR: "fr",
     EN: "en",
   };
   
-export const defaultLanguage = availableLanguages.EN;
+const defaultLanguage = availableLanguages.EN;

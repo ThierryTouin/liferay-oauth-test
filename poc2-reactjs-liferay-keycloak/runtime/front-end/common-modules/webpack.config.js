@@ -1,39 +1,47 @@
 const path = require('path');
 
-const isProduction = process.env.NODE_ENV == 'production';
-
-const config = {
-  entry: './src',
+module.exports = {
+  mode: 'production',  // Optimisation pour la production
+  
+  // Entrée de Webpack pour spécifier le fichier principal (index.js)
+  entry: './src/index.js',  // Tu peux étendre ceci avec un glob si nécessaire
+  
   output: {
+    // Répertoire de sortie pour le bundle compilé
     path: path.resolve(__dirname, 'dist'),
-    filename:'bundle.js'
+    
+    // Nom du fichier du bundle
+    filename: 'common-modules.bundle.js',
+    
+    // Exposition de ce module comme une bibliothèque UMD
+    library: 'common-modules', 
+    libraryTarget: 'umd', 
   },
-  plugins: [],
+
+  resolve: {
+    // Extensions à résoudre automatiquement
+    extensions: ['.js', '.jsx'],  // Inclure les extensions .js et .jsx
+  },
+  
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/i,
-        exclude: /node_modules/,
+        test: /\.jsx?$/,  // Cibler les fichiers .js et .jsx
+        exclude: /node_modules/,  // Ne pas inclure les fichiers dans node_modules
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env', '@babel/preset-react'],
+            presets: [
+              '@babel/preset-env',   // Transpile le JavaScript moderne
+              '@babel/preset-react', // Support pour JSX et React
+            ],
+            plugins: [
+              '@babel/plugin-syntax-dynamic-import',  // Permet les imports dynamiques
+            ],
           },
         },
-      },
-      {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        type: 'asset',
       },
     ],
   },
 };
 
-module.exports = () => {
-  if (isProduction) {
-    config.mode = 'production';
-  } else {
-    config.mode = 'development';
-  }
-  return config;
-};
