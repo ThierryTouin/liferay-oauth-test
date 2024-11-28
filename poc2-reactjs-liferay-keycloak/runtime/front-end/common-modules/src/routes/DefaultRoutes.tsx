@@ -1,17 +1,33 @@
 import React from "react";
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import NotFound from "./NotFound";
+import CustomRouteProps from "../types/CustomRouteProps";
 
-// If you're planning to pass any props in the future, define them in a Props interface
-interface DefaultRoutesProps {}
+const DefaultRoutes: React.FC<CustomRouteProps> = ({ routes }) => {
+  // Check if 'routes' is not undefined and contains at least one element
+  if (!routes || routes.length === 0) {
+    // If routes is empty or undefined, return NotFound page
+    return <NotFound />;
+  }
 
-const DefaultRoutes: React.FC<DefaultRoutesProps> = () => (
-  <Router>
-    <Routes>
-      {/* Fallback route */}
-      <Route path="*" element={<NotFound />} />
-    </Routes>
-  </Router>
-);
+  return (
+    <Router>
+      <Routes>
+        {/* Define the default route */}
+        <Route path="/" element={routes[0].element} />
+
+        {/* Map through other routes and render them */}
+        {routes.map((route, index) => (
+          <Route key={index} path={route.path} element={route.element} />
+        ))}
+
+        {/* Fallback route */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Router>
+  );
+};
 
 export default DefaultRoutes;
+
+

@@ -1,8 +1,5 @@
 
 // Components
-import MyComponent from './components/MyComponent';
-export { MyComponent };
-
 import CustomOIDCAuthProvider from './components/CustomOIDCAuthProvider';
 export { CustomOIDCAuthProvider };
 

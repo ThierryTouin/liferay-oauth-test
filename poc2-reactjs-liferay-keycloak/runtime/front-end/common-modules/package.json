@@ -2,7 +2,7 @@
   "name": "common-modules",
   "version": "1.0.0",
   "description": "Common modules for front-end projects",
-    "author": "",
+  "author": "",
   "license": "ISC",
   "main": "dist/common-modules.bundle.js",
   "dependencies": {
@@ -34,8 +34,6 @@
       "last 1 safari version"
     ]
   },
-
-
   "devDependencies": {
     "@babel/core": "^7.26.0",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
