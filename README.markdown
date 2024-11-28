@@ -38,6 +38,7 @@ Add following lines at the end of the file to properly configure domains
 127.0.0.1	mail.dev.local
 127.0.0.1	apim.dev.local
 127.0.0.1	app1.dev.local
+127.0.0.1	app2.dev.local
 127.0.0.1	traefik.dev.local
 ```
 

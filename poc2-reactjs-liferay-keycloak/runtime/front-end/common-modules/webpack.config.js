@@ -3,15 +3,14 @@ const path = require('path');
 module.exports = {
   mode: 'production',  // Optimization for production
   
-  // Webpack entry to specify the main file (index.js)
-  entry: './src/index.js',  // You can extend this with a glob if necessary
+  // Webpack entry to specify the main file (index.ts or index.tsx)
+  entry: './src/index.ts',  // Assuming your entry is a TypeScript file
   
   output: {
     // Output directory for the compiled bundle
     path: path.resolve(__dirname, 'dist'),
     
     // Bundle file name
-    // WARNING !!!! this name must match the one configured in package.json
     filename: 'common-modules.bundle.js',
     
     // Expose this module as a UMD library
@@ -21,11 +20,18 @@ module.exports = {
 
   resolve: {
     // Extensions to resolve automatically
-    extensions: ['.js', '.jsx'],  // Include .js and .jsx extensions
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.css'],  // Include .ts and .tsx extensions
   },
   
   module: {
     rules: [
+      {
+        test: /\.tsx?$/,  // Target .ts and .tsx files
+        exclude: /node_modules/,  // Do not include files in node_modules
+        use: {
+          loader: 'ts-loader',  // Use ts-loader to transpile TypeScript
+        },
+      },
       {
         test: /\.jsx?$/,  // Target .js and .jsx files
         exclude: /node_modules/,  // Do not include files in node_modules
@@ -41,6 +47,13 @@ module.exports = {
             ],
           },
         },
+      },
+      {
+        test: /\.css$/, // Target .css files
+        use: [
+          'style-loader', // Inject styles into DOM
+          'css-loader',   // Turns CSS into JavaScript
+        ],
       },
     ],
   },

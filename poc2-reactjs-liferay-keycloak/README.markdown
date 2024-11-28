@@ -79,9 +79,19 @@ clean-all.sh
 docker exec -it lfroauth-portal sh -c "curl -k -v https://sso.dev.local"
 ```
 
-## 3. React application required adaptations
+## 3. React application 
 
-#### 1. Declaring Web Component
+#### 1. Applications description
+
+| Application / Modules   | Description                                                                                                    |
+| --------                | -------  
+| common-modules          | Contain react components and classes to be used from 3rd party applications |
+| APP1                    | React App in standard javascript |
+| APP2                    | React App in typescript, Leverage HashRouter to navigate, Leverage code from common-modules |
+
+#### 2. Required applications adaptations
+
+##### 1. Declaring Web Component
 
 To convert your React app into a Web Component, follow these steps:
 
@@ -96,7 +106,7 @@ Files to Modify
     public/index.html (for usage)
         Include use the custom Web Component tag.
 
-#### 2. Adapting Webpack Configuration for Liferay Compatibility
+##### 2. Adapting Webpack Configuration for Liferay Compatibility
 
 Liferay does not support chunks with variable file names. To ensure compatibility, we modified the React app's Webpack configuration to bundle all JavaScript into a single bundle.js file across all environments. This was achieved using react-app-rewired to override the default Webpack configuration without ejecting.
 
