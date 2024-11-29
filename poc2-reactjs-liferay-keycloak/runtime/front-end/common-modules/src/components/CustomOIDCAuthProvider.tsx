@@ -21,7 +21,7 @@ const oidcConfig = {
 };
 
 // Typage des props de CustomOIDCAuthProvider
-interface CustomOIDCAuthProviderProps {
+export interface CustomOIDCAuthProviderProps {
   children: ReactNode;
 }
 
@@ -29,7 +29,7 @@ interface CustomOIDCAuthProviderProps {
  * Custom OIDC Auth Provider
  * Encapsule le AuthProvider de react-oidc-context et fournit une configuration centralisée.
  */
-const CustomOIDCAuthProvider: React.FC<CustomOIDCAuthProviderProps> = ({ children }) => {
+export const CustomOIDCAuthProvider: React.FC<CustomOIDCAuthProviderProps> = ({ children }) => {
   return <AuthProvider {...oidcConfig}>{children}</AuthProvider>;
 };
 

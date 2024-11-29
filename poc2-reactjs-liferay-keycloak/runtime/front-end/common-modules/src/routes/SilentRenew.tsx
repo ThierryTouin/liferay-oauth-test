@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useAuth } from "react-oidc-context";
 
 // Define the functional component with TypeScript typing
-const SilentRenew: React.FC = () => {
+export const SilentRenew: React.FC = () => {
   const { signinSilent } = useAuth();
 
   useEffect(() => {
@@ -23,4 +23,3 @@ const SilentRenew: React.FC = () => {
   return <div>Renewing session...</div>;
 };
 
-export default SilentRenew;

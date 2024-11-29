@@ -1,20 +1,20 @@
 {
-    "compilerOptions": {
-      "target": "es5",
-      "module": "es6",
-      "moduleResolution": "node",
-      "strict": true,
-      "jsx": "react",
-      "esModuleInterop": true,
-      "skipLibCheck": true,
-      "forceConsistentCasingInFileNames": true
-    },
-    "include": [
-      "src/**/*"
-,     "src/types/**/*.d.ts"    
-    ],
-    "exclude": [
-      "node_modules"
-    ]
-  }
-  
+  "compilerOptions": {
+    "target": "es5",                 // Compatibilité avec les anciens navigateurs
+    "module": "commonjs",            // Utilisé pour Node.js ou CommonJS
+    "strict": true,                  // Active toutes les vérifications strictes de TypeScript
+    "jsx": "react",                  // Support pour JSX dans React
+    "declaration": true,
+    "declarationDir": "./dist/types",// Générer des fichiers de déclaration (.d.ts)
+    "outDir": "./dist",              // Dossier de sortie pour les fichiers compilés
+    "rootDir": "./src",              // Dossier source des fichiers TypeScript
+    "esModuleInterop": true,
+    "moduleResolution": "node"          // Facilite les imports avec des modules CommonJS
+  },
+  "include": [
+    "src/**/*"                       // Inclure tous les fichiers dans le dossier src
+  ],
+  "exclude": [
+    "node_modules"                   // Exclure les dépendances du projet
+  ]
+}

@@ -1,17 +1,21 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "es6",
+    "module": "es2020",
     "moduleResolution": "node",
     "strict": true,
     "jsx": "react",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".", 
+    "paths": {
+      "common-modules": ["node_modules/common-modules/dist/types/index.d.ts"]
+    }
   },
   "include": [
     "src/**/*"
-,     "src/types/**/*.d.ts"    
+,   "src/types/**/*.d.ts"    
   ],
   "exclude": [
     "node_modules"

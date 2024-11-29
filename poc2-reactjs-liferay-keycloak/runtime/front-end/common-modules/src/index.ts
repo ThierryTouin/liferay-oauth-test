@@ -1,13 +1,7 @@
 
-// Components
-import CustomOIDCAuthProvider from './components/CustomOIDCAuthProvider';
-export { CustomOIDCAuthProvider };
+export { NotFound } from './routes/NotFound';
 
-// Routes
-import DefaultRoutes from './routes/DefaultRoutes';
-export { DefaultRoutes };
+export { CustomRouteProps } from './types/CustomRouteProps';
 
-import DefaultProtectedRoutes from './routes/DefaultProtectedRoutes';
-export { DefaultProtectedRoutes };
 
 
