@@ -1,37 +1,43 @@
 import React from 'react';
 import Home from '../components/Home';
-import { NotFound, CustomRouteProps } from 'common-modules';
-import { HashRouter as Router, Routes, Route} from "react-router-dom";
+import { NotFound, CustomRouteProps, ExternalLogin } from 'common-modules';
+import LocalSilentRenew from '../routes/LocalSilentRewew';
+import LocalProtectedRoute from '../routes/LocalProtectedRoute';
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 
 const appRoutes: CustomRouteProps[] = [
-  { path: "/home", element: <Home />, protected: false, },
+  { path: "/home", element: <Home />, protected: true },
 ];
 
-const firstElement: CustomRouteProps =  appRoutes[0];
-
 const AppRouter: React.FC = () => {
-
   return (
     <Router>
       <Routes>
-        {/* Define the default route */}
-        <Route path="/" element={firstElement.element} />
+        {/* Render the first route as the default ("/"), or fallback to NotFound */}
+        {appRoutes.length > 0 ? (
+          appRoutes.map((route: CustomRouteProps, index: number) => (
+            <Route
+              key={index}
+              path={index === 0 ? "/" : route.path} // Use "/" for the first route
+              element={
+                route.protected ? (
+                  <LocalProtectedRoute>{route.element}</LocalProtectedRoute>
+                ) : (
+                  route.element
+                )
+              }
+            />
+          ))
+        ) : (
+          // Fallback route if appRoutes is empty
+          <Route path="/" element={<NotFound />} />
+        )}
 
-       {/* Boucle à travers les autres routes et les afficher */}
-       {appRoutes.map((route: CustomRouteProps, index:number) => (
-          <Route
-            key={index}
-            path={route.path}
-            element={
-              route.protected ? (
-                //TODO JDA : remove this
-                route.element//<ProtectedRoute element={route.element} />
-              ) : (
-                route.element
-              )
-            }
-          />
-        ))}
+        {/* Portal login route */}
+        <Route path="/portal-login" element={<ExternalLogin />} />
+
+        {/* Silent renew route */}
+        <Route path="/silent-renew" element={<LocalSilentRenew />} />
 
         {/* Fallback route */}
         <Route path="*" element={<NotFound />} />
@@ -41,4 +47,3 @@ const AppRouter: React.FC = () => {
 };
 
 export default AppRouter;
-

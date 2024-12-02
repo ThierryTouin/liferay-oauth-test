@@ -29,25 +29,22 @@ const ProtectedRoute = ({ children }) => {
       ) {
        
         hasTriedSignin.current = true;
-        try {
-          if (isInPortal) {
+  
+        if (isInPortal) {
 
-            if (isPortalSignedIn) {
-              // Silent sign-in for Liferay environment
-              console.log("Attempting silent authentication...");
-              await oidc.signinSilent();
-            } else {
-              console.log("Skipping silent redirect...");
-              setIsRedirectingPortalLogin(true);
-            }
-
+          if (isPortalSignedIn) {
+            // Silent sign-in for Liferay environment
+            console.log("Attempting silent authentication...");
+            await oidc.signinSilent();
           } else {
-            // Redirect-based sign-in for standalone mode
-            console.log("Redirecting to signin...");
-            await oidc.signinRedirect();
+            console.log("Skipping silent redirect...");
+            setIsRedirectingPortalLogin(true);
           }
-        } catch (error) {
-          console.error("Authentication failed:", error);
+
+        } else {
+          // Redirect-based sign-in for standalone mode
+          console.log("Redirecting to signin...");
+          await oidc.signinRedirect();
         }
       }
     };

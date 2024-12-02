@@ -1,9 +1,15 @@
 import React from 'react';
 import AppRouter from './routes/AppRouter';
+import { AuthProvider } from "react-oidc-context";
+import { AuthProviderConfig } from 'common-modules';
+
+
 
 const App: React.FC = () => {
   return (
-    <AppRouter />
+    <AuthProvider {...AuthProviderConfig}>
+      <AppRouter />
+    </AuthProvider>
   );
 }
 

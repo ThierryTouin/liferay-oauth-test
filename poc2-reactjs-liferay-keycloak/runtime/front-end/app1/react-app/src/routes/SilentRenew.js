@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useAuth } from "react-oidc-context";
 
 const SilentRenew = () => {
+  
   const { signinSilentCallback } = useAuth();
 
   useEffect(() => {
@@ -18,6 +19,8 @@ const SilentRenew = () => {
 
     handleSilentRenew();
   }, [signinSilentCallback]);
+
+  console.log("Renewing session...");
 
   return <div>Renewing session...</div>;
 };

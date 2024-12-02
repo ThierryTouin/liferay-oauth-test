@@ -1,22 +1,29 @@
 export class Portal {
-    
     /**
      * Checks if the application is running in a Liferay environment.
-     * @returns {boolean} True if window.Liferay exists, otherwise False.
+     * @returns {boolean} True if window.Liferay exists, otherwise false.
      */
-    static isInPortal() {
-      return typeof window !== 'undefined' && typeof window.Liferay !== 'undefined';
+    static isInPortal(): boolean {
+        return typeof window !== 'undefined' && typeof (window as any).Liferay !== 'undefined';
     }
 
-    static isPortalSignedIn() {
-
+    /**
+     * Checks if the user is signed in to the Liferay portal.
+     * @returns {boolean} True if the user is signed in, otherwise false.
+     */
+    static isPortalSignedIn(): boolean {
         // Check if we are in a Liferay environment
-        if (typeof window !== 'undefined' && window.Liferay) {
+        if (typeof window !== 'undefined' && (window as any).Liferay) {
             try {
+                const Liferay = (window as any).Liferay;
+
                 // Check if the function `Liferay.ThemeDisplay.isSignedIn` exists
-                if (window.Liferay && window.Liferay.ThemeDisplay && typeof window.Liferay.ThemeDisplay.isSignedIn === 'function') {
+                if (
+                    Liferay.ThemeDisplay &&
+                    typeof Liferay.ThemeDisplay.isSignedIn === 'function'
+                ) {
                     // Call the `isSignedIn` function to check if the user is signed in
-                    const signIn = window.Liferay.ThemeDisplay.isSignedIn();
+                    const signIn = Liferay.ThemeDisplay.isSignedIn();
                     if (signIn) {
                         console.debug("User is SIGNED IN to Liferay portal");
                     } else {
@@ -34,10 +41,9 @@ export class Portal {
                 return false; // Return false in case of an error
             }
         }
-    
+
         // If Liferay is not available, warn and return false
         console.warn("Liferay is not available in this environment.");
         return false;
     }
-
 }
