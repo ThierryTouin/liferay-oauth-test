@@ -251,7 +251,7 @@ services:
       args: 
         - TITLE=App2
     ports:
-      - 3007:80
+      - 3008:80
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.app2.rule=Host(`${APP2_HOSTNAME}`)"
@@ -264,6 +264,8 @@ services:
       - "traefik.http.services.app2.loadbalancer.passhostheader=true"
       - "traefik.http.middlewares.compresstraefik.compress=true"
       - "traefik.docker.network=devnet"
+    volumes:
+      - ./front-end/app2/react-app/node_modules:/app/react-app/node_modules
     depends_on:
       traefik:
         condition: service_healthy
@@ -273,6 +275,7 @@ services:
         condition: service_healthy
     networks:
       - devnet
+      
   app1:
     hostname: app1.dev.local
     container_name: lfroauth-app1
@@ -296,8 +299,7 @@ services:
       - "traefik.http.middlewares.compresstraefik.compress=true"
       - "traefik.docker.network=devnet"
     volumes:
-      - ./front-end/app1/react-app:/app/react-app
-      - /home/user1/node_modules:/app/react-app/node_modules
+      - ./front-end/app1/react-app/node_modules:/app/react-app/node_modules
     depends_on:
       traefik:
         condition: service_healthy
