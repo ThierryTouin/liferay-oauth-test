@@ -8,4 +8,3 @@ docker compose down --volumes --rmi all --remove-orphans lfroauth-app2
 
 docker compose build app2
 docker compose up app2
-

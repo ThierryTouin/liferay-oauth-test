@@ -1,15 +1,21 @@
 import React from 'react';
 import AppRouter from './routes/AppRouter';
 import { AuthProvider } from "react-oidc-context";
-import { AuthProviderConfig } from 'common-modules';
+import { getAuthConfiguration } from 'common-modules';
 
 
 
 const App: React.FC = () => {
+
+  const appId = "app2";
+  const authProviderConfig = getAuthConfiguration(appId);
+
   return (
-    <AuthProvider {...AuthProviderConfig}>
-      <h1>APP2 from POC2</h1>
-      <AppRouter />
+
+
+    <AuthProvider {...authProviderConfig}>
+      <h1>AppId:{appId} from POC2</h1>
+      <AppRouter appId={appId}/>
     </AuthProvider>
   );
 }

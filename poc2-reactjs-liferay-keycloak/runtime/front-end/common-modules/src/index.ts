@@ -5,9 +5,9 @@ export { ExternalLogin } from './routes/ExternalLogin';
 
 export { ErrorMessage } from './routes/ErrorMessage';
 
-export { AuthProviderConfig } from './configuration/AuthProviderConfig';
+export { getAuthConfiguration } from './services/authProviderConfigService';
 
-export { CustomRouteProps } from './types/CustomRouteProps';
+export { CustomRouteProps } from './models/CustomRouteProps';
 
 export { Portal } from './utils/Portal';
 

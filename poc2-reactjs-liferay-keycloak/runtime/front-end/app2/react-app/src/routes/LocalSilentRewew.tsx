@@ -1,11 +1,17 @@
 import React, { useEffect } from "react";
 import { UserManager } from 'oidc-client';
-import { AuthProviderConfig } from 'common-modules';
+import { getAuthConfiguration } from 'common-modules';
+
+interface LocalSilentRenewProps {
+  appId: string; // Déclare le type de la prop
+}
 
 // Define the SilentRenew component
-const LocalSilentRenew: React.FC = () => {
+const LocalSilentRenew: React.FC<LocalSilentRenewProps> = ({ appId }) => {
 
-  const userManager = new UserManager(AuthProviderConfig);
+  const authProviderConfig = getAuthConfiguration(appId);
+
+  const userManager = new UserManager(authProviderConfig);
 
   useEffect(() => {
     // Function to handle the silent renewal process

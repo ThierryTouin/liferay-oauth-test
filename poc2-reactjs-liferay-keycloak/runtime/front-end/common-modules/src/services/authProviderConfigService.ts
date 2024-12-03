@@ -2,7 +2,7 @@ import { UserManagerSettings } from 'oidc-client';
 
 const defaultURL: string = window.location.origin + window.location.pathname;
 
-export const AuthProviderConfig: UserManagerSettings = {
+const baseAuthProviderConfig: UserManagerSettings = {
   authority: "https://sso.dev.local/realms/Liferay",
   client_id: "liferay",
   redirect_uri: defaultURL,
@@ -13,3 +13,19 @@ export const AuthProviderConfig: UserManagerSettings = {
   loadUserInfo: true, // Load additional user information after authentication
   silent_redirect_uri: defaultURL + '#silent-renew', // URL for silent token renewal (using hashrouter)
 };
+
+export function getAuthConfiguration(appId: string) {
+
+  if (!appId || appId.trim() === "") {
+    throw new Error("The parameter 'appId' is required and cannot be empty.");
+  }
+
+  // Generate the silent redirect URI dynamically
+  const silentRedirectUri = defaultURL + '#silent-renew-' + appId;
+
+  // Return the full configuration object
+  return {
+    ...baseAuthProviderConfig, // Spread the base configuration
+    silent_redirect_uri: silentRedirectUri, // Override silent_redirect_uri
+  };
+}

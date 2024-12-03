@@ -9,7 +9,12 @@ const appRoutes: CustomRouteProps[] = [
   { path: "/home", element: <Home />, protected: true },
 ];
 
-const AppRouter: React.FC = () => {
+interface AppRouterProps {
+  appId: string; // Déclare le type de la prop
+}
+
+const AppRouter: React.FC<AppRouterProps> = ({ appId }) => {
+
   return (
     <Router>
       <Routes>
@@ -37,7 +42,7 @@ const AppRouter: React.FC = () => {
         <Route path="/portal-login" element={<ExternalLogin />} />
 
         {/* Silent renew route */}
-        <Route path="/silent-renew" element={<LocalSilentRenew />} />
+        <Route path="/silent-renew" element={<LocalSilentRenew appId={appId}/>} />
 
         {/* Fallback route */}
         <Route path="*" element={<NotFound />} />
