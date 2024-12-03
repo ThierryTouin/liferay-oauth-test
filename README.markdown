@@ -225,7 +225,7 @@ lfroauth-portal   |
 lfroauth-portal   |
 ```
 
-### 3. Error copying Liferay license fron start-all.sh 
+#### 3. Error copying Liferay license fron start-all.sh 
 
 If you are using WSL, Windows characters may have been written in the .env file, which causes an error when using the ./start-all.sh script.
 ```
@@ -241,6 +241,52 @@ Sample
 ./install-licence.sh "/mnt/disque1/Soft/_binaries/Liferay/activation-key-dxpdevelopment-7.4-developeractivationkeys2.xml"
 ```
 
+#### 4. Redirect URI error
+
+![Redirect URI](./images/Error_redirect_uri.png "Redirect URI error")
+
+Adjust / check provided liferay-realm.json to declare required redirect_uri
+```
+    {
+      "id": "88f948eb-3280-4be0-b204-ce0e1a14bbcc",
+      "clientId": "liferay",
+      "surrogateAuthRequired": false,
+      "enabled": true,
+      "alwaysDisplayInConsole": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "**********",
+      
+      "redirectUris": [
+        "https://portal.dev.local*","https://app1.dev.local*","https://app2.dev.local*"
+      ],
+      
+      "webOrigins": ["*"],
+      "notBefore": 0,
+      "bearerOnly": false,
+      "consentRequired": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "publicClient": true,
+      "frontchannelLogout": false,
+      "protocol": "openid-connect",
+      "attributes": {
+        "saml.assertion.signature": "false",
+        "saml.force.post.binding": "false",
+        "saml.multivalued.roles": "false",
+        "saml.encrypt": "false",
+        "saml.server.signature": "false",
+        "saml.server.signature.keyinfo.ext": "false",
+        "exclude.session.state.from.auth.response": "false",
+        "saml_force_name_id_format": "false",
+        "saml.client.signature": "false",
+        "tls.client.certificate.bound.access.tokens": "false",
+        "saml.authnstatement": "false",
+        "display.on.consent.screen": "false",
+        "saml.onetimeuse.condition": "false"
+      }, ...
+```
 ## 4. References & Documentation
 
 #### For testing

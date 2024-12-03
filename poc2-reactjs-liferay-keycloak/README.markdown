@@ -87,7 +87,7 @@ docker exec -it lfroauth-portal sh -c "curl -k -v https://sso.dev.local"
 | --------                | -------  
 | common-modules          | Contain react components and classes to be used from 3rd party applications |
 | APP1                    | React App in standard javascript |
-| APP2                    | React App in typescript, Leverage HashRouter to navigate, Leverage code from common-modules |
+| APP2                    | React App in typescript, Leverage code from common-modules |
 
 #### 2. Required applications adaptations
 

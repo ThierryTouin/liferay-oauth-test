@@ -241,7 +241,38 @@ services:
         condition: service_healthy
     networks:
       - devnet
-
+      
+  app2:
+    hostname: app2.dev.local
+    container_name: lfroauth-app2
+    build:
+      context: ./front-end
+      dockerfile: ./app2/app2.Dockerfile
+      args: 
+        - TITLE=App2
+    ports:
+      - 3007:80
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app2.rule=Host(`${APP2_HOSTNAME}`)"
+      - "traefik.http.routers.app2.service=app2"
+      - "traefik.http.routers.app2.entrypoints=websecure"
+      - "traefik.http.routers.app2.tls=true"
+      - "traefik.http.routers.app2.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.app2.middlewares=compresstraefik"
+      - "traefik.http.services.app2.loadbalancer.server.port=80"
+      - "traefik.http.services.app2.loadbalancer.passhostheader=true"
+      - "traefik.http.middlewares.compresstraefik.compress=true"
+      - "traefik.docker.network=devnet"
+    depends_on:
+      traefik:
+        condition: service_healthy
+      sso:
+        condition: service_healthy
+      apim:
+        condition: service_healthy
+    networks:
+      - devnet
   app1:
     hostname: app1.dev.local
     container_name: lfroauth-app1

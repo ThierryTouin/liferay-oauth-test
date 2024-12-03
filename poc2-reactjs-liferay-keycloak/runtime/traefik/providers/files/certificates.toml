@@ -16,4 +16,8 @@
 
 [[tls.certificates]]
    certFile = "/configuration/files/app1.dev.local.crt"
-   keyFile = "/configuration/files/app1.dev.local.key"    
+   keyFile = "/configuration/files/app1.dev.local.key" 
+
+[[tls.certificates]]
+   certFile = "/configuration/files/app2.dev.local.crt"
+   keyFile = "/configuration/files/app2.dev.local.key"     

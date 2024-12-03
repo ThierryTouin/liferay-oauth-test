@@ -25,6 +25,7 @@ function App() {
   return (
     <AuthProvider {...oidcConfig}>
       {/* <LogoutHandler> */}
+      <h1>APP1 from POC2</h1>
       <AppRoutes />
       {/* </LogoutHandler> */}
     </AuthProvider>
