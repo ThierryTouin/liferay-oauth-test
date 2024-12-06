@@ -46,14 +46,14 @@ Add following lines at the end of the file to properly configure domains
 
 Copy .env-template file to customize installation regarding your environment
 
-1. Liferay license file path configuration
+1. Copy template
 ```
 cd ./poc<NUMBER>-reactjs-liferay-keycloak/runtime
 cp -f ./.env-template ./.env
 
 ```
 
-2. Liferay license file path configuration
+2. Edit variables
 ```
 # Path to license file (to customize according to your env)
 LFR_LICENSE_FILE_PATH=<UPDATE_WITH_YOUR_PATH>>
