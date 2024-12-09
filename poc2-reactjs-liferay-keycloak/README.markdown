@@ -1,5 +1,5 @@
 ## 0. Todo (To be deleted)
-1. CSS files not loaded
+1. CSS files not loaded / Conflict regarding CSS
 2. Follow requests and understand underlying behavior
 3. Centralized logout & Switch language
 4. Testing multiple application in portal
