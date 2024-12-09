@@ -2,7 +2,6 @@ import { ErrorMessage } from 'common-modules';
 import React from 'react';
 import { useAuth } from "react-oidc-context";
 
-// A functional component that returns a simple JSX element
 const Home: React.FC = () => {
 
   const oidc = useAuth();

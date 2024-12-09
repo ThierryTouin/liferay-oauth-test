@@ -10,7 +10,13 @@ set -e
 
 # Track last executed command for error tracing
 trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
-trap 'echo "${RED}\"${last_command}\" command failed with exit code $?${NC}"' EXIT
+trap 'if [ $? -ne 0 ]; then echo "${RED}\"${last_command}\" command failed with exit code $?${NC}"; fi' EXIT
+
+# Utility function to find all directories containing package.json, excluding node_modules and build directories
+function find_package_dirs() {
+    local path=$1
+    find "$path" -type f -name "package.json" ! -path "*/node_modules/*" ! -path "*/build/*" -exec dirname {} \;
+}
 
 function manual() {
     echo "${BOLD}Available commands:${NC}"
@@ -30,8 +36,7 @@ function clean() {
     path=$1
     echo "${GREEN}Starting cleanup in path: $path${NC}"
 
-    find "$path" -type f -name "package.json" | while read -r package_file; do
-        project_dir=$(dirname "$package_file")
+    find_package_dirs "$path" | while read -r project_dir; do
         echo "${BOLD}Cleaning in: $project_dir${NC}"
 
         if [ -d "$project_dir/node_modules" ]; then
@@ -63,8 +68,7 @@ function install() {
     path=$1
     echo "${GREEN}Starting npm install in path: $path${NC}"
 
-    find "$path" -type f -name "package.json" | while read -r package_file; do
-        project_dir=$(dirname "$package_file")
+    find_package_dirs "$path" | while read -r project_dir; do
         echo "${BOLD}Installing in: $project_dir${NC}"
 
         (cd "$project_dir" && npm install --no-cache)
@@ -83,8 +87,7 @@ function build() {
     path=$1
     echo "${GREEN}Starting build in path: $path${NC}"
 
-    find "$path" -type f -name "package.json" | while read -r package_file; do
-        project_dir=$(dirname "$package_file")
+    find_package_dirs "$path" | while read -r project_dir; do
         echo "${BOLD}Building in: $project_dir${NC}"
 
         if [ -d "$project_dir/dist" ]; then

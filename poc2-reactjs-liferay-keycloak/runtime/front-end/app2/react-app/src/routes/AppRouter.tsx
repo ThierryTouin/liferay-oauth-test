@@ -10,7 +10,7 @@ const appRoutes: CustomRouteProps[] = [
 ];
 
 interface AppRouterProps {
-  appId: string; // Déclare le type de la prop
+  appId: string;
 }
 
 const AppRouter: React.FC<AppRouterProps> = ({ appId }) => {

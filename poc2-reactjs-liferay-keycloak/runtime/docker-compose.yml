@@ -39,6 +39,7 @@ services:
       LIFERAY_MAIL_PERIOD_SESSION_PERIOD_MAIL_PERIOD_SMTP_PERIOD_STARTTLS_PERIOD_ENABLE: false
       # Used by .config files to create client extensions as remote apps in Liferay Control Panel
       APP1_REMOTE_DOMAIN: "https://app1.dev.local"
+      APP2_REMOTE_DOMAIN: "https://app2.dev.local"
     labels:  
       - "traefik.enable=true"
       - "traefik.http.routers.liferay.rule=Host(`${LFR_HOSTNAME}`)"

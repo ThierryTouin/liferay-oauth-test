@@ -28,7 +28,7 @@ const LocalSilentRenew: React.FC<LocalSilentRenewProps> = ({ appId }) => {
 
     // Trigger the silent renew process when the component mounts
     handleSilentRenew();
-  }, []);
+  }, [userManager]);
 
   return <div>Renewing session...</div>; // Render a loading message while renewing the session
 };
