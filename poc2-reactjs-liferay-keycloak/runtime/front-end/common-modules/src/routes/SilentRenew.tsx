@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { UserManager } from 'oidc-client';
 import { getAuthConfiguration } from '../services/authProviderConfigService';
 
-export interface LocalSilentRenewProps {
+export interface SilentRenewProps {
   appId: string; // Déclare le type de la prop
 }
 
 // Define the SilentRenew component
-export const SilentRenew: React.FC<LocalSilentRenewProps> = ({ appId }) => {
+export const SilentRenew: React.FC<SilentRenewProps> = ({ appId }) => {
 
   const authProviderConfig = getAuthConfiguration(appId);
 

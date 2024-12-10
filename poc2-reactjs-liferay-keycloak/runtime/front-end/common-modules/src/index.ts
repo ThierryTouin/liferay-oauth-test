@@ -5,7 +5,9 @@ export { ExternalLogin } from './routes/ExternalLogin';
 
 export { ErrorMessage } from './routes/ErrorMessage';
 
-export { SilentRenew, LocalSilentRenewProps } from './routes/SilentRenew';
+export { SilentRenew, SilentRenewProps } from './routes/SilentRenew';
+
+export { ProtectedRoute, ProtectedRouteProps } from './routes/ProtectedRoute';
 
 export { getAuthConfiguration } from './services/authProviderConfigService';
 

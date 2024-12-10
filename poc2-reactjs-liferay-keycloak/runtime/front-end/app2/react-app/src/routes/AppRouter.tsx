@@ -1,7 +1,7 @@
 import React from 'react';
 import Home from '../components/Home';
-import { NotFound, CustomRouteProps, ExternalLogin, SilentRenew } from 'common-modules';
-import LocalProtectedRoute from '../routes/LocalProtectedRoute';
+import { NotFound, CustomRouteProps, ExternalLogin, SilentRenew, ProtectedRoute } from 'common-modules';
+import { useAuth, AuthContextProps } from "react-oidc-context";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
 
 const appRoutes: CustomRouteProps[] = [
@@ -14,6 +14,8 @@ interface AppRouterProps {
 
 const AppRouter: React.FC<AppRouterProps> = ({ appId }) => {
 
+  const oidc: AuthContextProps = useAuth();
+
   return (
     <Router>
       <Routes>
@@ -25,7 +27,7 @@ const AppRouter: React.FC<AppRouterProps> = ({ appId }) => {
               path={index === 0 ? "/" : route.path} // Use "/" for the first route
               element={
                 route.protected ? (
-                  <LocalProtectedRoute>{route.element}</LocalProtectedRoute>
+                  <ProtectedRoute oidc={oidc}>{route.element}</ProtectedRoute>
                 ) : (
                   route.element
                 )

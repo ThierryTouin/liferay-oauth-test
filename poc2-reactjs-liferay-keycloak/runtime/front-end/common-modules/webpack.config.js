@@ -1,4 +1,6 @@
 const path = require('path');
+const { peerDependencies } = require('./package.json');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   mode: 'production',  // Optimization for production
@@ -57,4 +59,24 @@ module.exports = {
       },
     ],
   },
+
+  // Automatically exclude all peerDependencies and react-related dependencies fron final build : 
+  // to avoid errors using useState and useRef
+  externals: {
+    react: 'react',
+    'react-dom': 'react-dom',
+    'react-router-dom': 'react-router-dom',
+    'react-oidc-context': 'react-oidc-context',
+    'oidc-client': 'oidc-client',
+  },
+
+  // JDA : see output folder and open bundle-report.html to visualize packaged dependencies
+  plugins: [
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',  // Génère un fichier HTML statique
+      openAnalyzer: false,      // Ouvre automatiquement le rapport dans le navigateur
+      reportFilename: 'bundle-report.html'  // Nom du fichier de rapport
+    })
+  ]
+
 };
