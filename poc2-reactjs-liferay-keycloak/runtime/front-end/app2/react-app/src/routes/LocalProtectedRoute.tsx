@@ -21,8 +21,7 @@ const LocalProtectedRoute: React.FC<LocalProtectedRouteProps> = ({ children }) =
     const tryAuthentication = async () => {
       const isInPortal = Portal.isInPortal();
       const isPortalSignedIn = Portal.isPortalSignedIn();
-      console.log(`APP 2 is running in ${isInPortal ? "Liferay" : "standalone"} mode`);
-
+    
       // Only attempt to authenticate if no auth params, not authenticated, and no ongoing OIDC operation
       if (
         !hasAuthParams() &&
@@ -34,6 +33,7 @@ const LocalProtectedRoute: React.FC<LocalProtectedRouteProps> = ({ children }) =
         hasTriedSignin.current = true;
 
         try {
+          console.log(`APP 2 is running in ${isInPortal ? "Liferay" : "standalone"} mode`);
           if (isInPortal) {
             if (isPortalSignedIn) {
               // Attempt silent authentication for Liferay

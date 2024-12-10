@@ -1,7 +1,6 @@
 import React from 'react';
 import Home from '../components/Home';
-import { NotFound, CustomRouteProps, ExternalLogin } from 'common-modules';
-import LocalSilentRenew from '../routes/LocalSilentRewew';
+import { NotFound, CustomRouteProps, ExternalLogin, SilentRenew } from 'common-modules';
 import LocalProtectedRoute from '../routes/LocalProtectedRoute';
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -42,7 +41,7 @@ const AppRouter: React.FC<AppRouterProps> = ({ appId }) => {
         <Route path="/portal-login" element={<ExternalLogin />} />
 
         {/* Silent renew route */}
-        <Route path="/silent-renew" element={<LocalSilentRenew appId={appId}/>} />
+        <Route path="/silent-renew" element={<SilentRenew appId={appId}/>} />
 
         {/* Fallback route */}
         <Route path="*" element={<NotFound />} />
