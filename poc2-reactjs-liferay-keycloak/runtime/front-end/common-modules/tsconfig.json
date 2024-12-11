@@ -1,20 +1,21 @@
 {
   "compilerOptions": {
-    "target": "es5",                 // Compatibilité avec les anciens navigateurs
-    "module": "commonjs",            // Utilisé pour Node.js ou CommonJS
-    "strict": true,                  // Active toutes les vérifications strictes de TypeScript
-    "jsx": "react",                  // Support pour JSX dans React
-    "declaration": true,
-    "declarationDir": "./dist/types",// Générer des fichiers de déclaration (.d.ts)
-    "outDir": "./dist",              // Dossier de sortie pour les fichiers compilés
-    "rootDir": "./src",              // Dossier source des fichiers TypeScript
-    "esModuleInterop": true,
-    "moduleResolution": "node"          // Facilite les imports avec des modules CommonJS
+    "target": "es5",                 // Compatibility with older browsers
+    "module": "commonjs",            // Used for Node.js or CommonJS
+    "strict": true,                  // Enables all strict type-checking options
+    "jsx": "react",                  // Supports JSX for React
+    "declaration": true,             // Generates declaration files (.d.ts)
+    "declarationDir": "./dist/types",// Directory for generating declaration files
+    "outDir": "./dist",              // Output directory for compiled files
+    "rootDir": "./src",              // Source directory for TypeScript files
+    "esModuleInterop": true,         // Enables compatibility between CommonJS and ES modules
+    "moduleResolution": "node",      // Facilitates importing with CommonJS modules
+    "resolveJsonModule": true        // Allows importing JSON modules
   },
   "include": [
-    "src/**/*"                       // Inclure tous les fichiers dans le dossier src
+    "src/**/*"                       // Include all files in the src directory
   ],
   "exclude": [
-    "node_modules"                   // Exclure les dépendances du projet
+    "node_modules"                   // Exclude dependencies from the project
   ]
 }

@@ -63,7 +63,7 @@ module.exports = {
     ],
   },
 
-  // Automatically exclude all peerDependencies as externals
+  // Automatically exclude all peerDependencies from the resulting output file
   externals: (() => {
     const externals = Object.keys(peerDependencies).reduce((result, packageName) => {
       result[packageName] = packageName; // Map each dependency to its own name (UMD-compatible)
@@ -75,7 +75,7 @@ module.exports = {
     return externals;
   })(),
 
-  // Bundle analysis plugin
+  // Bundle analysis plugin : to debug packaged dependencies
   plugins: [
     new BundleAnalyzerPlugin({
       analyzerMode: 'static', // Generate a static HTML file
