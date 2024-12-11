@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { StrictMode } from 'react';
 import AppRouter from './routes/AppRouter';
 import { AuthProvider } from "react-oidc-context";
 import { getAuthConfiguration } from 'common-modules';
@@ -12,11 +12,13 @@ const App: React.FC = () => {
 
   return (
 
+    <StrictMode>
+      <AuthProvider {...authProviderConfig}>
+        <h1>AppId:{appId} from POC2 : Externalized libraries version</h1>
+        <AppRouter appId={appId}/>
+      </AuthProvider>
+    </StrictMode>
 
-    <AuthProvider {...authProviderConfig}>
-      <h1>AppId:{appId} from POC2</h1>
-      <AppRouter appId={appId}/>
-    </AuthProvider>
   );
 }
 

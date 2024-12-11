@@ -1,13 +1,9 @@
-import React, { useEffect, useRef, useState, ReactNode } from "react";
-import { Navigate } from "react-router-dom";
-import { useAuth, hasAuthParams, AuthContextProps } from "react-oidc-context";
-import { Portal } from "../utils/Portal";
-import { ErrorMessage } from "../routes/ErrorMessage";
-
-export interface ProtectedRouteProps {
-  children: ReactNode;
-  oidc: AuthContextProps;
-}
+import React, { useEffect, useRef, useState } from 'react';
+import { Navigate } from 'react-router-dom';
+import { hasAuthParams } from 'react-oidc-context';
+import { Portal } from '../utils/Portal';
+import { ErrorMessage } from '../routes/ErrorMessage';
+import { ProtectedRouteProps } from '../models/ProtectedRouteProps'
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, oidc }) => {
 
@@ -20,6 +16,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, oidc }
 
   useEffect(() => {
     const tryAuthentication = async () => {
+      
       const isInPortal = Portal.isInPortal();
       const isPortalSignedIn = Portal.isPortalSignedIn();
     

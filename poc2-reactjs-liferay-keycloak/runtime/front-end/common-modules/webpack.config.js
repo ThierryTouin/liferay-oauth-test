@@ -1,42 +1,45 @@
 const path = require('path');
-const { peerDependencies } = require('./package.json');
+const { peerDependencies } = require('./package.json'); // Load peerDependencies dynamically
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
-  mode: 'production',  // Optimization for production
-  
-  // Webpack entry to specify the main file (index.ts or index.tsx)
-  entry: './src/index.ts',  // Assuming your entry is a TypeScript file
-  
+  mode: 'production', // Optimize the build for production
+
+  // Webpack entry point specifying the main file
+  entry: './src/index.ts',
+
+  // Generate source maps for easier debugging
+  devtool: 'source-map',
+
   output: {
-    // Output directory for the compiled bundle
+    // Directory for the compiled bundle
     path: path.resolve(__dirname, 'dist'),
-    
+
     // Bundle file name
     filename: 'common-modules.bundle.js',
-    
+
     // Expose this module as a UMD library
-    library: 'common-modules', 
-    libraryTarget: 'umd', 
+    library: 'common-modules',
+    libraryTarget: 'umd',
   },
 
   resolve: {
-    // Extensions to resolve automatically
-    extensions: ['.ts', '.tsx', '.js', '.jsx', '.css'],  // Include .ts and .tsx extensions
+    // Automatically resolve these extensions
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.css'],
   },
-  
+
   module: {
     rules: [
       {
-        test: /\.tsx?$/,  // Target .ts and .tsx files
-        exclude: /node_modules/,  // Do not include files in node_modules
+        test: /\.tsx?$/, // Target TypeScript files (.ts and .tsx)
+        exclude: /node_modules/, // Exclude files in node_modules
         use: {
-          loader: 'ts-loader',  // Use ts-loader to transpile TypeScript
+          loader: 'ts-loader', // Use ts-loader to transpile TypeScript
         },
       },
       {
-        test: /\.jsx?$/,  // Target .js and .jsx files
-        exclude: /node_modules/,  // Do not include files in node_modules
+        test: /\.jsx?$/, // Target JavaScript and JSX files (.js and .jsx)
+        exclude: /node_modules/, // Exclude files in node_modules
         use: {
           loader: 'babel-loader',
           options: {
@@ -45,38 +48,39 @@ module.exports = {
               '@babel/preset-react', // Support for JSX and React
             ],
             plugins: [
-              '@babel/plugin-syntax-dynamic-import',  // Allows dynamic imports
+              '@babel/plugin-syntax-dynamic-import', // Allow dynamic imports
             ],
           },
         },
       },
       {
-        test: /\.css$/, // Target .css files
+        test: /\.css$/, // Target CSS files
         use: [
-          'style-loader', // Inject styles into DOM
-          'css-loader',   // Turns CSS into JavaScript
+          'style-loader', // Inject styles into the DOM
+          'css-loader',   // Turn CSS into JavaScript
         ],
       },
     ],
   },
 
-  // Automatically exclude all peerDependencies and react-related dependencies fron final build : 
-  // to avoid errors using useState and useRef
-  externals: {
-    react: 'react',
-    'react-dom': 'react-dom',
-    'react-router-dom': 'react-router-dom',
-    'react-oidc-context': 'react-oidc-context',
-    'oidc-client': 'oidc-client',
-  },
+  // Automatically exclude all peerDependencies as externals
+  externals: (() => {
+    const externals = Object.keys(peerDependencies).reduce((result, packageName) => {
+      result[packageName] = packageName; // Map each dependency to its own name (UMD-compatible)
+      return result;
+    }, {});
 
-  // JDA : see output folder and open bundle-report.html to visualize packaged dependencies
+    // Log the externalized libraries for debugging purposes
+    console.log('IMPORTANT : Excluding the following peerDependencies as externals:', Object.keys(externals));
+    return externals;
+  })(),
+
+  // Bundle analysis plugin
   plugins: [
     new BundleAnalyzerPlugin({
-      analyzerMode: 'static',  // Génère un fichier HTML statique
-      openAnalyzer: false,      // Ouvre automatiquement le rapport dans le navigateur
-      reportFilename: 'bundle-report.html'  // Nom du fichier de rapport
-    })
-  ]
-
+      analyzerMode: 'static', // Generate a static HTML file
+      openAnalyzer: false,    // Do not automatically open the report in the browser
+      reportFilename: 'bundle-report.html', // Name of the report file
+    }),
+  ],
 };
