@@ -281,8 +281,8 @@ services:
     hostname: app1.dev.local
     container_name: lfroauth-app1
     build:
-      context: ./front-end/app1
-      dockerfile: ./app1.Dockerfile
+      context: ./front-end
+      dockerfile: ./app1/app1.Dockerfile
       args: 
         - TITLE=App1
     ports:
