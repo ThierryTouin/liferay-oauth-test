@@ -2,7 +2,7 @@
 2. Follow requests and understand duplicates
 3. Centralized logout & 
 4. Switch language
-5. Pocking slots using dedicated app
+5. Pocking slots using dedicated app : https://fr.javascript.info/slots-composition
 6. I8N
 7. Split bundle.js => https://learn.liferay.com/w/dxp/liferay-development/customizing-liferays-look-and-feel/bundling-resources-in-a-javascript-import-map-entry-client-extension/javascript-import-map-entry-yaml-configuration-reference#usage-details
 
