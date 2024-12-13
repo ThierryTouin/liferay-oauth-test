@@ -1,7 +1,7 @@
 /* route-style.css */
 
 /* General container for the error message */
-.error-container {
+.mfe-app-container .error-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -16,7 +16,7 @@
 }
 
 /* Heading for the error message */
-.error-heading {
+.mfe-app-container .error-heading {
   font-size: 24px;
   color: #721c24;
   margin-bottom: 20px;
@@ -24,7 +24,7 @@
 }
 
 /* Error message text */
-.error-message {
+.mfe-app-container .error-message {
   font-size: 1.2rem;
   color: #721c24;
   margin-bottom: 20px;
@@ -32,7 +32,7 @@
 }
 
 /* Retry button style */
-.retry-button {
+.mfe-app-container .retry-button {
   padding: 10px 20px;
   background-color: #007BFF; /* Blue background for button */
   color: white;
@@ -43,11 +43,11 @@
   transition: background-color 0.3s;
 }
 
-.retry-button:hover {
+.mfe-app-container .retry-button:hover {
   background-color: #0056b3; /* Darker blue on hover */
 }
 
-.container {
+.mfe-app-container .container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -60,26 +60,26 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.heading {
+.mfe-app-container .heading {
   font-size: 24px;
   color: #333;
   margin-bottom: 20px;
 }
 
-.title {
+.mfe-app-container .title {
   font-size: 2.5rem;
   color: #007BFF;
   margin-bottom: 15px;
 }
 
-.paragraph {
+.mfe-app-container .paragraph {
   font-size: 16px;
   color: #333;
   margin-bottom: 20px;
   max-width: 600px;
 }
 
-.message {
+.mfe-app-container .message {
   font-size: 1.2rem;
   color: #333;
   margin-bottom: 20px;

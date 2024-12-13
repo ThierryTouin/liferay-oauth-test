@@ -23,8 +23,25 @@ function manual() {
     echo "  clean <path>    : Deletes 'node_modules', 'build', and 'package-lock.json' in directories with a package.json."
     echo "  install <path>  : Executes 'npm install --no-cache' in directories with a package.json."
     echo "  build <path>    : Deletes 'dist' and executes 'npm run build' in directories with a package.json."
+    echo "  rebuild <path>  : Executes install and build  "
     echo "  refresh <path>  : Executes clean,  install and build  "
     echo "  help            : Displays this help message."
+}
+
+
+function rebuild() {
+    if [ -z "$1" ]; then
+        echo "${RED}Error: Path argument is required for the refresh command.${NC}"
+        echo "Usage: ./frontend.sh refresh <path>"
+        exit 1
+    fi
+
+    path=$1
+    echo "${GREEN}Starting rebuild in path: $path${NC}"
+
+    install ../ && build ../
+
+    echo "${GREEN}Rebuild completed.${NC}"
 }
 
 function refresh() {
@@ -37,7 +54,7 @@ function refresh() {
     path=$1
     echo "${GREEN}Starting refresh in path: $path${NC}"
 
-    clean ../ && install ../ && build ../
+    clean ../ && rebuild ../
 
     echo "${GREEN}Refresh completed.${NC}"
 }
@@ -131,6 +148,9 @@ case "$1" in
         ;;
     "build")
         build "$2"
+        ;;
+    "rebuild")
+        rebuild "$2"
         ;;
     "refresh")
         refresh "$2"
