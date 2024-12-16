@@ -25,7 +25,7 @@ module.exports = function override(config) {
     config.resolve.plugins = config.resolve.plugins.filter(plugin => !(plugin instanceof ModuleScopePlugin));
 
     // IMPORTANT : Force pearDependencies to resolve from the app2's node_modules. Avoid to include React twice 
-    //Dynamically load peerDependancies from common-modules package.json
+    // Dynamically load peerDependancies from common-modules package.json
     const commonModulesPackageJson = path.resolve(__dirname, '../../common-modules/package.json');
     const commonModulesPackage = JSON.parse(fs.readFileSync(commonModulesPackageJson, 'utf8'));
     const peerDependencies = commonModulesPackage.peerDependencies || {};

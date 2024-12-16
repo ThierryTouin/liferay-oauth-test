@@ -1,4 +1,5 @@
 ## 0. Todo (To be deleted)
+1. Use CustomOIDCAuthProvider for APP2 & APP1
 2. Follow requests and understand duplicates
 3. Centralized logout & 
 4. Switch language
