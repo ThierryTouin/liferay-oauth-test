@@ -8,4 +8,6 @@ export { CustomRouteProps } from './models/CustomRouteProps';
 export { Portal } from './utils/Portal';
 export { MFEAppContainer } from './components/MFEAppContainer';
 export { MFEAppContainerProps } from './models/MFEAppContainerProps';
+export { CustomOIDCAuthProvider } from './components/CustomOIDCAuthProvider';
+export { CustomOIDCAuthProviderProps } from './models/CustomOIDCAuthProviderProps';
 

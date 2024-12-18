@@ -1,0 +1,23 @@
+ .mfe-app-container .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .mfe-app-container .header__logo {
+    flex: 0 0 auto;
+  }
+  
+  .mfe-app-container .header__logo-image {
+    max-height: 50px;
+  }
+  
+  .mfe-app-container .header__content {
+    flex: 1;
+    text-align: left;
+    padding-left:10px;
+  }
+  

@@ -10,7 +10,7 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".", 
     "paths": {
-      "common-modules": ["node_modules/common-modules/dist/types/index.d.ts"]
+      "common-modules": ["node_modules/common-modules/build/types/index.d.ts"]
     }
   },
   "include": [

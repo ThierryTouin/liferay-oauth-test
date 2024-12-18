@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin'); 
 
 module.exports = function override(config) {
 
@@ -48,6 +49,16 @@ module.exports = function override(config) {
         analyzerMode: 'static',  // Generate a static HTML file
         reportFilename: 'bundle-report.html',  // Name of the generated report
         openAnalyzer: false,  // Open the report automatically in the browser
+      }),
+
+      // Plugin to copy the images folder from common-modules to app's build folder
+      new CopyWebpackPlugin({
+        patterns: [
+            {
+              from: path.resolve(__dirname, '../../common-modules/build/shared'), // Source folder
+              to: path.resolve(__dirname, 'build/static/js/shared'), // Destination folder in app
+            },
+          ],
       })
     );
 

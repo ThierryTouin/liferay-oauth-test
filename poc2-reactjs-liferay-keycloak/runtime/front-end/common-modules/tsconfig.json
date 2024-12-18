@@ -5,12 +5,13 @@
     "strict": true,                  // Enables all strict type-checking options
     "jsx": "react",                  // Supports JSX for React
     "declaration": true,             // Generates declaration files (.d.ts)
-    "declarationDir": "./dist/types",// Directory for generating declaration files
-    "outDir": "./dist",              // Output directory for compiled files
+    "declarationDir": "./build/types",// Directory for generating declaration files
+    "outDir": "./build",              // Output directory for compiled files
     "rootDir": "./src",              // Source directory for TypeScript files
     "esModuleInterop": true,         // Enables compatibility between CommonJS and ES modules
     "moduleResolution": "node",      // Facilitates importing with CommonJS modules
-    "resolveJsonModule": true        // Allows importing JSON modules
+    "resolveJsonModule": true,       // Allows importing JSON modules
+    "typeRoots": ["node_modules/@types", "src/types"] // Include custom types
   },
   "include": [
     "src/**/*"                       // Include all files in the src directory

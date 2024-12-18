@@ -4,8 +4,8 @@
   "description": "Common modules for front-end projects",
   "author": "",
   "license": "ISC",
-  "main": "./dist/common-modules.bundle.js",
-  "types": "./dist/types/index.d.ts",
+  "main": "./build/common-modules.bundle.js",
+  "types": "./build/types/index.d.ts",
   "peerDependencies": {
     "oidc-client": "^1.11.5",
     "react": "^18.3.1",
@@ -44,6 +44,7 @@
     "@webpack-cli/generators": "^3.0.7",
     "babel-loader": "^9.2.1",
     "css-loader": "^7.1.2",
+    "file-loader": "^6.2.0",
     "glob": "^11.0.0",
     "style-loader": "^4.0.0",
     "ts-loader": "^9.5.1",

@@ -25,7 +25,7 @@ export class Portal {
                     // Call the `isSignedIn` function to check if the user is signed in
                     const signIn = Liferay.ThemeDisplay.isSignedIn();
                     if (signIn) {
-                        console.debug("User is SIGNED IN to Liferay portal");
+                        console.debug("User is SIGNED IN in Liferay portal");
                     } else {
                         console.debug("User is UNSIGNED in Liferay portal");
                     }

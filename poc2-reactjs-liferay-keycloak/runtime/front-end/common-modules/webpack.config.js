@@ -13,7 +13,7 @@ module.exports = {
 
   output: {
     // Directory for the compiled bundle
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'build'),
 
     // Bundle file name
     filename: 'common-modules.bundle.js',
@@ -21,6 +21,7 @@ module.exports = {
     // Expose this module as a UMD library
     library: 'common-modules',
     libraryTarget: 'umd',
+
   },
 
   resolve: {
@@ -60,6 +61,18 @@ module.exports = {
           'css-loader',   // Turn CSS into JavaScript
         ],
       },
+      {
+        test: /\.(png|jpe?g|gif|svg)$/i, // Target image files (PNG, JPG, GIF, SVG)
+        use: [
+          {
+            loader: 'file-loader', // Handle image files
+            options: {
+              name: '[name].[hash:8].[ext]', // Output structure for image files
+              outputPath: 'shared/images/',  // Place images in the 'images' folder
+            },
+          },
+        ],
+      },
     ],
   },
 
@@ -83,4 +96,5 @@ module.exports = {
       reportFilename: 'bundle-report.html', // Name of the report file
     }),
   ],
+
 };

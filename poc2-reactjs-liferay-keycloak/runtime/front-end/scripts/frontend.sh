@@ -22,7 +22,7 @@ function manual() {
     echo "${BOLD}Available commands:${NC}"
     echo "  clean <path>    : Deletes 'node_modules', 'build', and 'package-lock.json' in directories with a package.json."
     echo "  install <path>  : Executes 'npm install --no-cache' in directories with a package.json."
-    echo "  build <path>    : Deletes 'dist' and executes 'npm run build' in directories with a package.json."
+    echo "  build <path>    : Deletes 'build' and executes 'npm run build' in directories with a package.json."
     echo "  rebuild <path>  : Executes install and build  "
     echo "  refresh <path>  : Executes clean,  install and build  "
     echo "  help            : Displays this help message."
@@ -123,9 +123,9 @@ function build() {
     find_package_dirs "$path" | while read -r project_dir; do
         echo "${BOLD}Building in: $project_dir${NC}"
 
-        if [ -d "$project_dir/dist" ]; then
-            echo "  Removing dist folder..."
-            rm -rf "$project_dir/dist"
+        if [ -d "$project_dir/build" ]; then
+            echo "  Removing build folder..."
+            rm -rf "$project_dir/build"
         fi
 
         (cd "$project_dir" && npm run build)
