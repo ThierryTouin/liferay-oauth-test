@@ -1,5 +1,5 @@
 ## 0. Todo (To be deleted)
-1. Use CustomOIDCAuthProvider for APP2 & APP1
+1. Images breaks in Liferay. Images nedd to be referenced using appHostname in ReactLogo component. Uses a context to provide standard app configuration for embedded enad standalone mode. CoreConfiguration will be used by app's component using a ReactContext. See CoreAppConfig and AppContext.tsx for more information
 2. Follow requests and understand duplicates
 3. Centralized logout & 
 4. Switch language

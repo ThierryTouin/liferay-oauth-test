@@ -5,7 +5,7 @@ import AppRouter from './routes/AppRouter';
 const App: React.FC = () => {
 
   const appId = "app1";
-  const titleVersion = " version 2.0.2";
+  const titleVersion = " version 2.0.1";
 
   return (
 
