@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { UserManager } from 'oidc-client';
-import { getAuthConfiguration } from '../services/authProviderConfigService';
+import { getAuthConfiguration } from '../services/configService';
 
 export interface SilentRenewProps {
   appId: string; // Déclare le type de la prop

@@ -1,13 +1,25 @@
 
-export { DefaultAppRouter } from './routes/DefaultAppRouter';
-export { DefaultAppRouterProps } from './models/DefaultAppRouterProps';
-export { ErrorMessage } from './routes/ErrorMessage';
-export { getAuthConfiguration } from './services/authProviderConfigService';
+// Services section
 export { ApimService } from './services/apimService';
-export { CustomRouteProps } from './models/CustomRouteProps';
-export { Portal } from './utils/Portal';
-export { MFEAppContainer } from './components/MFEAppContainer';
-export { MFEAppContainerProps } from './models/MFEAppContainerProps';
-export { CustomOIDCAuthProvider } from './components/CustomOIDCAuthProvider';
-export { CustomOIDCAuthProviderProps } from './models/CustomOIDCAuthProviderProps';
+export { buildAppConfiguration } from './services/configService';
 
+// Components section
+export { CustomOIDCAuthProvider } from './components/CustomOIDCAuthProvider';
+export { MFEAppContainer } from './components/MFEAppContainer';
+    // React Context
+export { AppProvider, useAppContext } from './components/context/AppContext';
+
+// Models section
+export { AppConfiguration } from './models/AppConfiguration';
+export { ProvidedAppConfiguration } from './models/ProvidedAppConfiguration';
+export { CustomOIDCAuthProviderProps } from './models/CustomOIDCAuthProviderProps';
+export { MFEAppContainerProps } from './models/MFEAppContainerProps';
+export { DefaultAppRouterProps } from './models/DefaultAppRouterProps';
+export { CustomRouteProps } from './models/CustomRouteProps';
+
+// Routes section
+export { DefaultAppRouter } from './routes/DefaultAppRouter';
+export { ErrorMessage } from './routes/ErrorMessage';
+
+//
+export { Portal } from './utils/Portal';

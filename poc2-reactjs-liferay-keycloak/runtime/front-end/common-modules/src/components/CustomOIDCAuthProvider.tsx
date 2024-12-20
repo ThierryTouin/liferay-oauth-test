@@ -1,10 +1,7 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { AuthProvider } from 'react-oidc-context';
-import { getAuthConfiguration } from '../services/authProviderConfigService';
+import { getAuthConfiguration } from '../services/configService';
 import { CustomOIDCAuthProviderProps } from '../models/CustomOIDCAuthProviderProps';
-
-// Définir l'URL de base par défaut
-const defaultURL: string = window.location.origin + window.location.pathname;
 
 /**
  * Custom OIDC Auth Provider

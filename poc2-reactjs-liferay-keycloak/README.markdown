@@ -91,9 +91,11 @@ docker exec -it lfroauth-portal sh -c "curl -k -v https://sso.dev.local"
 | APP1                    | React App in standard javascript, Transpiled in one single file |
 | APP2                    | React App in typescript, Leverage code from common-modules, Transpiled in multiple files |
 
-#### 2. Required applications adaptations
+#### 2. Required adaptations
 
-##### 1. Declaring Web Component
+##### 1. Applications
+
+###### 1. Declaring Web Component
 
 To convert your React app into a Web Component, follow these steps:
 
@@ -108,7 +110,7 @@ Files to Modify
     public/index.html (for usage)
         Include use the custom Web Component tag.
 
-##### 2. Adapting Webpack Configuration for Liferay Compatibility
+###### 2. Adapting Webpack Configuration for Liferay Compatibility
 
 Liferay does not support chunks with variable file names. To ensure compatibility, we modified the React app's Webpack configuration to bundle all JavaScript into a single bundle.js file across all environments. This was achieved using react-app-rewired to override the default Webpack configuration without ejecting.
 
@@ -120,15 +122,32 @@ The following changes were made:
 
 This adjustment ensures that Liferay can properly load and render the React app without issues related to dynamic chunk file names.
 
-#### 3. Important: Use HashRouter for Liferay Compatibility
+###### 3. Important: Use HashRouter for Liferay Compatibility
 
 Liferay does not fully support `BrowserRouter` due to its clean URL routing, which conflicts with Liferay's own URL management system. To ensure proper navigation and integration within Liferay, you must use `HashRouter`, which relies on fragment-based routing (e.g., `http://example.com/#/route`). This avoids conflicts and ensures seamless functionality. Update your routing setup and any relevant URLs (e.g., `silent_redirect_uri`) to include hash fragments, and test thoroughly to prevent navigation issues. Using `BrowserRouter` may lead to broken routes and unexpected behavior within the Liferay environment.
 
+###### 4. Modify package.json to allow npm run start to run on default port in https
 
+To enable the application to run over HTTPS on the default port (443), the following modifications were made to the `package.json` file:
 
+`package.json` Changes
 
+```json
+"scripts": {
+  // Prestart script ensures Node.js has permissions to bind to port 443
+  "prestart": "sudo setcap 'cap_net_bind_service=+ep' $(which node)",
 
+  // Start script configured for HTTPS with certificates
+  "start": "PORT=443 HOST=app1.dev.local HTTPS=true SSL_CRT_FILE=../../../traefik/providers/files/app1.dev.local.crt SSL_KEY_FILE=../../../traefik/providers/files/app1.dev.local.key react-app-rewired start",
 
+  // Build script
+  "build": "react-app-rewired build",
 
+  // Test script
+  "test": "react-app-rewired test",
 
+  // Eject script (use with caution, this will eject Webpack configuration)
+  "eject": "react-app-rewired eject"
+}
+```
 

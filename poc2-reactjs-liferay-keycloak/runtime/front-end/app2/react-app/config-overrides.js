@@ -51,11 +51,11 @@ module.exports = function override(config) {
         openAnalyzer: false,  // Open the report automatically in the browser
       }),
 
-      // Plugin to copy the images folder from common-modules to app's build folder
+      // Plugin to copy the shared folder from common-modules to app1's build folder : to serve common images for example
       new CopyWebpackPlugin({
         patterns: [
             {
-              from: path.resolve(__dirname, '../../common-modules/build/shared'), // Source folder
+              from: path.resolve(__dirname, '../../common-modules/src/shared'), // Source folder
               to: path.resolve(__dirname, 'build/static/js/shared'), // Destination folder in app
             },
           ],
