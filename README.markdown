@@ -54,6 +54,8 @@ cp -f ./.env-template ./.env
 ```
 
 2. Edit variables
+Variables that need to be modified are indicated in the file as follows : <TO_MODIFY>.
+
 ```
 # Path to license file (to customize according to your env)
 LFR_LICENSE_FILE_PATH=<UPDATE_WITH_YOUR_PATH>>

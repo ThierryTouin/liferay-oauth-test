@@ -1,18 +1,18 @@
 import React, { StrictMode } from 'react';
-import { MFEAppContainer, CustomOIDCAuthProvider, AppProvider, AppConfiguration, ProvidedAppConfiguration, buildAppConfiguration } from 'common-modules';
-import AppRouter from './routes/AppRouter';
+import { MFEAppContainer, AppProvider, AppConfiguration, ProvidedAppConfiguration, buildAppConfiguration } from 'common-modules';
+import Home from './components/Home';
 
 
 const App: React.FC = () => {
 
-  const appDomain: string = "app2.dev.local";
-  const appName: string = "app2";
+  const appDomain: string = "app3.dev.local";
+  const appName: string = "app3";
 
   const providedConfig: ProvidedAppConfiguration = {
     appId: appName,
     appDomain: appDomain,
     appImagesCompleteUrl: "https://" + appDomain + "/static/js/shared/images",
-    appVersion: "2.0.5",
+    appVersion: "1.0.0",
   };
 
   const appConfig: AppConfiguration = buildAppConfiguration(providedConfig);
@@ -21,11 +21,9 @@ const App: React.FC = () => {
 
     <StrictMode>
       <AppProvider appConfig={appConfig}>
-        <CustomOIDCAuthProvider>
-          <MFEAppContainer>
-            <AppRouter/>
-          </MFEAppContainer>
-        </CustomOIDCAuthProvider>
+        <MFEAppContainer>
+          <Home/>
+        </MFEAppContainer>
       </AppProvider>
     </StrictMode>
 

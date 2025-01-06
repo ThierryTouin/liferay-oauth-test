@@ -2,7 +2,7 @@
 
 ### 1. Tasks (TODO)
 - Pocking slots using dedicated app : https://fr.javascript.info/slots-composition
-- Maybe a POC 3 Moving to lerna and npm workspace : https://docs.npmjs.com/cli/v10/using-npm/workspaces https://lerna.js.org/docs/getting-started#package-dependency-management https://www.velotio.com/engineering-blog/scalable-front-end-with-lerna-yarn-react
+- Maybe a POC 3 Moving to lerna and npm workspace and a single server to serve all js resources: https://docs.npmjs.com/cli/v10/using-npm/workspaces https://lerna.js.org/docs/getting-started#package-dependency-management https://www.velotio.com/engineering-blog/scalable-front-end-with-lerna-yarn-react
 - Follow requests and understand duplicates
 
 ### 2. Tasks (Standby)

@@ -11,7 +11,7 @@ const App: React.FC = () => {
     appId: appName,
     appDomain: appDomain,
     appImagesCompleteUrl: "https://" + appDomain + "/static/js/shared/images",
-    appVersion: "2.0.3",
+    appVersion: "2.0.4",
   };
 
   const appConfig: AppConfiguration = buildAppConfiguration(providedConfig);
@@ -20,9 +20,9 @@ const App: React.FC = () => {
 
     <StrictMode>
       <AppProvider appConfig={appConfig}>
-        <CustomOIDCAuthProvider appId={appConfig.appId}>
-          <MFEAppContainer appId={appConfig.appId} titleText={appConfig.appVersion} imageUrl={appConfig.appImagesCompleteUrl}>
-            <AppRouter appId={appConfig.appId}/>
+        <CustomOIDCAuthProvider>
+          <MFEAppContainer>
+            <AppRouter/>
           </MFEAppContainer>
         </CustomOIDCAuthProvider>
       </AppProvider>
