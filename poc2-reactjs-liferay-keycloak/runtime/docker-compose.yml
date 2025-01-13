@@ -40,6 +40,7 @@ services:
       # Used by .config files to create client extensions as remote apps in Liferay Control Panel
       APP1_REMOTE_DOMAIN: "https://app1.dev.local"
       APP2_REMOTE_DOMAIN: "https://app2.dev.local"
+      APP3_REMOTE_DOMAIN: "https://app3.dev.local"
     labels:  
       - "traefik.enable=true"
       - "traefik.http.routers.liferay.rule=Host(`${LFR_HOSTNAME}`)"
@@ -197,6 +198,9 @@ services:
           - ${KEYCLOAK_HOSTNAME}
           - ${LFR_HOSTNAME}
           - ${KONG_HOSTNAME}
+          - ${APP1_HOSTNAME}
+          - ${APP2_HOSTNAME}
+          - ${APP3_HOSTNAME}
 
   apim:
     container_name: lfroauth-apim
@@ -242,7 +246,41 @@ services:
         condition: service_healthy
     networks:
       - devnet
-      
+            
+  app1:
+    hostname: app1.dev.local
+    container_name: lfroauth-app1
+    build:
+      context: ./front-end
+      dockerfile: ./app1/app1.Dockerfile
+      args: 
+        - TITLE=App1
+    ports:
+      - 3007:80
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app1.rule=Host(`${APP1_HOSTNAME}`)"
+      - "traefik.http.routers.app1.service=app1"
+      - "traefik.http.routers.app1.entrypoints=websecure"
+      - "traefik.http.routers.app1.tls=true"
+      - "traefik.http.routers.app1.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.app1.middlewares=compresstraefik"
+      - "traefik.http.services.app1.loadbalancer.server.port=80"
+      - "traefik.http.services.app1.loadbalancer.passhostheader=true"
+      - "traefik.http.middlewares.compresstraefik.compress=true"
+      - "traefik.docker.network=devnet"
+    volumes:
+      - ./front-end/app1/react-app/node_modules:/app/react-app/node_modules
+    depends_on:
+      traefik:
+        condition: service_healthy
+      sso:
+        condition: service_healthy
+      apim:
+        condition: service_healthy
+    networks:
+      - devnet
+
   app2:
     hostname: app2.dev.local
     container_name: lfroauth-app2
@@ -276,31 +314,31 @@ services:
         condition: service_healthy
     networks:
       - devnet
-      
-  app1:
-    hostname: app1.dev.local
-    container_name: lfroauth-app1
+
+  app3:
+    hostname: app3.dev.local
+    container_name: lfroauth-app3
     build:
       context: ./front-end
-      dockerfile: ./app1/app1.Dockerfile
+      dockerfile: ./app3/app3.Dockerfile
       args: 
-        - TITLE=App1
+        - TITLE=App3
     ports:
-      - 3007:80
+      - 3009:80
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.app1.rule=Host(`${APP1_HOSTNAME}`)"
-      - "traefik.http.routers.app1.service=app1"
-      - "traefik.http.routers.app1.entrypoints=websecure"
-      - "traefik.http.routers.app1.tls=true"
-      - "traefik.http.routers.app1.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.app1.middlewares=compresstraefik"
-      - "traefik.http.services.app1.loadbalancer.server.port=80"
-      - "traefik.http.services.app1.loadbalancer.passhostheader=true"
+      - "traefik.http.routers.app3.rule=Host(`${APP3_HOSTNAME}`)"
+      - "traefik.http.routers.app3.service=app3"
+      - "traefik.http.routers.app3.entrypoints=websecure"
+      - "traefik.http.routers.app3.tls=true"
+      - "traefik.http.routers.app3.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.app3.middlewares=compresstraefik"
+      - "traefik.http.services.app3.loadbalancer.server.port=80"
+      - "traefik.http.services.app3.loadbalancer.passhostheader=true"
       - "traefik.http.middlewares.compresstraefik.compress=true"
       - "traefik.docker.network=devnet"
     volumes:
-      - ./front-end/app1/react-app/node_modules:/app/react-app/node_modules
+      - ./front-end/app3/react-app/node_modules:/app/react-app/node_modules
     depends_on:
       traefik:
         condition: service_healthy

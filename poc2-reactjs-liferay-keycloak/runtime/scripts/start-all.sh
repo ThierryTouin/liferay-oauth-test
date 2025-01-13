@@ -21,6 +21,10 @@ echo " Starting App2"
 docker compose up -d app2
 echo " Done."
 
+echo " Starting App3"
+docker compose up -d app3
+echo " Done."
+
 ./scripts/spinner.sh sleep 5s
 
 echo " Starting Liferay"
