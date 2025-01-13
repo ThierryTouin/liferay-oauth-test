@@ -1,15 +1,3 @@
-## 0. Todo List (To be deleted)
-
-### 1. Tasks (TODO)
-- Pocking slots using dedicated app : https://fr.javascript.info/slots-composition
-- Maybe a POC 3 Moving to lerna and npm workspace and a single server to serve all js resources: https://docs.npmjs.com/cli/v10/using-npm/workspaces https://lerna.js.org/docs/getting-started#package-dependency-management https://www.velotio.com/engineering-blog/scalable-front-end-with-lerna-yarn-react
-- Follow requests and understand duplicates
-
-### 2. Tasks (Standby)
-- Switch language
-- I8N
-- Split bundle.js => https://learn.liferay.com/w/dxp/liferay-development/customizing-liferays-look-and-feel/bundling-resources-in-a-javascript-import-map-entry-client-extension/javascript-import-map-entry-yaml-configuration-reference#usage-details
-- Centralized logout & 
 
 ## 1. Technical Solution
 
@@ -93,7 +81,7 @@ docker exec -it lfroauth-portal sh -c "curl -k -v https://sso.dev.local"
 | common-modules          | Contain react components and classes to be used from 3rd party applications |
 | APP1                    | React App in standard javascript, Transpiled in one single file |
 | APP2                    | React App in typescript, Leverage code from common-modules, Transpiled in multiple files |
-| APP3                    | React App in typescript, Leverage code from common-modules, Transpiled in multiple files pocking slots |
+| APP3                    | Empty React App in typescript |
 
 #### 2. Required adaptations
 
