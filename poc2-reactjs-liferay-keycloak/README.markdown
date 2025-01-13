@@ -1,7 +1,19 @@
 
 ## 1. Technical Solution
 
-This demo showcases Liferay's ability to integrate a React application using a web component through the mechanism called client extension. The React application obtains the OAuth security token using the silent mode. Technically, this involves acquiring a token via an invisible iframe, assuming the user is already logged in (i.e., the user has successfully entered their login/password on the SSO server).
+This demo showcases Liferay's ability to integrate a React application using a web component through the mechanism called client extension. Some of React applications obtains the OAuth security token using the silent mode. Technically, this involves acquiring a token via an invisible iframe, assuming the user is already logged in (i.e., the user has successfully entered their login/password on the SSO server).
+
+This scenario also demonstrates the use of a shared library for all React applications, allowing for :
+- Share common context between alls Aps
+- Share simple components
+- Share oauth components
+
+This scenario has a few issues, including :
+1. Css code is embedded in JS (not in separate files) which is a design problem
+2. Using shdow DOM and slots is not possible because CSS does not load properly because of problem 1
+3. Over complex webpack configuration to make it work.
+
+POC 3 should demonstrate the ability to solve these problems.
 
 #### 1. Architecture
 
@@ -11,27 +23,50 @@ graph LR
 
 %% Nodes
 APP1[App1 - ReactJS<br>app1.dev.local]
+APP2[App2 - ReactJS<br>app2.dev.local]
+APP3[App3 - ReactJS<br>app3.dev.local]
 Portal[Portal - Liferay<br>portal.dev.local]
 APIM[APIM - Kong<br>apim.dev.local]
 API[Public API]
-C([client])
+C([Browser])
 SSO([SSO - Keycloak<br>sso.dev.local])
 
 %% Links	
-C <--> APP1
-C <--> Portal
-
-subgraph Environement
+  C <--> Portal
   APP1 <--> SSO
+  APP2 <--> SSO
   APP1 <--> APIM
+  APP2 <--> APIM
   APIM <--> SSO
   Portal <--> SSO
+
+subgraph Environement
+  subgraph Client
+    C
+  end
+  subgraph Portal Layer
+    Portal
+  end
+  subgraph Apps containers Layer
+    APP1
+    APP2
+    APP3
+  end
+  subgraph Authorization Layer
+    SSO
+    APIM
+  end
+  subgraph API Layer
+    API
+  end
 end
 
 APIM <--> API
 
 %% React Web Component Integration with Liferay
 APP1 -. Web Component integration <br>Client extension .-> Portal
+APP2 -. Web Component integration <br>Client extension .-> Portal
+APP3 -. Web Component integration <br>Client extension .-> Portal
 
 %% Token Validation Legend
 APIM -. Token validation .-> SSO
@@ -42,7 +77,7 @@ classDef k8s fill:#326ce5,stroke:#fff,stroke-width:4px,color:#fff
 classDef cluster fill:#fff,stroke:#bbb,stroke-width:2px,color:#326ce5
 
 %% Assigning styles to nodes
-class Portal,APP1,APIM,API,SSO k8s
+class Portal,APP1,APP2,APP3,APIM,API,SSO k8s
 class C plain
 class cluster cluster
 ```
