@@ -1,0 +1,27 @@
+#
+# Certificates Definition
+#
+
+[[tls.certificates]]
+   certFile = "/configuration/files/sso.dev.local.crt"
+   keyFile = "/configuration/files/sso.dev.local.key"
+
+[[tls.certificates]]
+   certFile = "/configuration/files/portal.dev.local.crt"
+   keyFile = "/configuration/files/portal.dev.local.key"
+
+[[tls.certificates]]
+   certFile = "/configuration/files/apim.dev.local.crt"
+   keyFile = "/configuration/files/apim.dev.local.key" 
+
+[[tls.certificates]]
+   certFile = "/configuration/files/app1.dev.local.crt"
+   keyFile = "/configuration/files/app1.dev.local.key" 
+
+[[tls.certificates]]
+   certFile = "/configuration/files/app2.dev.local.crt"
+   keyFile = "/configuration/files/app2.dev.local.key"    
+
+[[tls.certificates]]
+   certFile = "/configuration/files/app3.dev.local.crt"
+   keyFile = "/configuration/files/app3.dev.local.key"    

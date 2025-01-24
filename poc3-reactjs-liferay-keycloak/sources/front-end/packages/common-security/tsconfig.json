@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",  // Répertoire de sortie spécifique à ce module
+    "declaration": true  
+  },
+  "include": [
+    "src/**/*"
+,   "src/types/**/*.d.ts"    
+  ],
+}
+
