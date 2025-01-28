@@ -17,7 +17,12 @@ FROM nginx:1.21.6-alpine
 # Copying files for app 1
 COPY --from=build /apps/front-end/packages/app1/build /usr/share/nginx/html/app1
 
-# Copying nginc configuration file
+# Copying files for app 1
+COPY --from=build /apps/front-end/packages/app2/build /usr/share/nginx/html/app2
+
+# Copying nginx configuration file
 COPY ./runtime/apps/nginx/nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./runtime/apps/nginx/conf.d /etc/nginx/conf.d
+
 EXPOSE 80 
 CMD ["nginx", "-g", "daemon off;"]

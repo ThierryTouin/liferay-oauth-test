@@ -3,10 +3,10 @@ import { CommonComponent } from 'common-components';
 
 const App: React.FC = () => (
   <div>
-    <h1>Hello from APP1</h1>
+    <h2>Hello from APP2</h2>
     <ul>
       <li>{CommonComponent()}</li>
-      <li>I'm defined has standard React</li>
+      <li>I'm defined has a Web Component designed to be used in another application</li>
     </ul>
   </div>
 );

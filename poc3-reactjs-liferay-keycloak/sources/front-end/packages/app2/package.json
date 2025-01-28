@@ -1,0 +1,48 @@
+{
+  "name": "app2",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.121",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "common-components": "file:../common-components",
+    "common-security": "file:../common-security",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.0.1",
+    "react-scripts": "^5.0.1",
+    "typescript": "^4.9.5",
+    "web-vitals": "^2.1.4"
+  },
+
+  "scripts": {
+    "prestart": "sudo setcap 'cap_net_bind_service=+ep' $(which node)",
+    "start": "PORT=443 HOST=app2.dev.local HTTPS=true SSL_CRT_FILE=../../../../runtime/traefik/providers/files/app2.dev.local.crt SSL_KEY_FILE=../../../../runtime/traefik/providers/files/app2.dev.local.key react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "eslint": "^8.32.0"
+  }
+}
