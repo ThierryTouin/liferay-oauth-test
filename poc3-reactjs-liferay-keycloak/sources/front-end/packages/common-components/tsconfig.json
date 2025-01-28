@@ -1,7 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "./dist",  // Répertoire de sortie spécifique à ce module
+    "outDir": "./build",  // Répertoire de sortie spécifique à ce module
     "declaration": true
   },
   "include": [

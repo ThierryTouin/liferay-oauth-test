@@ -1,0 +1,2 @@
+ARG BASE_IMAGE=rnwood/smtp4dev:v3
+FROM ${BASE_IMAGE}

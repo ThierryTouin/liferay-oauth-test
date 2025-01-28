@@ -141,7 +141,9 @@ end
 | Service             | Links   | Description |
 | --------            | ------- | -------                                                                                            |
 | Portal              | https://portal.dev.local             | Liferay Credentials : superadmin@liferay.com / test                                                              |
-| ReactJS App         | https://app1.dev.local          |                                                                            |
+| App 01              | https://app1.dev.local          |                                                                            |
+| App 02              | https://app2.dev.local          |                                                                            |
+| App 03              | https://app3.dev.local          |                                                                            |
 | SSO GUI             | https://sso.dev.local                | Keycloak Credentials : admin / Admin                                  |
 | SSO Config          | https://sso.dev.local/realms/Liferay/.well-known/openid-configuration | Display SSO configuration            |
 | Apim GUI            | http://apim.dev.local:8002           | Kong administration                                                   |
@@ -162,7 +164,7 @@ end
 2. Open **each URL** and then add certificate exception
 ![Self Signed Exception](./images/exception.png "Self Signed Exception")
 
-##### 1.a CORS error samples if certificate execption is not correcty set
+CORS error samples if certificate exception are not correcty set
 
 **Sample 01 : CORS error loading APP1 outside Liferay**
 ![CORS Error 01](./images/Error-CORS.png "CORS error loading app1")

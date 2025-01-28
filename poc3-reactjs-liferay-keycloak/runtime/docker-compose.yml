@@ -1,0 +1,125 @@
+name: "lfroauth"
+services:
+
+  mail:
+    hostname: mail.dev.local
+    container_name: lfroauth-mail
+    build:
+      dockerfile: smtp4dev/smtp4dev.Dockerfile
+      context: .
+    ports:
+      - "5000:80"
+    volumes:
+      - smtp_data:/smtp4dev
+    networks:
+      - devnet
+
+  traefik:
+    build:
+      context: .    
+      dockerfile: traefik/traefik.Dockerfile    
+    container_name: lfroauth-traefik
+    ports:
+      - "80:80"
+      - "443:443"
+    command:
+      - "--log.level=${TRAEFIK_LOG_LEVEL}"
+      - "--accesslog=true"
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+      - "--ping=true"
+      - "--ping.entrypoint=ping"
+      - "--entryPoints.ping.address=:8082"
+      - "--entryPoints.web.address=:80"
+      - "--entryPoints.websecure.address=:443"
+      - "--providers.docker=true"
+      - "--providers.docker.endpoint=unix:///var/run/docker.sock"
+      - "--providers.docker.exposedByDefault=false"
+      - "--providers.file.directory=/configuration/"
+      - "--providers.file.watch=true"
+      - "--global.checkNewVersion=true"
+      - "--global.sendAnonymousUsage=false"
+      - "--serversTransport.insecureSkipVerify=true"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik/providers:/configuration/
+    healthcheck:
+      test: ["CMD", "wget", "http://localhost:8082/ping","--spider"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    depends_on:
+      - gencert      
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`${TRAEFIK_HOSTNAME}`)"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.entrypoints=websecure"
+      - "traefik.http.services.dashboard.loadbalancer.server.port=8080"
+      - "traefik.http.routers.dashboard.tls=true"
+      - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt"
+      - "traefik.http.services.dashboard.loadbalancer.passhostheader=true"
+      - "traefik.http.routers.dashboard.middlewares=authtraefik"
+      - "traefik.http.middlewares.authtraefik.basicauth.users=${TRAEFIK_BASIC_AUTH}"
+      - "traefik.http.routers.http-catchall.rule=HostRegexp(`{host:.+}`)"
+      - "traefik.http.routers.http-catchall.entrypoints=web"
+      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+    networks:
+      devnet:
+        aliases:
+          - ${KEYCLOAK_HOSTNAME}
+          - ${LFR_HOSTNAME}
+          - ${KONG_HOSTNAME}
+          - ${APP1_HOSTNAME}
+          - ${APP2_HOSTNAME}
+          - ${APP3_HOSTNAME}
+
+  apps:
+    container_name: lfroauth-apps
+    build:
+      context: ../
+      dockerfile: ./runtime/apps/apps.Dockerfile
+      args: 
+        - TITLE=Apps resource server
+    ports:
+      - 3007:80
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.apps.rule=Host(`${APP1_HOSTNAME}`,`${APP2_HOSTNAME}`,`${APP3_HOSTNAME}`)"
+      - "traefik.http.routers.apps.service=apps"
+      - "traefik.http.routers.apps.entrypoints=websecure"
+      - "traefik.http.routers.apps.tls=true"
+      - "traefik.http.routers.apps.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.apps.middlewares=compresstraefik"
+      - "traefik.http.services.apps.loadbalancer.server.port=80"
+      - "traefik.http.services.apps.loadbalancer.passhostheader=true"
+      - "traefik.http.middlewares.compresstraefik.compress=true"
+      - "traefik.docker.network=devnet"
+    depends_on:
+      traefik:
+        condition: service_healthy
+    networks:
+      - devnet
+    
+  ## generate automatically selsigned certificate if needed
+  gencert: 
+    container_name: lfroauth-gencert
+    build:
+      context: ./certs
+      dockerfile: ./openssl.Dockerfile
+    command: >
+      sh "/certs/scripts/certs.sh"
+    volumes:
+      - ./certs:/certs
+      - ./traefik/providers:/traefik/providers
+
+volumes:
+  smtp_data:
+  traefik-letsencrypt:
+
+networks:
+  internal: # communication betwwen db and other container sso, portal 
+  devnet:
+    external: true
