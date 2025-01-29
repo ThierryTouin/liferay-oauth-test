@@ -3,12 +3,16 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// This will works well in monorepo configuration but not in multi repo
+import '../../app2/build/static/js/bundle.js'
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
     <App />
+    <app2-docker-example/>
   </React.StrictMode>
 );
 
