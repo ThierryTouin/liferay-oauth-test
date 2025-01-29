@@ -14,7 +14,8 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true, 
     "jsx": "react",  
-    "types": ["react", "react-dom"]
+    "types": ["react", "react-dom"],
+    "typeRoots": ["node_modules/@types", "src/types"] // Include custom types
   },
   "include": ["packages/**/*"], 
   "exclude": ["node_modules"]  // Exclut node_modules de la compilation
