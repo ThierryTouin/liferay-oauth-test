@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { UserManager } from 'oidc-client';
+import { UserManager } from 'oidc-client-ts';
 import { getAuthConfiguration } from '../services/configService';
 
 export interface SilentRenewProps {

@@ -1,6 +1,7 @@
 import React, { StrictMode } from 'react';
 import { CustomOIDCAuthProvider, AppProvider, AppConfiguration, ProvidedAppConfiguration, buildAppConfiguration } from 'common-security';
 import AppRouter from './routes/AppRouter';
+import { StyledBox } from "common-components";
 
 const App: React.FC = () => {
 
@@ -20,7 +21,9 @@ const App: React.FC = () => {
     <StrictMode>
       <AppProvider appConfig={appConfig}>
         <CustomOIDCAuthProvider>
-            <AppRouter/>
+          <StyledBox borderColor="darkred"  bgColor="#f8d7da" headerColor="darkred" textColor="darkred">
+              <AppRouter/>
+          </StyledBox>
         </CustomOIDCAuthProvider>
       </AppProvider>
     </StrictMode>

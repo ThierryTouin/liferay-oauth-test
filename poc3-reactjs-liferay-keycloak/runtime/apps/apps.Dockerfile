@@ -9,7 +9,7 @@ RUN npm install -g lerna@^8.1.9
 
 RUN npm install --verbose
 
-RUN npx lerna run build --stream
+RUN npx lerna run build --include-dependencies --stream
 
 ## Stage 2, use the compiled app, ready for production with Nginx
 FROM nginx:1.21.6-alpine

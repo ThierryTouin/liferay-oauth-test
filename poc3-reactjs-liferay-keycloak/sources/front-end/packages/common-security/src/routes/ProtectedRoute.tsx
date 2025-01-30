@@ -31,7 +31,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, oidc }
         hasTriedSignin.current = true;
 
         try {
-          console.log(`APP 2 is running in ${isInPortal ? "Liferay" : "standalone"} mode`);
+          console.log(`APP is running in ${isInPortal ? "Liferay" : "standalone"} mode`);
           if (isInPortal) {
             if (isPortalSignedIn) {
               // Attempt silent authentication for Liferay

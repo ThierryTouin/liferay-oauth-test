@@ -129,10 +129,10 @@ function build() {
 
     if [ -z "$module" ]; then
         echo "${GREEN}Building all modules...${NC}"
-        npx lerna run build --stream
+        npx lerna run build --include-dependencies --stream
     else
         echo "${GREEN}Building module: $module${NC}"
-        npx lerna run build --stream --scope="$module"
+        npx lerna run build --include-dependencies --stream --scope="$module"
     fi
 
     echo "${GREEN}Build completed.${NC}"

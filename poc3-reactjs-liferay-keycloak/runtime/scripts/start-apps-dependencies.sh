@@ -35,9 +35,9 @@ echo " Done."
 #docker compose up -d db
 #echo " Done."
 
-#echo " Starting Keycloak"
-#docker compose up -d sso
-#echo " Done."
+echo " Starting Keycloak"
+docker compose up -d sso
+echo " Done."
 
 #echo " Starting Kong"
 #docker compose up -d apim
