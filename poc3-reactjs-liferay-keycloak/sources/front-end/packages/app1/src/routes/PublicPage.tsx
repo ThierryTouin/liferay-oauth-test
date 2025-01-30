@@ -5,6 +5,9 @@ const PublicPage: React.FC = () => {
   return (
     <div>
       <h3>Public Page</h3>
+      <nav>
+        <a href="#/dashboard">Go to Dashboard</a>
+      </nav>
       <div>
         <h4>Hello from APP1</h4>
         <ul>

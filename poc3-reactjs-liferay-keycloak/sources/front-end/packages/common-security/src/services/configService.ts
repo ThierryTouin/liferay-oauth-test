@@ -16,7 +16,7 @@ export function getAuthConfiguration(appId: string): UserManagerSettings {
     automaticSilentRenew: true, // Automatic token renewal in the background
     loadUserInfo: true, // Load additional user information after authentication
     silent_redirect_uri: defaultURL + '#silent-renew', // URL for silent token renewal (using hashrouter)
-    userStore: new WebStorageStateStore({ store: new InMemoryWebStorage() }) // Stockage uniquement en mémoire
+    //userStore: new WebStorageStateStore({ store: new InMemoryWebStorage() }) // Stockage uniquement en mémoire
   };
 
   if (!appId || appId.trim() === "") {

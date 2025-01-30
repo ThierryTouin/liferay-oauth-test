@@ -1,5 +1,5 @@
 import React, { StrictMode } from 'react';
-import { CustomOIDCAuthProvider, AppProvider, AppConfiguration, ProvidedAppConfiguration, buildAppConfiguration } from 'common-security';
+import { CustomOIDCAuthProvider, AppProvider, AppConfiguration, ProvidedAppConfiguration, buildAppConfiguration, MFEAppContainer } from 'common-security';
 import AppRouter from './routes/AppRouter';
 import { StyledBox } from "common-components";
 
@@ -11,7 +11,7 @@ const App: React.FC = () => {
     appId: appName,
     appDomain: "",
     appImagesCompleteUrl: "",
-    appVersion: "1.0.0",
+    appVersion: "1.0.4",
   };
 
   const appConfig: AppConfiguration = buildAppConfiguration(providedConfig);
@@ -19,15 +19,21 @@ const App: React.FC = () => {
   return (
 
     <StrictMode>
-      <AppProvider appConfig={appConfig}>
-        <CustomOIDCAuthProvider>
-          <StyledBox borderColor="darkred"  bgColor="#f8d7da" headerColor="darkred" textColor="darkred">
-              <AppRouter/>
-          </StyledBox>
-        </CustomOIDCAuthProvider>
-      </AppProvider>
+        <AppProvider appConfig={appConfig}>  
+            <CustomOIDCAuthProvider>
+              <StyledBox 
+                    borderColor="darkred" 
+                    bgColor="#f8d7da" 
+                    headerColor="darkred" 
+                    textColor="darkred"
+              >
+                <MFEAppContainer>
+                  <AppRouter/>     
+                </MFEAppContainer>
+              </StyledBox>
+            </CustomOIDCAuthProvider>
+        </AppProvider>
     </StrictMode>
-
   );
 }
 

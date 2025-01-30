@@ -27,10 +27,6 @@ echo " Starting Traefik"
 docker compose up -d traefik
 echo " Done."
 
-echo " Starting Apps"
-docker compose up -d apps
-echo " Done."
-
 #echo " Starting DB"
 #docker compose up -d db
 #echo " Done."

@@ -7,7 +7,6 @@ import { useAppContext } from "./context/AppContext";
 
 /**
  * Custom OIDC Auth Provider
- * Encapsule le AuthProvider de react-oidc-context et fournit une configuration centralisée.
  */
 export const CustomOIDCAuthProvider: React.FC<CustomOIDCAuthProviderProps> = ({ children }) => {
 

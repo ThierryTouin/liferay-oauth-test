@@ -16,8 +16,14 @@ const AppRouter: React.FC<AppRouterProps> = () => {
 
   return (
     <div>
-      <h1>APP Description</h1>
-      <p>Todo description </p>
+      <h1>APP 01 Description</h1>
+      <p> <b>TODO :</b> </p>
+      <ul>
+        <li>Manage react-oidc-context to not store token in local storage</li>
+        <li>Fixe use indefined in private pages</li>
+        <li>Poc passing secured and less secure parameters</li>
+        <li>Used style components in other non styled components</li>
+      </ul>
       <DefaultAppRouter appRoutes={appRoutes} appId={appId} />
     </div>
   );

@@ -1,10 +1,10 @@
 
 // Services section
-export { buildAppConfiguration } from './services/configService';
+export { buildAppConfiguration, getAuthConfiguration } from './services/configService';
 
 // Components section
 export { CustomOIDCAuthProvider } from './components/CustomOIDCAuthProvider';
-//export { MFEAppContainer } from './components/MFEAppContainer';
+export { MFEAppContainer } from './components/MFEAppContainer';
     // React Context
 export { AppProvider, useAppContext } from './components/context/AppContext';
 
