@@ -13,7 +13,8 @@
 - Centralized logout & 
 
 ### 3. Resources
-- Lilit number of generated chunks : https://medium.com/@glennreyes/how-to-disable-code-splitting-in-webpack-1c0b1754a3c5
+- Limit number of generated chunks : https://medium.com/@glennreyes/how-to-disable-code-splitting-in-webpack-1c0b1754a3c5
+- Passing parameter to Web Component : https://sinhapiyush.hashnode.dev/share-data-between-web-components
 
 ### Principe de Lerna 
 le node_module de l'application est vide car c'est le node_module racine qui est utilisé via un lien symolique
