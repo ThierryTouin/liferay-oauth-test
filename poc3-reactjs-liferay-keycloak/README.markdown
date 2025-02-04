@@ -12,6 +12,8 @@
 - Split bundle.js => https://learn.liferay.com/w/dxp/liferay-development/customizing-liferays-look-and-feel/bundling-resources-in-a-javascript-import-map-entry-client-extension/javascript-import-map-entry-yaml-configuration-reference#usage-details
 - Centralized logout & 
 
+### 3. Resources
+- Lilit number of generated chunks : https://medium.com/@glennreyes/how-to-disable-code-splitting-in-webpack-1c0b1754a3c5
 
 ### Principe de Lerna 
 le node_module de l'application est vide car c'est le node_module racine qui est utilisé via un lien symolique
