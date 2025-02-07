@@ -5,6 +5,17 @@
   "workspaces": [
     "packages/*"
   ],
+  "dependencies": {
+    "oidc-client": "^1.11.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-oidc-context": "^3.2.0",
+    "react-router-dom": "^7.0.1",
+    "react-scripts": "^5.0.1",
+    "typescript": "^4.9.5",
+    "styled-components": "^6.1.14",
+    "web-vitals": "^2.1.4"
+  },
   "devDependencies": {
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.121",
@@ -12,6 +23,7 @@
     "@types/react-dom": "^18.3.1",
     "@types/react-router-dom": "^5.3.3",
     "babel-loader": "^9.2.1",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "lerna": "^8.1.9",
     "react-app-rewired": "^2.2.1",
     "web-vitals": "^2.1.4",
@@ -19,15 +31,5 @@
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^6.0.1",
     "webpack-dev-server": "^5.2.0"
-  },
-  "dependencies": {
-    "oidc-client-ts": "^3.1.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-oidc-context": "^3.2.0",
-    "react-router-dom": "^7.0.1",
-    "react-scripts": "^5.0.1",
-    "styled-components": "^6.1.14",
-    "typescript": "^4.9.5"
   }
 }

@@ -1,10 +1,9 @@
 import React from 'react';
 import { useAuth } from "react-oidc-context";
-import { ErrorMessage } from 'common-components';
-
+import { ErrorMessage } from './ErrorMessage';
 
 // This will works well in monorepo configuration but not in multi repo
-//import '../../../app2/build/static/js/bundle.js';
+import '../../../app2/build/static/js/bundle.js';
 
 const PrivatePage: React.FC = () => {
 
@@ -31,7 +30,7 @@ const PrivatePage: React.FC = () => {
       <p><strong>First Name:</strong> {firstName || "Unknown"}</p>
       <p><strong>Last Name:</strong> {lastName || "Unknown"}</p>
       <p><strong>Email:</strong> {email || "Unknown"}</p>
-      
+      <app2-docker-example/>
     </div>
   );
 };

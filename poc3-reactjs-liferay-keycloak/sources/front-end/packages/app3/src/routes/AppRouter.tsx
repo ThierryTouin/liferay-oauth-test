@@ -1,7 +1,10 @@
 import React from 'react';
 import PrivatePage from './PrivatePage';
 import PublicPage from './PublicPage';
-import { CustomRouteProps, DefaultAppRouter, AppConfiguration, useAppContext } from 'common-components';
+import { CustomRouteProps } from '../models/CustomRouteProps';
+import { DefaultAppRouter } from '../routes/DefaultAppRouter';
+import { AppConfiguration } from '../models/AppConfiguration';
+import { useAppContext } from '../components/context/AppContext';
 import { AppRouterProps } from '../models/AppRouterProps';
 
 const AppRouter: React.FC<AppRouterProps> = () => {
@@ -16,7 +19,6 @@ const AppRouter: React.FC<AppRouterProps> = () => {
 
   return (
     <div>
-      <h1>APP 01 Description</h1>
       <p> <b>TODO :</b> </p>
       <ul>
         <li>Manage react-oidc-context to not store token in local storage</li>

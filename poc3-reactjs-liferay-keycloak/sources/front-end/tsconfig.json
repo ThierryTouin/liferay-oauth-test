@@ -3,7 +3,6 @@
     "baseUrl": "./",
     "paths": {
       "*": ["node_modules/*"],
-      "common-security": ["packages/common-security/src"],
       "common-components": ["packages/common-components/src"]
     },
     "outDir": "./dist",

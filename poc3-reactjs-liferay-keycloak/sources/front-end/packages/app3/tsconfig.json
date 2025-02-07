@@ -1,12 +1,10 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "./build",  // Répertoire de sortie spécifique à ce module
-    "declaration": true  
+    "baseUrl": "./"
   },
   "include": [
     "src/**/*"
 ,   "src/types/**/*.d.ts"    
-  ],
+  ]
 }
-

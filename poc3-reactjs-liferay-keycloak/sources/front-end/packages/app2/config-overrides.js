@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const webpack = require('webpack'); 
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = function override(config) {
@@ -10,6 +11,11 @@ module.exports = function override(config) {
         default: false, // Disable default chunking behavior
       },
     };
+
+    config.optimization.runtimeChunk = false;
+    config.plugins.push(new webpack.optimize.LimitChunkCountPlugin({
+        maxChunks: 1, // one single JS file generated
+    }));
 
     // Generating .map files to ease debugging
     config.devtool = 'source-map',

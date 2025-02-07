@@ -1,4 +1,4 @@
-import { UserManagerSettings, InMemoryWebStorage, WebStorageStateStore } from 'oidc-client-ts';
+import { UserManagerSettings, InMemoryWebStorage, WebStorageStateStore } from 'oidc-client';
 import { AppConfiguration } from '../models/AppConfiguration';
 import { ProvidedAppConfiguration } from '../models/ProvidedAppConfiguration';
 
@@ -43,7 +43,7 @@ export function buildAppConfiguration(config: ProvidedAppConfiguration): AppConf
   const embeddedMode: boolean = false;
 
   const appConfig: AppConfiguration = {
-    ... config,
+    ...config,
     embeddedMode: embeddedMode
   };
 

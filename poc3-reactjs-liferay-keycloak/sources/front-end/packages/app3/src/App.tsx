@@ -1,17 +1,22 @@
 import React, { StrictMode } from 'react';
-import { CustomOIDCAuthProvider, AppProvider, AppConfiguration, ProvidedAppConfiguration, buildAppConfiguration, MFEAppContainer } from 'common-components';
 import AppRouter from './routes/AppRouter';
-import { StyledBox } from "common-components";
+import { MFEAppContainer } from "./components/MFEAppContainer";
+import CustomOIDCAuthProvider from "./components/CustomOIDCAuthProvider";
+import { StyledBox } from "./components/StyledBox";
+import { buildAppConfiguration } from './services/configService';
+import { AppConfiguration } from './models/AppConfiguration';
+import { ProvidedAppConfiguration } from './models/ProvidedAppConfiguration';
+import { AppProvider } from './components/context/AppContext';
 
 const App: React.FC = () => {
 
-  const appName: string = "app1";
+  const appName: string = "app3";
 
   const providedConfig: ProvidedAppConfiguration = {
     appId: appName,
     appDomain: "",
     appImagesCompleteUrl: "",
-    appVersion: "1.0.7",
+    appVersion: "1.0.6",
   };
 
   const appConfig: AppConfiguration = buildAppConfiguration(providedConfig);

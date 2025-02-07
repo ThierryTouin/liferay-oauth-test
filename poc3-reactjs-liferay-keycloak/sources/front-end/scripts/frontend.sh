@@ -53,7 +53,7 @@ function refresh() {
     fi
 
     path=$1
-    echo "${GREEN}Starting refresh in path: $path${NC}"
+    echo "${GREEN}Starting refresh in path: $path ${NC}"
 
     clean "$path" && rebuild "$path"
 
@@ -68,7 +68,7 @@ function clean() {
     fi
 
     path=$1
-    echo "${GREEN}Starting cleanup in path: $path${NC}"
+    echo "${GREEN}Starting cleanup in path: $path ${NC}"
 
     find_package_dirs "$path" | while read -r project_dir; do
         echo "${BOLD}Cleaning in: $project_dir${NC}"
@@ -100,7 +100,7 @@ function install() {
     fi
 
     path=$1
-    echo "${GREEN}Starting npm install"
+    echo "${GREEN}Starting npm install in path: $path"
 
     cd "$1"
 
@@ -118,7 +118,7 @@ function build() {
 
     local path="$1"
     local module="$2"
-    echo "${GREEN}Starting build in path: $path${NC}"
+    echo "${GREEN}Starting build in path: $path ${NC}"
 
     if [ ! -d "$path" ]; then
         echo "${RED}Error: The path $path does not exist.${NC}"
