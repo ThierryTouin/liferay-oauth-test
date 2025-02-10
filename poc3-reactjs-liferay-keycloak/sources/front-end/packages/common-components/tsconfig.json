@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../common-configuration/typescript/tsconfig.json",
   "compilerOptions": {
     "outDir": "./build"
   },
