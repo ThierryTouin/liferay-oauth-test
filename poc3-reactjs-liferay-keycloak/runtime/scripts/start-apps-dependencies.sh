@@ -27,14 +27,10 @@ echo " Starting Traefik"
 docker compose up -d traefik
 echo " Done."
 
-#echo " Starting DB"
-#docker compose up -d db
-#echo " Done."
-
 echo " Starting Keycloak"
 docker compose up -d sso
 echo " Done."
 
-#echo " Starting Kong"
-#docker compose up -d apim
-#echo " Done."
+echo " Starting Kong"
+docker compose up -d apim
+echo " Done."

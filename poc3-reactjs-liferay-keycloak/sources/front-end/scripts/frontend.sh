@@ -40,7 +40,7 @@ function rebuild() {
     echo "${GREEN}Starting rebuild in path: $path${NC}"
 
     path=$1
-    install "$path" && build "$path"
+    cleanBuild "$path" && build "$path"
 
     echo "${GREEN}Rebuild completed.${NC}"
 }
@@ -60,7 +60,7 @@ function refresh() {
     echo "${GREEN}Refresh completed.${NC}"
 }
 
-function clean() {
+function cleanInstall() {
     if [ -z "$1" ]; then
         echo "${RED}Error: Path argument is required for the clean command.${NC}"
         echo "Usage: ./frontend.sh clean <path>"
@@ -68,7 +68,7 @@ function clean() {
     fi
 
     path=$1
-    echo "${GREEN}Starting cleanup in path: $path ${NC}"
+    echo "${GREEN}Starting cleanup INSTALLATION in path: $path ${NC}"
 
     find_package_dirs "$path" | while read -r project_dir; do
         echo "${BOLD}Cleaning in: $project_dir${NC}"
@@ -78,16 +78,43 @@ function clean() {
             rm -rf "$project_dir/node_modules"
         fi
 
-        if [ -d "$project_dir/build" ]; then
-            echo "  Removing build..."
-            rm -rf "$project_dir/build"
-        fi
-
         if [ -f "$project_dir/package-lock.json" ]; then
             echo "  Removing package-lock.json..."
             rm -f "$project_dir/package-lock.json"
         fi
     done
+
+    echo "${GREEN}Cleanup of INSTALLATION completed.${NC}"
+}
+
+function cleanBuild() {
+    if [ -z "$1" ]; then
+        echo "${RED}Error: Path argument is required for the clean command.${NC}"
+        echo "Usage: ./frontend.sh clean <path>"
+        exit 1
+    fi
+
+    path=$1
+    echo "${GREEN}Starting cleanup BUILD in path: $path ${NC}"
+
+    find_package_dirs "$path" | while read -r project_dir; do
+        echo "${BOLD}Cleaning in: $project_dir${NC}"
+
+        if [ -d "$project_dir/build" ]; then
+            echo "  Removing build..."
+            rm -rf "$project_dir/build"
+        fi
+
+    done
+
+    echo "${GREEN}Cleanup BUILD completed.${NC}"
+}
+
+function clean() {
+
+    echo "${GREEN}Starting cleanup in path: $path ${NC}"
+
+    cleanInstall "$1" && cleanBuild "$1"
 
     echo "${GREEN}Cleanup completed.${NC}"
 }
@@ -104,7 +131,7 @@ function install() {
 
     cd "$1"
 
-    npm install --no-cache
+    npm install
 
     echo "${GREEN}npm install completed.${NC}"
 }

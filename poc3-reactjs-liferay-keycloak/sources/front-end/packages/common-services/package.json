@@ -1,0 +1,12 @@
+{
+  "name": "common-services",
+  "version": "0.1.0",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "peerDependencies": {
+    "axios": "^1.7.9"
+  }
+}

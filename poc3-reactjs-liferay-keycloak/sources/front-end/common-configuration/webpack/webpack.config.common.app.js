@@ -5,6 +5,11 @@ const fs = require('fs');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 
+const commonModulesToProcess = [
+  '../../packages/common-components/package.json',
+  '../../packages/common-services/package.json',
+];
+
 function override(config) {
 
     // Disable all code splitting
@@ -25,12 +30,15 @@ function override(config) {
     // Manage peer dependencies from common modules
     // IMPORTANT : Force pearDependencies to resolve from the lerna managed node_modules. for example : avoid to include React twice 
     // Dynamically load peerDependancies from common-components package.json
-    const commonModulesPackageJson = path.resolve(__dirname, '../../packages/common-components/package.json');
-    const commonModulesPackage = JSON.parse(fs.readFileSync(commonModulesPackageJson, 'utf8'));
-    const peerDependencies = commonModulesPackage.peerDependencies || {};
+    const peerDependencyAliases = commonModulesToProcess.reduce((aliases, modulePath) => {
+      const modulePackageJson = path.resolve(__dirname, modulePath);
+      const modulePackage = JSON.parse(fs.readFileSync(modulePackageJson, 'utf8'));
+      const peerDependencies = modulePackage.peerDependencies || {};
 
-    const peerDependencyAliases = Object.keys(peerDependencies).reduce((aliases, packageName) => {
-      aliases[packageName] = path.resolve(__dirname, '../../../front-end/node_modules', packageName);
+      Object.keys(peerDependencies).forEach(packageName => {
+        aliases[packageName] = path.resolve(__dirname, '../../../front-end/node_modules', packageName);
+      });
+
       return aliases;
     }, {});
 

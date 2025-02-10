@@ -1,0 +1,54 @@
+  #
+  # TOKEN VALIDATION IS MISSING : Two option to validate tokens
+  # - Without making a call (signature verification) See : https://konghq.com/blog/engineering/jwt-kong-gateway
+  # https://github.com/callistaenterprise/kong-plugin-token-introspection
+  # https://docs.konghq.com/kubernetes-ingress-controller/latest/plugins/custom/
+  # - Using introspect endpoint. Sample here See :
+  #   NB : Community plugins are not compatible with last version of kong. Handling token validation using introspect endpoint need custom kong plugin implementation
+  #
+
+  # TODO: Find a way to have 1 plugin configuration that works on the 2 services
+
+_format_version: "3.0"
+_transform: true
+
+services:
+- name: httpbin_service
+  host: httpbin.org
+  port: 80
+  protocol: http
+  routes:
+    - name: debug_route
+      paths:
+        - /debug
+      strip_path: true
+- name: geo_api_gouv_service
+  host: geo.api.gouv.fr
+  port: 443
+  protocol: https
+  path: /communes
+  routes:
+    - name: communes_route
+      paths:
+        - /cities
+      strip_path: true
+- name: kong-admin
+  url: http://localhost:8001
+  routes:
+  - name: kong-admin-route
+    paths:
+    - /admin
+
+plugins: 
+  - name: oauth-token-simple-validation
+    config:
+      client_id: liferay
+      # Used by plugin to retrieve public key for validate token
+      realms_certs_url: https://sso.dev.local/realms/Liferay/protocol/openid-connect/certs
+    enabled: true
+  - name: cors
+    config:
+      origins:
+        - '^http://.*$'
+        - '^https://.*$'
+      credentials: true
