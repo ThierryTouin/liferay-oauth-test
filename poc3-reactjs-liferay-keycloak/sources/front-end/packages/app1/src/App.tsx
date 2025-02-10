@@ -11,7 +11,7 @@ const App: React.FC = () => {
     appId: appName,
     appDomain: "",
     appImagesCompleteUrl: "",
-    appVersion: "1.0.8",
+    appVersion: "1.0.9",
   };
 
   const appConfig: AppConfiguration = buildAppConfiguration(providedConfig);
