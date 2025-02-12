@@ -16,7 +16,7 @@ const AppRouter: React.FC<AppRouterProps> = () => {
 
   return (
     <div>
-      <h1>APP 01 Description</h1>
+      <h2>APP 01 Description</h2>
       <p> <b>TODO :</b> </p>
       <ul>
         <li>Manage react-oidc-context to not store token in local storage</li>

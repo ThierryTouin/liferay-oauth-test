@@ -7,7 +7,7 @@ import reportWebVitals from './reportWebVitals';
 const ELEMENT_ID = 'app2-docker-example';
 
 // Define WebComponent class, extending HTMLElement
-class WebComponent extends HTMLElement {
+export class App2DockerExample extends HTMLElement {
   // Declare root as a ReactRoot element, making it optionally undefined
   private root: Root | undefined;
 
@@ -15,26 +15,38 @@ class WebComponent extends HTMLElement {
   connectedCallback(): void {
     this.root = createRoot(this);
     this.root.render(<App />);
+
+    // Add event listenr for custom event
+    this.addEventListener('app2-context-params', this.handleApp2ContextParams as EventListener);
   }
 
-  // Lifecycle method when the element is removed from the DOM
+  // Méthode du cycle de vie lorsque l'élément est retiré du DOM
   disconnectedCallback(): void {
-    if (this.root) { // Check if root exists before unmounting
+    if (this.root) { // Vérifier si root existe avant de démonter
       this.root.unmount();
       delete this.root; // Now it is safe to delete
     }
+
+    // Delete event listener
+    this.removeEventListener('app2-context-params', this.handleApp2ContextParams as EventListener);
+  }
+
+  // Manage custom event 
+  handleApp2ContextParams = (event: CustomEvent) => {
+    const app2ContextParams = event.detail;
+    this.root?.render(<App app2ContextParams={app2ContextParams} />);
   }
 }
 
-// Register the custom element if it hasn't been registered yet
+// Enregistrer l'élément personnalisé s'il n'a pas encore été enregistré
 if (!customElements.get(ELEMENT_ID)) {
   console.log('Registering ' + ELEMENT_ID + ' as custom element');
-  customElements.define(ELEMENT_ID, WebComponent);
+  customElements.define(ELEMENT_ID, App2DockerExample);
 } else {
   console.log('Skipping registration for ' + ELEMENT_ID + ' (already registered)');
 }
 
-// Optionally, you can use the below code to mount React in a regular element:
+// Optionnellement, vous pouvez utiliser le code ci-dessous pour monter React dans un élément régulier :
 // const root = ReactDOM.createRoot(document.getElementById('root')!);
 // root.render(
 //   <React.StrictMode>
@@ -42,5 +54,5 @@ if (!customElements.get(ELEMENT_ID)) {
 //   </React.StrictMode>
 // );
 
-// Measure performance if needed
+// Mesurer les performances si nécessaire
 reportWebVitals();

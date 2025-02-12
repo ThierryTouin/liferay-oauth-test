@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "common-components": "file:../common-components"
+    "common-components": "file:../common-components",
+    "app2": "file:../app2"
   },
   "scripts": {
     "prestart": "sudo setcap 'cap_net_bind_service=+ep' $(which node)",

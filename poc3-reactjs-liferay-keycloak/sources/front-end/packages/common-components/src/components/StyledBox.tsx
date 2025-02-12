@@ -27,7 +27,19 @@ export const StyledBox = styled.div.withConfig({
   background-color: ${(props) => props.bgColor || DEFAULT_BG_COLOR}; /* Dynamic background color */
   color: ${(props) => props.textColor || DEFAULT_TEXT_COLOR}; /* Text color application */
 
+  h1 {
+    color: ${(props) => props.headerColor || DEFAULT_HEADER_COLOR}; /* Dynamic color for the h2 header */
+  } 
+
   h2 {
+    color: ${(props) => props.headerColor || DEFAULT_HEADER_COLOR}; /* Dynamic color for the h2 header */
+  }
+
+  h3 {
+    color: ${(props) => props.headerColor || DEFAULT_HEADER_COLOR}; /* Dynamic color for the h2 header */
+  }
+    
+  h4 {
     color: ${(props) => props.headerColor || DEFAULT_HEADER_COLOR}; /* Dynamic color for the h2 header */
   }
 `;

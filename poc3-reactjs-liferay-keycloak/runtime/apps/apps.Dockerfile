@@ -1,5 +1,5 @@
 # Stage 1: Build React application
-FROM node:18-alpine as build
+FROM node:18-alpine AS build
 WORKDIR /apps
 COPY ../../sources/front-end ./front-end
 
@@ -17,8 +17,11 @@ FROM nginx:1.21.6-alpine
 # Copying files for app 1
 COPY --from=build /apps/front-end/packages/app1/build /usr/share/nginx/html/app1
 
-# Copying files for app 1
+# Copying files for app 2
 COPY --from=build /apps/front-end/packages/app2/build /usr/share/nginx/html/app2
+
+# Copying files for app 3
+COPY --from=build /apps/front-end/packages/app2/build /usr/share/nginx/html/app3
 
 # Copying nginx configuration file
 COPY ./runtime/apps/nginx/nginx.conf /etc/nginx/conf.d/default.conf
