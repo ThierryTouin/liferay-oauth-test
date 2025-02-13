@@ -23,7 +23,6 @@ const App: React.FC<AppProps> = ({ app2ContextParams }) => {
 
   const appConfig: AppConfiguration = buildAppConfiguration(providedConfig);
 
-
   return (
     <StrictMode>
         <AppProvider appConfig={appConfig}>  

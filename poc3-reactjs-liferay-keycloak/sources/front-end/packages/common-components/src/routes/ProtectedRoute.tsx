@@ -16,9 +16,9 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, oidc }
   useEffect(() => {
     const tryAuthentication = async () => {
       
-      //FIXME: This is a temporary workaround because Portal is not yet supported
-      const isInPortal = false;
-      const isPortalSignedIn = false;
+      //FIXME: This is a temporary workaround because props are not managed yet
+      const embeddedMode: boolean = false;
+      const signInSilently: boolean = false;
     
       // Only attempt to authenticate if no auth params, not authenticated, and no ongoing OIDC operation
       if (
@@ -31,9 +31,9 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, oidc }
         hasTriedSignin.current = true;
 
         try {
-          console.log(`APP is running in ${isInPortal ? "Liferay" : "standalone"} mode`);
-          if (isInPortal) {
-            if (isPortalSignedIn) {
+          console.log(`APP is running in ${embeddedMode ? "Embedded" : "standalone"} mode`);
+          if (embeddedMode) {
+            if (signInSilently) {
               // Attempt silent authentication for Liferay
               console.log("Attempting silent authentication...");
               await oidc.signinSilent();

@@ -17,12 +17,10 @@ const AppRouter: React.FC<AppRouterProps> = () => {
   return (
     <div>
       <h2>APP 01 Description</h2>
-      <p> <b>TODO :</b> </p>
       <ul>
-        <li>Manage react-oidc-context to not store token in local storage</li>
-        <li>Fixe use undefined in private pages</li>
-        <li>Poc passing secured and less secure parameters</li>
-        <li>Used style components in other non styled components</li>
+        <li>This application obtains an AccessToken using Authorization Code Flow with PKCE.</li>
+        <li>To improve security, this application does not store tokens in local or session storage</li>
+        <li>This app uses common components stored in a library</li>
       </ul>
       <DefaultAppRouter appRoutes={appRoutes} appId={appId} />
     </div>
