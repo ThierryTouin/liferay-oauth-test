@@ -1,4 +1,4 @@
-export interface App2ContextParams {
+export interface AppSharedContextParams {
     firstName: string;
     lastName: string;
     email: string;

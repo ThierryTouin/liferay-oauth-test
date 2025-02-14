@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useAuth, AuthContextProps } from "react-oidc-context";
-import { ErrorMessage } from 'common-components';
-import {App2ContextParams } from '../models/App2ContextParams';
+import { ErrorMessage, useAppSharedContext } from 'common-components';
 
 const PrivatePage: React.FC = () => {
 
@@ -13,22 +12,29 @@ const PrivatePage: React.FC = () => {
   const email: string | undefined = user?.profile?.email;
   const accessToken: string | undefined = user?.access_token;
 
+  const { appSharedContextParams, setAppSharedContextParams } = useAppSharedContext();
+
   useEffect(() => {
     if (user) {
-      const app2ContextParams: App2ContextParams = {
+      const params = {
         firstName: firstName || "Unknown",
         lastName: lastName || "Unknown",
         email: email || "Unknown",
         accessToken: accessToken || ""
       };
+      console.log('APP1 : Setting AppSharedContextParams:', params);
+      setAppSharedContextParams(params);
 
-      const event = new CustomEvent('app2-context-params', {
-        detail: app2ContextParams
-      });
+      const element = document.querySelector('app2-docker-example');
+      if (element) {
+        console.log('APP1 : Found app2-docker-example element');
+        (element as any).appSharedContextParams = params;
+      } else {
+        console.log('APP1 : app2-docker-example element not found');
+      }
 
-      document.querySelector('app2-docker-example')?.dispatchEvent(event);
     }
-  }, [firstName, lastName, email, accessToken, user]);
+  }, [user, user?.access_token, setAppSharedContextParams]);
 
   if (!user) {
     return <ErrorMessage message="User needs to be signed in to use this feature" />;
@@ -43,9 +49,10 @@ const PrivatePage: React.FC = () => {
       <br/>
       <h3>User information returned by SSO:</h3>
       <ul>
-        <li><strong>First Name:</strong> {firstName}</li>
-        <li><strong>Last Name:</strong> {lastName}</li>
-        <li><strong>Email:</strong> {email}</li>
+        <li><strong>First Name:</strong> {appSharedContextParams.firstName}</li>
+        <li><strong>Last Name:</strong> {appSharedContextParams.lastName}</li>
+        <li><strong>Email:</strong> {appSharedContextParams.email}</li>
+        <li><strong>Token:</strong> {appSharedContextParams.email}</li>
       </ul>
       <app2-docker-example/>
     </div>

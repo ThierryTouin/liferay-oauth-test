@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 import { MFEAppContainerProps } from '../models/MFEAppContainerProps';
 import { AppConfiguration } from '../models/AppConfiguration';
-import { useAppContext } from "./context/AppContext"; 
+import { useAppContext } from "../context/AppContext"; 
 import Header from './Header';
 
 const Container = styled.div`

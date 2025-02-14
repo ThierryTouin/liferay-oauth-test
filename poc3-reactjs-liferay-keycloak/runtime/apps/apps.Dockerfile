@@ -21,7 +21,7 @@ COPY --from=build /apps/front-end/packages/app1/build /usr/share/nginx/html/app1
 COPY --from=build /apps/front-end/packages/app2/build /usr/share/nginx/html/app2
 
 # Copying files for app 3
-COPY --from=build /apps/front-end/packages/app2/build /usr/share/nginx/html/app3
+COPY --from=build /apps/front-end/packages/app3/build /usr/share/nginx/html/app3
 
 # Copying nginx configuration file
 COPY ./runtime/apps/nginx/nginx.conf /etc/nginx/conf.d/default.conf

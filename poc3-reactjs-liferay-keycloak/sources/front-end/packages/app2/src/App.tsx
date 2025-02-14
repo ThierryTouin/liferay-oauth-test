@@ -1,16 +1,11 @@
 import React, { StrictMode } from 'react';
-import { StyledBox, CustomOIDCAuthProvider, AppProvider, AppConfiguration, ProvidedAppConfiguration, buildAppConfiguration, MFEAppContainer } from 'common-components';
+import { StyledBox, AppProvider, AppConfiguration, ProvidedAppConfiguration, buildAppConfiguration, MFEAppContainer, AppSharedContextParams } from 'common-components';
 
-interface AppProps {
-  app2ContextParams?: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    accessToken: string;
-  };
+interface AppSharedProps {
+  appSharedContextParams?: AppSharedContextParams;
 }
 
-const App: React.FC<AppProps> = ({ app2ContextParams }) => {
+const App: React.FC<AppSharedProps> = ({ appSharedContextParams  }) => {
 
   const appName: string = "app2";
 
@@ -30,14 +25,14 @@ const App: React.FC<AppProps> = ({ app2ContextParams }) => {
             <MFEAppContainer>
               <h2>Hello from APP2</h2>
               <p>I'm defined has a Web Component designed to be used in another application</p>
-              {app2ContextParams && (
+              {appSharedContextParams && (
                 <div>
-                  <h3>Context loaded from APP1 :</h3>
+                  <h3>Context loaded from APP1 using secured shared context :</h3>
                   <ul>
-                    <li><strong>First Name:</strong> {app2ContextParams.firstName}</li>
-                    <li><strong>Last Name:</strong> {app2ContextParams.lastName}</li>
-                    <li><strong>Email:</strong> {app2ContextParams.email}</li>
-                    <li><strong>Access Token:</strong> {app2ContextParams.accessToken}</li>
+                    <li><strong>First Name:</strong> {appSharedContextParams.firstName}</li>
+                    <li><strong>Last Name:</strong> {appSharedContextParams.lastName}</li>
+                    <li><strong>Email:</strong> {appSharedContextParams.email}</li>
+                    <li><strong>Access Token:</strong> {appSharedContextParams.accessToken}</li>
                   </ul>
                 </div>
               )}

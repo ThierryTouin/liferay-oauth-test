@@ -3,7 +3,7 @@ import { AuthProvider } from 'react-oidc-context';
 import { getAuthConfiguration } from '../services/configService';
 import { CustomOIDCAuthProviderProps } from '../models/CustomOIDCAuthProviderProps';
 import { AppConfiguration } from '../models/AppConfiguration';
-import { useAppContext } from "./context/AppContext"; 
+import { useAppContext } from "../context/AppContext"; 
 
 /**
  * Custom OIDC Auth Provider

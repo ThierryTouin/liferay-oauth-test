@@ -1,5 +1,5 @@
 import React, { createContext, useContext, ReactNode } from "react";
-import { AppConfiguration } from '../../models/AppConfiguration';
+import { AppConfiguration } from '../models/AppConfiguration';
 
 // Context creation
 const AppContext = createContext<AppConfiguration | null>(null);
