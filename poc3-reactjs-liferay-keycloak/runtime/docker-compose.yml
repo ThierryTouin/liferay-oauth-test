@@ -1,6 +1,62 @@
 name: "lfroauth"
 services:
 
+  portal:
+    container_name: lfroauth-portal
+    build:
+      dockerfile: liferay/liferay.Dockerfile
+      context: .
+    ports:
+      - "8081:8080"
+    # env_file:
+    #   - ./liferay/variables.env
+    volumes:
+      - liferay_data:/opt/liferay/data
+      - ./liferay/files:/mnt/liferay/files
+      - ./liferay/scripts:/mnt/liferay/scripts
+    depends_on:
+      sso:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+      traefik:
+        condition: service_healthy
+    entrypoint: /usr/local/bin/wait-for -t 60 db:3306 -- /usr/local/bin/liferay_entrypoint.sh
+    environment:
+      LIFERAY_VIRTUAL_PERIOD_HOSTS_PERIOD_VALID_PERIOD_HOSTS: "*"
+      LIFERAY_WEB_PERIOD_SERVER_PERIOD_HTTPS_PERIOD_PORT: 443
+      LIFERAY_WEB_PERIOD_SERVER_PERIOD_PROTOCOL: "https"
+      LIFERAY_JVM_OPTS: "-Xms1024m -Xmx4096m -Djavax.net.ssl.trustStore=/opt/liferay/certificates/cacerts"
+      LIFERAY_INCLUDE_MINUS_AND_MINUS_OVERRIDE: portal-developer.properties
+      LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_DRIVER_UPPERCASEC_LASS_UPPERCASEN_AME: com.mysql.cj.jdbc.Driver
+      LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_URL: jdbc:mysql://lfroauth-db/lportal?characterEncoding=UTF-8&dontTrackOpenResources=true&holdResultsOpenOverStatementClose=true&serverTimezone=GMT&useFastDateParsing=false&useUnicode=true
+      LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_USERNAME: liferay
+      LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_PASSWORD: liferay
+      LIFERAY_ADMIN_PERIOD_EMAIL_PERIOD_FROM_PERIOD_NAME: Liferay Demo
+      LIFERAY_ADMIN_PERIOD_EMAIL_PERIOD_FROM_PERIOD_ADDRESS: no-reply@liferay.demo
+      LIFERAY_MAIL_PERIOD_SESSION_PERIOD_MAIL_PERIOD_SMTP_PERIOD_HOST: mail
+      LIFERAY_MAIL_PERIOD_SESSION_PERIOD_MAIL_PERIOD_POP_NUMBER3__PERIOD_HOST: mail
+      LIFERAY_MAIL_PERIOD_SESSION_PERIOD_MAIL_PERIOD_SMTP_PERIOD_STARTTLS_PERIOD_ENABLE: false
+      # Used by .config files to create client extensions as remote apps in Liferay Control Panel
+      APP1_REMOTE_DOMAIN: "https://app1.dev.local"
+      APP2_REMOTE_DOMAIN: "https://app2.dev.local"
+      APP3_REMOTE_DOMAIN: "https://app3.dev.local"
+    labels:  
+      - "traefik.enable=true"
+      - "traefik.http.routers.liferay.rule=Host(`${LFR_HOSTNAME}`)"
+      - "traefik.http.routers.liferay.service=liferay"
+      - "traefik.http.routers.liferay.entrypoints=websecure"
+      - "traefik.http.services.liferay.loadbalancer.server.port=8080"
+      - "traefik.http.routers.liferay.tls=true"
+      - "traefik.http.routers.liferay.tls.certresolver=letsencrypt"
+      - "traefik.http.services.liferay.loadbalancer.passhostheader=true"
+      - "traefik.http.routers.liferay.middlewares=compresstraefik"
+      - "traefik.http.middlewares.compresstraefik.compress=true"
+      - "traefik.docker.network=devnet"
+    networks:
+      - internal
+      - devnet
+
   db:
     container_name: lfroauth-db
     build:
@@ -231,6 +287,7 @@ services:
       - ./traefik/providers:/traefik/providers
 
 volumes:
+  liferay_data:
   smtp_data:
   db_data:
   traefik-letsencrypt:
