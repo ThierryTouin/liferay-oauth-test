@@ -12,6 +12,8 @@ const App: React.FC = () => {
     appDomain: "",
     appImagesCompleteUrl: "",
     appVersion: "1.0.11",
+    embedded: false,
+    signInSilently: false
   };
 
   const appConfig: AppConfiguration = buildAppConfiguration(providedConfig);

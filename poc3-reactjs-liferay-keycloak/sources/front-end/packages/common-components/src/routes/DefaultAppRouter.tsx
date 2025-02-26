@@ -6,11 +6,17 @@ import { SilentRenew } from './SilentRenew';
 import { ProtectedRoute } from './ProtectedRoute';
 import { useAuth, AuthContextProps } from 'react-oidc-context';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import { DefaultAppRouterProps } from '../models/DefaultAppRouterProps'
+import { DefaultAppRouterProps } from '../models/DefaultAppRouterProps';
+import { AppConfiguration } from '../models/AppConfiguration';
+import { useAppContext } from "../context/AppContext"; 
 
 export const DefaultAppRouter: React.FC<DefaultAppRouterProps> = ({ appId, appRoutes }) => {
 
   const oidc: AuthContextProps = useAuth();
+
+  const context: AppConfiguration = useAppContext();
+  const embedded: boolean = context.embedded;
+  const signInSilently: boolean = context.signInSilently;
 
   return (
     <Router>
@@ -23,7 +29,7 @@ export const DefaultAppRouter: React.FC<DefaultAppRouterProps> = ({ appId, appRo
               path={index === 0 ? "/" : route.path} // Use "/" for the first route
               element={
                 route.protected ? (
-                  <ProtectedRoute oidc={oidc}>{route.element}</ProtectedRoute>
+                  <ProtectedRoute oidc={oidc} embedded={embedded} signInSilently={signInSilently}>{route.element}</ProtectedRoute>
                 ) : (
                   route.element
                 )

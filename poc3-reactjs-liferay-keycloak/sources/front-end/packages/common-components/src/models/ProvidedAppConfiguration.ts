@@ -3,4 +3,6 @@ export interface ProvidedAppConfiguration {
     appDomain: string;
     appImagesCompleteUrl:string;
     appVersion: string;
+    embedded: boolean;
+    signInSilently: boolean;
 }

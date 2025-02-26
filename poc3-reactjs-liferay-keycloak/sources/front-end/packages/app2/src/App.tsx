@@ -14,6 +14,8 @@ const App: React.FC<AppSharedProps> = ({ appSharedContextParams  }) => {
     appDomain: "",
     appImagesCompleteUrl: "",
     appVersion: "1.0.0",
+    embedded: false,
+    signInSilently: false
   };
 
   const appConfig: AppConfiguration = buildAppConfiguration(providedConfig);

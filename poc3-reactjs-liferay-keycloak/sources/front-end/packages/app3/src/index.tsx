@@ -2,9 +2,11 @@ import React from 'react';
 import App from './App';
 import { createRoot, Root } from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
+import { getAppCustomConfig, defaultAppCustomConfig } from './services/customConfigService';
 
 // Define the custom element ID
 const ELEMENT_ID = 'app3-docker-example';
+const CONF_ELEMENT_ID = 'config';
 
 // Define WebComponent class, extending HTMLElement
 class WebComponent extends HTMLElement {
@@ -13,8 +15,12 @@ class WebComponent extends HTMLElement {
 
   // Lifecycle method when the element is added to the DOM
   connectedCallback(): void {
+
+    const appCustomConfig = getAppCustomConfig(CONF_ELEMENT_ID);
+
     this.root = createRoot(this);
-    this.root.render(<App />);
+    this.root.render(<App appCustomConfig={appCustomConfig || defaultAppCustomConfig} />);
+
   }
 
   // Lifecycle method when the element is removed from the DOM

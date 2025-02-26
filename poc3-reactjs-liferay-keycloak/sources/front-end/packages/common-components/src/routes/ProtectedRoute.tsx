@@ -4,7 +4,7 @@ import { hasAuthParams } from 'react-oidc-context';
 import { ErrorMessage } from '../routes/ErrorMessage';
 import { ProtectedRouteProps } from '../models/ProtectedRouteProps'
 
-export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, oidc }) => {
+export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, oidc, embedded, signInSilently }) => {
 
   // Ref to track if a sign-in attempt has been made
   const hasTriedSignin = useRef<boolean>(false);
@@ -15,10 +15,6 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, oidc }
 
   useEffect(() => {
     const tryAuthentication = async () => {
-      
-      //FIXME: This is a temporary workaround because props are not managed yet
-      const embeddedMode: boolean = false;
-      const signInSilently: boolean = false;
     
       // Only attempt to authenticate if no auth params, not authenticated, and no ongoing OIDC operation
       if (
@@ -31,8 +27,11 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, oidc }
         hasTriedSignin.current = true;
 
         try {
-          console.log(`APP is running in ${embeddedMode ? "Embedded" : "standalone"} mode`);
-          if (embeddedMode) {
+          console.log(`APP is running in ${embedded ? "Embedded" : "standalone"} mode`);
+          if (embedded) {
+
+            console.log(`Silent authentification is ${signInSilently ? "ACTIVATED" : "DISABLED"}`);
+
             if (signInSilently) {
               // Attempt silent authentication for Liferay
               console.log("Attempting silent authentication...");
@@ -41,6 +40,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, oidc }
               console.log("Skipping silent redirect...");
               setIsRedirectingPortalLogin(true);
             }
+            
           } else {
             // Redirect-based sign-in for standalone mode
             console.log("Redirecting to signin...");

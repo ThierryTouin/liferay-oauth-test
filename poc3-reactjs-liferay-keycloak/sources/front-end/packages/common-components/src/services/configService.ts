@@ -33,18 +33,14 @@ export function getAuthConfiguration(appId: string): UserManagerSettings {
   };
 }
 
-export function buildAppConfiguration(config: ProvidedAppConfiguration): AppConfiguration {
+export function buildAppConfiguration(providedConfig: ProvidedAppConfiguration): AppConfiguration {
 
-  if (!config || typeof config !== "object") {
+  if (!providedConfig || typeof providedConfig !== "object") {
     throw new Error("The parameter 'config' is required and cannot be empty.");
   }
 
-  //FIXME: Portal.isInPortal() is not defined yet
-  const embeddedMode: boolean = false;
-
   const appConfig: AppConfiguration = {
-    ...config,
-    embeddedMode: embeddedMode
+    ...providedConfig,
   };
 
   return appConfig;

@@ -17,7 +17,7 @@ const AppRouter: React.FC<AppRouterProps> = () => {
       <h3>APP Description</h3>
       <p>This React app is Private : it leverage : </p>
       <ul>
-      <li><b>Sso</b> to authentify using Open Id Connect procotole in <b>silent mode</b>.</li>
+      <li><b>Sso</b> to authentify using Open Id Connect procotole</li>
       <li><b>Apim</b> to grant securised access to Back End API.</li>
       </ul>   
       <p>
