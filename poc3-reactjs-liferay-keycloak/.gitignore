@@ -206,4 +206,5 @@ $RECYCLE.BIN/
 .env
 
 node_modules/
-
+yarn.lock
+.yarnrc
