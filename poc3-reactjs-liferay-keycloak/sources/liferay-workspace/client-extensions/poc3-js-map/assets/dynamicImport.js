@@ -3,26 +3,44 @@
  * @param {string} dependencies - Comma-separated list of files to import.
  * @param {string} target - Target location: "head" or "body".
  * @param {string} basePath - Base path for the files.
- * @param {Function} [callback] - Optional callback to execute after loading the scripts.
+ * @param {Function} [onAfterLoadcallback] - Optional callback to execute after loading all scripts.
  */
 export const addDependencies = (dependencies, target, basePath, callback) => {
+
     const dependencyArray = dependencies.split(",");
     const targetElement = target === "body" ? document.body : document.head;
 
     const onLoad = () => {
         let loadedCount = 0;
-        const totalDependencies = dependencyArray.length;
+        const jsDependencies = dependencyArray.filter(dep => dep.endsWith('.js'));
+        const totalJsDependencies = jsDependencies.length;
 
-        dependencyArray.forEach((dependency) => {
+        console.debug(`Total JS dependencies to load: ${totalJsDependencies}`);
+
+        const checkAllLoaded = () => {
+            loadedCount++;
+            console.debug(`Loaded JS count: ${loadedCount}`);
+            if (loadedCount === totalJsDependencies && callback) {
+                console.debug("All JS dependencies loaded. Executing callback.");
+                callback();
+            }
+        };
+
+        dependencyArray.forEach((dependency, index) => {
             if (dependency) {
                 const url = `${basePath}${dependency}`;
                 const type = dependency.endsWith('.css') ? 'css' : 'js';
 
-                if (targetElement.innerHTML.includes(url)) {
+                console.debug(`Processing dependency ${index + 1}/${dependencyArray.length}: ${dependency}`);
+
+                const isAlreadyAdded = Array.from(targetElement.children).some(child => {
+                    return (type === 'css' && child.href === url) || (type === 'js' && child.src === url);
+                });
+
+                if (isAlreadyAdded) {
                     console.debug(`${dependency} already exists.`);
-                    loadedCount++;
-                    if (loadedCount === totalDependencies && callback) {
-                        callback();
+                    if (type === 'js') {
+                        checkAllLoaded();
                     }
                 } else {
                     const element = document.createElement(type === "css" ? "link" : "script");
@@ -33,26 +51,17 @@ export const addDependencies = (dependencies, target, basePath, callback) => {
                     } else {
                         element.type = "text/javascript";
                         element.src = url;
-                        element.onload = () => {
-                            loadedCount++;
-                            if (loadedCount === totalDependencies && callback) {
-                                callback();
-                            }
-                        };
+                        element.onload = checkAllLoaded;
                     }
                     targetElement.appendChild(element);
                     console.debug(`${dependency} added.`);
                 }
             }
         });
-
-        // Call the callback if all dependencies are already loaded
-        if (loadedCount === totalDependencies && callback) {
-            callback();
-        }
     };
 
     if (target === "body") {
+        console.debug("Waiting for DOMContentLoaded event.");
         document.addEventListener("DOMContentLoaded", onLoad);
     } else {
         onLoad();
@@ -61,28 +70,19 @@ export const addDependencies = (dependencies, target, basePath, callback) => {
 
 
 /**
- * Adds dependencies to the head.
- * @param {string} dependencies - Comma-separated list of files.
- * @param {string} basePath - Base path for the files.
- * @param {Function} [callback] - Optional callback to execute after loading the files.
+ * Adds JS dependencies to the head.
+ * @param {string} dependencies - Comma-separated list of JS files.
+ * @param {string} basePath - Base path for the JS files.
  */
 export const addDependenciesToHead = (dependencies, basePath, callback) => {
     addDependencies(dependencies, "head", basePath, callback);
 };
 
 /**
- * Adds dependencies to the body.
- * @param {string} dependencies - Comma-separated list of files.
- * @param {string} basePath - Base path for the files.
- * @param {Function} [callback] - Optional callback to execute after loading the files.
+ * Adds JS dependencies to the body.
+ * @param {string} dependencies - Comma-separated list of JS files.
+ * @param {string} basePath - Base path for the JS files.
  */
 export const addDependenciesToBody = (dependencies, basePath, callback) => {
     addDependencies(dependencies, "body", basePath, callback);
 };
-
-/* USAGE 
-addDependenciesToBody('bundle.js', 'https://app3.dev.local/static/js', () => {
-    console.log('Tous les fichiers ont été chargés.');
-    // Ton code à exécuter après le chargement des fichiers
-});
-*/

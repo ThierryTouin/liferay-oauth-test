@@ -8,12 +8,11 @@ services:
       context: .
     ports:
       - "8081:8080"
-    # env_file:
-    #   - ./liferay/variables.env
     volumes:
       - liferay_data:/opt/liferay/data
       - ./liferay/files:/mnt/liferay/files
       - ./liferay/scripts:/mnt/liferay/scripts
+      - ./liferay/deploy:/mnt/liferay/deploy
     depends_on:
       sso:
         condition: service_healthy
@@ -38,9 +37,9 @@ services:
       LIFERAY_MAIL_PERIOD_SESSION_PERIOD_MAIL_PERIOD_POP_NUMBER3__PERIOD_HOST: mail
       LIFERAY_MAIL_PERIOD_SESSION_PERIOD_MAIL_PERIOD_SMTP_PERIOD_STARTTLS_PERIOD_ENABLE: false
       # Used by .config files to create client extensions as remote apps in Liferay Control Panel
-      APP1_REMOTE_DOMAIN: "https://app1.dev.local"
-      APP2_REMOTE_DOMAIN: "https://app2.dev.local"
-      APP3_REMOTE_DOMAIN: "https://app3.dev.local"
+      # APP1_REMOTE_DOMAIN: "https://app1.dev.local"
+      # APP2_REMOTE_DOMAIN: "https://app2.dev.local"
+      # APP3_REMOTE_DOMAIN: "https://app3.dev.local"
     labels:  
       - "traefik.enable=true"
       - "traefik.http.routers.liferay.rule=Host(`${LFR_HOSTNAME}`)"

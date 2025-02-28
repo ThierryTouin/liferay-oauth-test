@@ -2,7 +2,7 @@
     "private": true,
     "workspaces": {
         "packages": [
-            "client-extensions/poc3-global-js"
+            "client-extensions/poc3-js-map"
         ]
     }
 }

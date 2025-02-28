@@ -1,0 +1,8 @@
+assemble:
+    - from: build/static
+      into: static
+poc3-js-map:
+    bareSpecifier: resourcesDynamicImport
+    name: Dynamic import for external resources
+    type: jsImportMapsEntry
+    url: resourcesDynamicImport.*.js

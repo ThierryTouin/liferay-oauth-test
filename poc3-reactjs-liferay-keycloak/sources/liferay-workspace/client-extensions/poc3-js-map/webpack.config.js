@@ -11,14 +11,25 @@ const DEVELOPMENT = process.env.NODE_ENV === 'development';
 module.exports = {
 	devtool: DEVELOPMENT ? 'source-map' : false,
 	entry: {
-		global: './assets/global.js',
+		resourcesDynamicImport: './assets/index.js',
+	},
+	experiments: {
+		outputModule: true,
 	},
 	mode: DEVELOPMENT ? 'development' : 'production',
 	optimization: {
 		minimize: !DEVELOPMENT,
 	},
 	output: {
+		clean: true,
+		environment: {
+			dynamicImport: true,
+			module: true,
+		},
 		filename: '[name].[contenthash].js',
+		library: {
+			type: 'module',
+		},
 		path: path.resolve('build', 'static'),
 	},
 	plugins: [

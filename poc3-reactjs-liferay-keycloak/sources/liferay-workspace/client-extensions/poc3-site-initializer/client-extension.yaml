@@ -1,0 +1,13 @@
+liferay-dsfr-site-initializer:
+    name: Liferay DSFR Site Initializer
+    oAuthApplicationHeadlessServer: liferay-dsfr-site-initializer-oauth-application-headless-server
+    siteExternalReferenceCode: liferayDSFR
+    siteName: Liferay DSFR
+    type: siteInitializer
+liferay-dsfr-site-initializer-oauth-application-headless-server:
+    .serviceAddress: localhost:8080
+    .serviceScheme: http
+    name: Liferay DSFR OAuth Application Headless Server
+    scopes:
+        - Liferay.Headless.Site.everything
+    type: oAuthApplicationHeadlessServer
