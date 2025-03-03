@@ -1,13 +1,13 @@
-liferay-dsfr-site-initializer:
+poc3-site-initializer:
     name: Liferay DSFR Site Initializer
-    oAuthApplicationHeadlessServer: liferay-dsfr-site-initializer-oauth-application-headless-server
-    siteExternalReferenceCode: liferayDSFR
-    siteName: Liferay DSFR
+    oAuthApplicationHeadlessServer: poc3-site-initializer-oauth-application-headless-server
+    siteExternalReferenceCode: POC3
+    siteName: Poc 3
     type: siteInitializer
-liferay-dsfr-site-initializer-oauth-application-headless-server:
+poc3-site-initializer-oauth-application-headless-server:
     .serviceAddress: localhost:8080
     .serviceScheme: http
-    name: Liferay DSFR OAuth Application Headless Server
+    name: POC3 OAuth Application Headless Server
     scopes:
         - Liferay.Headless.Site.everything
     type: oAuthApplicationHeadlessServer

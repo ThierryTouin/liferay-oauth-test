@@ -6,9 +6,9 @@ There is scenarions illustrated by the demonstrators :
 
 | Scenario | Title   | Links   |
 | -------- | ------- | ------- |                                                         
-| POC 1    | Pure SSO | [Further information](./poc1-reactjs-liferay-keycloak/README.md) | 
-| POC 2    | Oauth Silent Authent + Client Extension| [Further information](./poc2-reactjs-liferay-keycloak/README.md) | 
-| POC 3   | Oauth Silent Authent / Client Extension / Lerna| [Further information](./poc3-reactjs-liferay-keycloak/README.md) | 
+| POC 1    | Pure SSO | [Further information](./poc1-reactjs-liferay-keycloak/README.markdown) | 
+| POC 2    | Oauth Silent Authent + Client Extension| [Further information](./poc2-reactjs-liferay-keycloak/README.markdown) | 
+| POC 3   | Oauth Silent Authent / Client Extension / Lerna| [Further information](./poc3-reactjs-liferay-keycloak/README.markdown) | 
 
 #### 1. Focus on certificates
 

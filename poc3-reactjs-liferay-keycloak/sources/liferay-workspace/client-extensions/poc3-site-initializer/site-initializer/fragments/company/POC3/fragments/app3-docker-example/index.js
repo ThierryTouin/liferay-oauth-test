@@ -1,0 +1,1 @@
+import {addDependenciesToHead, addDependenciesToBody} from 'resourcesDynamicImport'

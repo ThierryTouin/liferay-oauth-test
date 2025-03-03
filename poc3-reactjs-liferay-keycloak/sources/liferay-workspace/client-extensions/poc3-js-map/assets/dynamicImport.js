@@ -2,10 +2,11 @@
  * Generic function to add CSS or JS dependencies to a specific target.
  * @param {string} dependencies - Comma-separated list of files to import.
  * @param {string} target - Target location: "head" or "body".
- * @param {string} basePath - Base path for the files.
  * @param {Function} [onAfterLoadcallback] - Optional callback to execute after loading all scripts.
  */
-export const addDependencies = (dependencies, target, basePath, callback) => {
+export const addDependencies = (dependencies, target, onAfterLoadcallback) => {
+
+    console.debug(`V1.0 : Adding dependencies to ${target}: ${dependencies}`);
 
     const dependencyArray = dependencies.split(",");
     const targetElement = target === "body" ? document.body : document.head;
@@ -20,15 +21,19 @@ export const addDependencies = (dependencies, target, basePath, callback) => {
         const checkAllLoaded = () => {
             loadedCount++;
             console.debug(`Loaded JS count: ${loadedCount}`);
-            if (loadedCount === totalJsDependencies && callback) {
+            if (loadedCount === totalJsDependencies && onAfterLoadcallback) {
                 console.debug("All JS dependencies loaded. Executing callback.");
-                callback();
+                onAfterLoadcallback();
             }
+        };
+
+        const handleError = (dependency) => {
+            console.error(`Failed to load dependency: ${dependency}`);
         };
 
         dependencyArray.forEach((dependency, index) => {
             if (dependency) {
-                const url = `${basePath}${dependency}`;
+                const url = `${dependency}`;
                 const type = dependency.endsWith('.css') ? 'css' : 'js';
 
                 console.debug(`Processing dependency ${index + 1}/${dependencyArray.length}: ${dependency}`);
@@ -52,6 +57,7 @@ export const addDependencies = (dependencies, target, basePath, callback) => {
                         element.type = "text/javascript";
                         element.src = url;
                         element.onload = checkAllLoaded;
+                        element.onerror = () => handleError(dependency);
                     }
                     targetElement.appendChild(element);
                     console.debug(`${dependency} added.`);
@@ -68,21 +74,20 @@ export const addDependencies = (dependencies, target, basePath, callback) => {
     }
 };
 
-
 /**
  * Adds JS dependencies to the head.
  * @param {string} dependencies - Comma-separated list of JS files.
- * @param {string} basePath - Base path for the JS files.
+ * @param {Function} onAfterLoadcallback - Optional callback to execute after loading all scripts.
  */
-export const addDependenciesToHead = (dependencies, basePath, callback) => {
-    addDependencies(dependencies, "head", basePath, callback);
+export const addDependenciesToHead = (dependencies, onAfterLoadcallback) => {
+    addDependencies(dependencies, "head", onAfterLoadcallback);
 };
 
 /**
  * Adds JS dependencies to the body.
  * @param {string} dependencies - Comma-separated list of JS files.
- * @param {string} basePath - Base path for the JS files.
+ * @param {Function} onAfterLoadcallback - Optional callback to execute after loading all scripts.
  */
-export const addDependenciesToBody = (dependencies, basePath, callback) => {
-    addDependencies(dependencies, "body", basePath, callback);
+export const addDependenciesToBody = (dependencies, onAfterLoadcallback) => {
+    addDependencies(dependencies, "body", onAfterLoadcallback);
 };

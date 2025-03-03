@@ -1,0 +1,44 @@
+
+<div class="fragment_101">
+    <div id="app-container-${fragmentEntryLinkNamespace}">
+    </div>
+</div>
+
+<script type="module">
+
+    //Importing dependencies from global shared library (jsMap client extension)
+    import { addDependenciesToHead, addDependenciesToBody } from 'resourcesDynamicImport';
+	
+    const customElementName = 'app3-docker-example';
+    const containerId = 'app-container-${fragmentEntryLinkNamespace}';
+
+    //Configuration
+    const embeddedMode = '${configuration.embeddedMode?string}';
+    const signInSilently = '${themeDisplay.isSignedIn()?string}';
+    const languageId = '${themeDisplay.getLanguageId()?string}';
+
+    console.debug("Displaying configuration values:");
+    console.debug(" embeddedMode: " + embeddedMode);
+    console.debug(" languageId: " + languageId);
+    console.debug(" signInSilently: " + signInSilently);
+    console.debug("End of configuration values.");
+
+    addDependenciesToHead("https://app3.dev.local/static/js/bundle.js", function () {
+
+        // App template using String value
+        const webComponentHTML =
+            '<' + customElementName + '>' +
+            '<config embedded="' + embeddedMode + '" signInSilently="' + signInSilently + '"></config>' +
+            '</' + customElementName + '>';
+
+        // Ajouter le HTML au DOM
+        const container = document.getElementById(containerId);
+        if (container) {
+            container.innerHTML = webComponentHTML;
+            console.debug("'" + customElementName + "' added to '" + containerId +  "'.");
+        } else {
+            console.error('No element using ID "' + containerId + '" found.');
+        }
+
+    });
+</script>

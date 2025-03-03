@@ -1,0 +1,22 @@
+{
+	"fieldSets": [
+		{
+			"fields": [
+				 {
+					"name": "embeddedMode",
+					"label": "Embedded Mode",
+					"description": "Indicates if the app is embedded in a portal page or not or if the app is standalone",
+					"type": "select",
+					"typeOptions": {
+						"validValues": [
+							{"value": "true"},
+							{"value": "false"}
+					  ]
+					},
+					"dataType": "string",
+					"defaultValue": "true"
+				 }
+			]
+		 }
+	]
+}

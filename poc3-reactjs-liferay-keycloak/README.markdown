@@ -2,8 +2,9 @@
 
 ### 1. Tasks (TODO)
 - Pocking slots using dedicated app : https://fr.javascript.info/slots-composition
-- Using jsMaps to importing javascript loader : JS seems to be imported correctly but an error is displayed in console
-![Corruped content error](../images/toDelete.png "Corruped content error")
+- Using portal Language to automatically setup the react app to load it properly")
+- Try to put app twice in page
+- Adding client-extensions deployment in readme (or put in in the liferay image)
 
 ### 2. Tasks (Standby)
 - Switch language

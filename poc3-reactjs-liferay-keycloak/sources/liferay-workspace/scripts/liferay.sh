@@ -15,9 +15,10 @@ trap 'if [ $? -ne 0 ]; then echo "${RED}\"${last_command}\" command failed with 
 
 function manual() {
     echo "${BOLD}Available commands:${NC}"
-    echo "  clean <path>    : Clean Liferay workspace."
-    echo "  deploy <path>   : Deploy to Liferay runtime."
-    echo "  build <path>    : Build all modules available in workspace."
+    echo "  clean   : Clean Liferay workspace."
+    echo "  deploy  : Deploy to Liferay runtime."
+    echo "  build   : Build all modules available in workspace."
+    echo "  rebuild : Clean, build and deploy to Liferay runtime."
 }
 
 function clean() {
@@ -72,6 +73,18 @@ function build() {
     echo "${GREEN}Build completed.${NC}"
 }
 
+function rebuild() {
+
+    echo "${GREEN}Starting rebuild ${NC}"
+
+    clean &&
+    build &&
+    deploy
+
+    echo "${GREEN}Rebuild completed.${NC}"
+    
+}
+
 if [ $# -eq 0 ]; then
     manual
     exit 0
@@ -82,7 +95,10 @@ case "$1" in
         clean "$2"
         ;;
     "build")
-        build "$2" "$3"
+        build "$2"
+        ;;
+    "rebuild")
+        build "$2"
         ;;
     "deploy")
         deploy "$2"
