@@ -1,10 +1,10 @@
 import React, { StrictMode } from 'react';
 import { MFEAppContainer, CustomOIDCAuthProvider, AppProvider, AppConfiguration, ProvidedAppConfiguration, buildAppConfiguration } from 'common-components';
 import AppRouter from './routes/AppRouter';
-import { AppCustomConfig } from './models/AppCustomConfig';
+import { App3CustomConfig } from './models/App3CustomConfig';
 
 interface AppProps {
-  appCustomConfig: AppCustomConfig;
+  appCustomConfig: App3CustomConfig;
 }
 
 const App: React.FC<AppProps> = ({ appCustomConfig }) => {
@@ -18,10 +18,10 @@ const App: React.FC<AppProps> = ({ appCustomConfig }) => {
     appImagesCompleteUrl: "https://" + appDomain + "/static/js/shared/images",
     appVersion: "2.0.4",
     embedded: appCustomConfig.embedded,
-    signInSilently: appCustomConfig.signInSilently
+    signInSilently: appCustomConfig.signInSilently,
   };
 
-  const appConfig: AppConfiguration = buildAppConfiguration(providedConfig);
+  const appConfig: AppConfiguration = buildAppConfiguration(providedConfig, appCustomConfig);
 
   return (
 

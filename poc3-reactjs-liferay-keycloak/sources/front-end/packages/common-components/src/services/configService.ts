@@ -33,7 +33,7 @@ export function getAuthConfiguration(appId: string): UserManagerSettings {
   };
 }
 
-export function buildAppConfiguration(providedConfig: ProvidedAppConfiguration): AppConfiguration {
+export function buildAppConfiguration(providedConfig: ProvidedAppConfiguration, appCustomConfig?: any): AppConfiguration {
 
   if (!providedConfig || typeof providedConfig !== "object") {
     throw new Error("The parameter 'config' is required and cannot be empty.");
@@ -41,7 +41,10 @@ export function buildAppConfiguration(providedConfig: ProvidedAppConfiguration):
 
   const appConfig: AppConfiguration = {
     ...providedConfig,
+    appCustomConfig: appCustomConfig,
   };
+
+  console.debug('Return merged configuration : ' + JSON.stringify(appConfig, null, 2));
 
   return appConfig;
 }

@@ -1,10 +1,17 @@
 ## 0. Todo List (To be deleted)
 
+### 2. Starting
+1. Build
+```
+./build.sh && ./start.sh
+
+```
+
 ### 1. Tasks (TODO)
+- Embedding a custom Element in Liferay using fragments
 - Pocking slots using dedicated app : https://fr.javascript.info/slots-composition
 - Using portal Language to automatically setup the react app to load it properly")
 - Try to put app twice in page
-- Adding client-extensions deployment in readme (or put in in the liferay image)
 
 ### 2. Tasks (Standby)
 - Switch language
@@ -17,8 +24,8 @@
 - Passing parameter to Web Component : https://sinhapiyush.hashnode.dev/share-data-between-web-components
 
 ### Principe de Lerna 
-le node_module de l'application est vide car c'est le node_module racine qui est utilisé via un lien symolique
-Il est possible de définir des dépendances locale à l'application. Dans ce cas le répertoire node_module de l'app contiendra ces dépendance.
+le node_module de l'application est vide car c'est le node_module racine qui est utilisé via un lien symbolique
+Il est possible de définir des dépendances locale à l'application. Dans ce cas le répertoire node_module de l'app contiendra ces dépendances.
 
 npm install --workspace packages/app1
 

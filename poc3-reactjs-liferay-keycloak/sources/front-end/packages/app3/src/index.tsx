@@ -2,7 +2,7 @@ import React from 'react';
 import App from './App';
 import { createRoot, Root } from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
-import { getAppCustomConfig, defaultAppCustomConfig } from './services/customConfigService';
+import { getAppCustomConfig, getDefaultAppCustomConfig } from './services/customConfigService';
 
 // Define the custom element ID
 const ELEMENT_ID = 'app3-docker-example';
@@ -17,6 +17,7 @@ class WebComponent extends HTMLElement {
   connectedCallback(): void {
 
     const appCustomConfig = getAppCustomConfig(CONF_ELEMENT_ID);
+    const defaultAppCustomConfig = getDefaultAppCustomConfig();
 
     this.root = createRoot(this);
     this.root.render(<App appCustomConfig={appCustomConfig || defaultAppCustomConfig} />);

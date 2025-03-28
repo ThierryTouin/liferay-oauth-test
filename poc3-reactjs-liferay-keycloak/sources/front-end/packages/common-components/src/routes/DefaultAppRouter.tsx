@@ -8,7 +8,7 @@ import { useAuth, AuthContextProps } from 'react-oidc-context';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { DefaultAppRouterProps } from '../models/DefaultAppRouterProps';
 import { AppConfiguration } from '../models/AppConfiguration';
-import { useAppContext } from "../context/AppContext"; 
+import { useAppContext } from '../context/AppContext'; 
 
 export const DefaultAppRouter: React.FC<DefaultAppRouterProps> = ({ appId, appRoutes }) => {
 

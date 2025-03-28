@@ -1,4 +1,6 @@
 
+[#assign isEdit=layoutMode == "edit"]
+
 <div class="fragment_101">
     <div id="app-container-${fragmentEntryLinkNamespace}">
     </div>
@@ -13,7 +15,9 @@
     const containerId = 'app-container-${fragmentEntryLinkNamespace}';
 
     //Configuration
-    const embeddedMode = '${configuration.embeddedMode?string}';
+    const payloadColor = '${configuration.payloadColor?string}';
+    // Hard Coded here to force embedded mode when application is used in Liferay
+    const embeddedMode = true;
     const signInSilently = '${themeDisplay.isSignedIn()?string}';
     const languageId = '${themeDisplay.getLanguageId()?string}';
 
@@ -21,6 +25,7 @@
     console.debug(" embeddedMode: " + embeddedMode);
     console.debug(" languageId: " + languageId);
     console.debug(" signInSilently: " + signInSilently);
+    console.debug(" payloadColor: " + payloadColor);
     console.debug("End of configuration values.");
 
     addDependenciesToHead("https://app3.dev.local/static/js/bundle.js", function () {
@@ -28,10 +33,10 @@
         // App template using String value
         const webComponentHTML =
             '<' + customElementName + '>' +
-            '<config embedded="' + embeddedMode + '" signInSilently="' + signInSilently + '"></config>' +
+                '<config embedded="' + embeddedMode + '" signInSilently="' + signInSilently + '" payloadColor="' + payloadColor + '"></config>' +
             '</' + customElementName + '>';
 
-        // Ajouter le HTML au DOM
+        // Add required HTML to DOM
         const container = document.getElementById(containerId);
         if (container) {
             container.innerHTML = webComponentHTML;

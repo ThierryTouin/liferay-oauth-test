@@ -5,6 +5,8 @@ GREEN=`tput setaf 2`
 BOLD=$(tput bold)
 NC=`tput sgr0` # Reset color
 
+script_dir=$(dirname "$(readlink -f "$0")")
+
 # Exit on error
 set -e
 
@@ -26,7 +28,10 @@ function clean() {
     echo "${GREEN}Starting cleanup ${NC}"
 
     cd ../
+
     ./gradlew clean
+
+    cd "$script_dir"
 
     echo "${GREEN}Cleanup completed.${NC}"
 
@@ -68,7 +73,10 @@ function build() {
     echo "${GREEN}Starting build ${NC}"
 
     cd ../
+
     ./gradlew clean deploy
+
+    cd "$script_dir"
 
     echo "${GREEN}Build completed.${NC}"
 }
@@ -98,7 +106,7 @@ case "$1" in
         build "$2"
         ;;
     "rebuild")
-        build "$2"
+        rebuild "$2"
         ;;
     "deploy")
         deploy "$2"

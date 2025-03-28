@@ -12,6 +12,8 @@ set -e
 trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
 trap 'if [ $? -ne 0 ]; then echo "${RED}\"${last_command}\" command failed with exit code $?${NC}"; fi' EXIT
 
+current_script_dir=$(dirname "$(readlink -f "$0")")
+
 # Utility function to find all directories containing package.json, excluding node_modules and build directories
 function find_package_dirs() {
     local path=$1
@@ -21,53 +23,53 @@ function find_package_dirs() {
 function manual() {
     echo "${BOLD}Available commands:${NC}"
     echo "  clean <path>    : Deletes 'node_modules', 'build', and 'package-lock.json' in directories with a package.json."
-    echo "  install <path>  : Executes 'npm install --no-cache' in directories with a package.json."
-    echo "  build <path>    : Deletes 'build' and executes 'npm run build' in directories with a package.json."
-    echo "  rebuild <path>  : Executes install and build  "
-    echo "  refresh <path>  : Executes clean,  install and build  "
+    echo "  npmInstall <path>  : Executes 'npm install --no-cache' in directories with a package.json."
+    echo "  build <path>    : Deletes existing output folder and executes 'npm run build' in all directories containing a package.json. Usage: ./frontend.sh build <path> [module]"
+    echo "  rebuild <path>  : Build all apps cleaning output directory before"
+    echo "  refresh <path>  : Executes clean, install and build  "
     echo "  help            : Displays this help message."
 }
 
-
 function rebuild() {
     
-    if [ -z "$1" ]; then
+    if [ -z "$2" ]; then
         echo "${RED}Error: Path argument is required for the refresh command.${NC}"
         echo "Usage: ./frontend.sh rebuild <path>"
         exit 1
     fi
 
+    path=$2
+
     echo "${GREEN}Starting rebuild in path: $path${NC}"
 
-    path=$1
-    cleanBuild "$path" && build "$path"
+    cleanOutput "$@" && build "$@"
 
     echo "${GREEN}Rebuild completed.${NC}"
 }
 
 function refresh() {
-    if [ -z "$1" ]; then
+    if [ -z "$2" ]; then
         echo "${RED}Error: Path argument is required for the refresh command.${NC}"
         echo "Usage: ./frontend.sh refresh <path>"
         exit 1
     fi
 
-    path=$1
+    path=$2
     echo "${GREEN}Starting refresh in path: $path ${NC}"
 
-    clean "$path" && rebuild "$path"
+    clean "$@" && npmInstall "$@" && build "$@"
 
     echo "${GREEN}Refresh completed.${NC}"
 }
 
-function cleanInstall() {
-    if [ -z "$1" ]; then
+function cleanNodeModule() {
+    if [ -z "$2" ]; then
         echo "${RED}Error: Path argument is required for the clean command.${NC}"
         echo "Usage: ./frontend.sh clean <path>"
         exit 1
     fi
 
-    path=$1
+    path=$2
     echo "${GREEN}Starting cleanup INSTALLATION in path: $path ${NC}"
 
     find_package_dirs "$path" | while read -r project_dir; do
@@ -87,14 +89,14 @@ function cleanInstall() {
     echo "${GREEN}Cleanup of INSTALLATION completed.${NC}"
 }
 
-function cleanBuild() {
-    if [ -z "$1" ]; then
+function cleanOutput() {
+    if [ -z "$2" ]; then
         echo "${RED}Error: Path argument is required for the clean command.${NC}"
         echo "Usage: ./frontend.sh clean <path>"
         exit 1
     fi
 
-    path=$1
+    path=$2
     echo "${GREEN}Starting cleanup BUILD in path: $path ${NC}"
 
     find_package_dirs "$path" | while read -r project_dir; do
@@ -112,40 +114,44 @@ function cleanBuild() {
 
 function clean() {
 
+    path=$2
     echo "${GREEN}Starting cleanup in path: $path ${NC}"
 
-    cleanInstall "$1" && cleanBuild "$1"
+    cleanNodeModule "$@" && cleanOutput "$@"
 
     echo "${GREEN}Cleanup completed.${NC}"
 }
 
-function install() {
-    if [ -z "$1" ]; then
+function npmInstall() {
+    if [ -z "$2" ]; then
         echo "${RED}Error: Path argument is required for the clean command.${NC}"
         echo "Usage: ./frontend.sh clean <path>"
         exit 1
     fi
 
-    path=$1
+    path=$2
     echo "${GREEN}Starting npm install in path: $path"
 
-    cd "$1"
+    cd "$path"
 
     npm install
+
+    cd "$current_script_dir"
 
     echo "${GREEN}npm install completed.${NC}"
 }
 
 function build() {
-    if [ -z "$1" ]; then
+    
+    if [ -z "$2" ]; then
         echo "${RED}Error: Path argument is required for the build command.${NC}"
         echo "Usage: ./frontend.sh build <path> [module]"
         exit 1
     fi
 
-    local path="$1"
-    local module="$2"
-    echo "${GREEN}Starting build in path: $path ${NC}"
+    local path="$2"
+    local module="$3"
+    echo "${GREEN}Starting build in path: $path${NC}"
 
     if [ ! -d "$path" ]; then
         echo "${RED}Error: The path $path does not exist.${NC}"
@@ -162,6 +168,8 @@ function build() {
         npx lerna run build --include-dependencies --stream --scope="$module"
     fi
 
+    cd "$current_script_dir"
+
     echo "${GREEN}Build completed.${NC}"
 }
 
@@ -172,19 +180,19 @@ fi
 
 case "$1" in
     "clean")
-        clean "$2"
+        clean "$@"
         ;;
-    "install")
-        install "$2"
+    "npmInstall")
+        npmInstall "$@"
         ;;
     "build")
-        build "$2" "$3"
+        build "$@"
         ;;
     "rebuild")
-        rebuild "$2"
+        rebuild "$@"
         ;;
     "refresh")
-        refresh "$2"
+        refresh "$@"
         ;;
     "help")
         manual

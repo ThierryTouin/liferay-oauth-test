@@ -3,20 +3,21 @@
 		{
 			"fields": [
 				 {
-					"name": "embeddedMode",
-					"label": "Embedded Mode",
-					"description": "Indicates if the app is embedded in a portal page or not or if the app is standalone",
+					"name": "payloadColor",
+					"label": "Payload color",
+					"description": "Payload color",
 					"type": "select",
 					"typeOptions": {
 						"validValues": [
-							{"value": "true"},
-							{"value": "false"}
+							{"value": "black"},
+							{"value": "green"},
+							{"value": "red"}
 					  ]
 					},
 					"dataType": "string",
-					"defaultValue": "true"
+					"defaultValue": "black"
 				 }
 			]
-		 }
+		}
 	]
 }
