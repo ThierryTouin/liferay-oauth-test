@@ -8,7 +8,8 @@
 ```
 
 ### 1. Tasks (TODO)
-- Embedding a custom Element in Liferay using fragments
+- Embedding a custom Element in Liferay using fragments => WIP
+- Deploying APP2 in Liferay using OSGI/confgigs files
 - Pocking slots using dedicated app : https://fr.javascript.info/slots-composition
 - Using portal Language to automatically setup the react app to load it properly")
 - Try to put app twice in page
