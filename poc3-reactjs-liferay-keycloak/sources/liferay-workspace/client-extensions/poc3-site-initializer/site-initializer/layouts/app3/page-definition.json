@@ -1,0 +1,40 @@
+{
+    "pageElement": {
+        "id": "40b7d262-541f-90a5-7edb-de0760ce8212",
+        "pageElements": [
+            {
+                "definition": {
+                    "indexed": true,
+                    "layout": {
+                        "widthType": "Fixed"
+                    }
+                },
+                "id": "af4f51f0-ce19-f164-0b4d-8b16b320f6ce",
+                "pageElements": [
+                    {
+                        "definition": {
+                            "fragment": {
+                                "key": "app3-docker-example",
+                                "siteKey": "35032970766952"
+                            },
+                            "fragmentConfig": {
+                                "payloadColor": "green"
+                            },
+                            "fragmentFields": [],
+                            "indexed": true
+                        },
+                        "id": "ee0fb3f3-a8c9-4de4-9612-7db581a8ee8c",
+                        "type": "Fragment"
+                    }
+                ],
+                "type": "Section"
+            }
+        ],
+        "type": "Root"
+    },
+    "settings": {
+        "colorSchemeName": "01",
+        "themeName": "Classic"
+    },
+    "version": 1.1
+}

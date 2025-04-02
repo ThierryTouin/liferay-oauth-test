@@ -1,0 +1,35 @@
+{
+    "pageElement": {
+        "id": "79060eca-069f-f16e-6219-830aab2d9e52",
+        "pageElements": [
+            {
+                "definition": {
+                    "indexed": true,
+                    "layout": {
+                        "widthType": "Fixed"
+                    }
+                },
+                "id": "206963ec-7cd7-42ff-0d47-5147cf805d21",
+                "pageElements": [
+                    {
+                        "definition": {
+                            "widgetInstance": {
+                                "widgetConfig": {},
+                                "widgetName": "com_liferay_client_extension_web_internal_portlet_ClientExtensionEntryPortlet_35032970766952_LXC_app2_docker_example"
+                            }
+                        },
+                        "id": "9eb82ee7-2023-120e-4c03-34319abb39a6",
+                        "type": "Widget"
+                    }
+                ],
+                "type": "Section"
+            }
+        ],
+        "type": "Root"
+    },
+    "settings": {
+        "colorSchemeName": "01",
+        "themeName": "Classic"
+    },
+    "version": 1.1
+}

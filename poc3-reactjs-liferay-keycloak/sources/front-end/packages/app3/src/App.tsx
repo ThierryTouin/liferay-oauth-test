@@ -1,5 +1,5 @@
 import React, { StrictMode } from 'react';
-import { MFEAppContainer, CustomOIDCAuthProvider, AppProvider, AppConfiguration, ProvidedAppConfiguration, buildAppConfiguration } from 'common-components';
+import { MFEAppContainer, CustomOIDCAuthProvider, AppProvider, AppConfiguration, ProvidedAppConfiguration, buildAppConfiguration, StyledBox } from 'common-components';
 import AppRouter from './routes/AppRouter';
 import { App3CustomConfig } from './models/App3CustomConfig';
 
@@ -28,9 +28,16 @@ const App: React.FC<AppProps> = ({ appCustomConfig }) => {
     <StrictMode>
       <AppProvider appConfig={appConfig}>
         <CustomOIDCAuthProvider>
-          <MFEAppContainer>
-            <AppRouter/>
-          </MFEAppContainer>
+          <StyledBox 
+                      borderColor="green" 
+                      bgColor="#adf196" 
+                      headerColor="green" 
+                      textColor="green"
+          >
+            <MFEAppContainer>
+              <AppRouter/>
+            </MFEAppContainer>
+          </StyledBox>
         </CustomOIDCAuthProvider>
       </AppProvider>
     </StrictMode>

@@ -1,0 +1,11 @@
+{
+    "friendlyURL": "/app2",
+    "hidden": false,
+    "name_i18n": {
+        "en_US": "App 2"
+    },
+    "priority": 0,
+    "private": false,
+    "system": false,
+    "type": "Content"
+}

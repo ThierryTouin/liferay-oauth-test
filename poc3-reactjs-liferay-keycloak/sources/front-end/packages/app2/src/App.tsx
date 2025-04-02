@@ -25,8 +25,26 @@ const App: React.FC<AppSharedProps> = ({ appSharedContextParams  }) => {
         <AppProvider appConfig={appConfig}>  
           <StyledBox borderColor="blue" bgColor="#e0f7fa" headerColor="blue" textColor="blue">
             <MFEAppContainer>
-              <h2>Hello from APP2</h2>
-              <p>I'm defined has a Web Component designed to be used in another application</p>
+            <h3>APP 02 Description</h3>
+            <ul>
+              <li>
+                <b>AUTHENTICATION: none this app is public</b>
+              </li>
+              <li>
+                <b>INTEGRATION :</b>
+                <ul>
+                  <li>Defined as web component</li>
+                  <li>This application is deployed <b>in separate resource server hosted outside of Liferay</b> portal with <b>limited adherence</b> with Liferay.</li> 
+                  <li>This application <b>is not integrated in Liferay because of it's inclusion inside APP1</b></li>
+                </ul>
+              </li>
+              <li>
+                <b>MISCELLANEOUS :</b>
+                <ul>
+                  <li>This app leverage a <b>centralized and shared react library</b> to centralize common devs or libraries.</li>
+                </ul>
+              </li>         
+            </ul>
               {appSharedContextParams && (
                 <div>
                   <h3>Context loaded from APP1 using secured shared context :</h3>

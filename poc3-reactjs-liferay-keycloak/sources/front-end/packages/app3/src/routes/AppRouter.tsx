@@ -14,16 +14,32 @@ const AppRouter: React.FC<AppRouterProps> = () => {
 
   return (
     <div>
-      <h3>APP Description</h3>
-      <p>This React app is Private : it leverage : </p>
+      <h3>APP 03 Description</h3>
       <ul>
-      <li><b>Sso</b> to authentify using Open Id Connect procotole</li>
-      <li><b>Apim</b> to grant securised access to Back End API.</li>
-      </ul>   
-      <p>
-      This application is deployed <b>in separate resource server hosted outside of Liferay</b> portal with <b>limited adherence</b> with Liferay. 
-      This app leverage a <b>centralized and shared react library</b> to centralize common devs. This application <b>is integrated in Liferay as remote app</b> using pure OSGI config 
-      (without declared client-extension in Liferay workspace)</p>
+        <li>
+          <b>AUTHENTICATION:</b>
+          <ul>
+            <li>This application obtains an AccessToken using Authorization Code Flow with PKCE (silent_mode when embedded in Liferay and redirect if not).</li>
+            <li>To improve security, this application does not store tokens in local or session storage. (RAM storage)</li>
+           </ul>
+        </li>
+        <li>
+          <b>INTEGRATION :</b>
+          <ul>
+            <li>Defined as web component</li>
+            <li>This application is deployed <b>in separate resource server hosted outside of Liferay</b> portal with <b>limited adherence</b> with Liferay.</li> 
+            <li>This application is integrated in Liferay using a <b>custom fragment</b> (without declared client-extension in Liferay workspace)</li>
+          </ul>
+        </li>
+        <li>
+          <b>MISCELLANEOUS :</b>
+          <ul>
+            <li>This app is integrated with APIM (cal requires valid token)</li>
+            <li>This app leverage a <b>centralized and shared react library</b> to centralize common devs or libraries.</li>
+            <li>This app include App2 code as a web component. <b>App2 inclusion doesn't work in dev mode because of unavailability of required proxy</b></li>
+          </ul>
+        </li>        
+      </ul>
       <DefaultAppRouter appRoutes={appRoutes} appId={appId} />
     </div>
   );
