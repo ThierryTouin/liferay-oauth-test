@@ -168,7 +168,8 @@ To enable the application to run over HTTPS on the default port (443), the follo
 
 ### 1. Tasks (TODO)
 - Embedding a custom Element in Liferay using fragments => WIP
-- Export sample site using site-initializer
+- Export sample site using site-initializer => Not Working
+- APP2 is not wortking in APP1 when deployed inside Liferay
 - Including MUI and I8N in another sample app
 - Deploying APP1 in Liferay using OSGI/configs files (APP1 contains APP2)
 - Pocking slots using dedicated app : https://fr.javascript.info/slots-composition
