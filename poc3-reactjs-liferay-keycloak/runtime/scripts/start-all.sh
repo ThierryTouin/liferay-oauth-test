@@ -2,7 +2,8 @@
 echo " Starting compose Stack"
 
 # Starting all container
-./start-apps-dependencies.sh
+./start-apps.sh
+./scripts/spinner.sh sleep 5s
 
 # Sourcing env variables
 echo " Sourcing environment variables"
@@ -12,12 +13,6 @@ source ./env.sh
 echo " Done."
 
 cd ..
-
-echo " Starting Apps"
-docker compose up -d apps
-echo " Done."
-
-./scripts/spinner.sh sleep 5s
 
 echo " Starting Liferay"
 docker compose up -d portal

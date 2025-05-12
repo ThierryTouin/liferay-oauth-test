@@ -13,11 +13,20 @@ trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
 trap 'if [ $? -ne 0 ]; then echo "${RED}\"${last_command}\" command failed with exit code $?${NC}"; fi' EXIT
 
 current_script_dir=$(dirname "$(readlink -f "$0")")
+container_app_base_path="/usr/share/nginx/html"
+apps_service_name="lfroauth-apps"
+app_build_dir_name="build"
+common_modules_prefix="common-"
 
 # Utility function to find all directories containing package.json, excluding node_modules and build directories
 function find_package_dirs() {
     local path=$1
-    find "$path" -type f -name "package.json" ! -path "*/node_modules/*" ! -path "*/build/*" -exec dirname {} \;
+    find "$path" -type f -name "package.json" ! -path "*/node_modules/*" ! -path "*/$app_build_dir_name/*" -exec dirname {} \;
+}
+
+function find_app_dirs() {
+    local path=$1
+    find "$path" -type d -name "$app_build_dir_name" ! -path "*/node_modules/*" ! -path "*/$common_modules_prefix*" -exec dirname {} \;
 }
 
 function manual() {
@@ -28,6 +37,7 @@ function manual() {
     echo "  rebuild <path>  : Build all apps cleaning output directory before"
     echo "  refresh <path>  : Executes clean, install and build  "
     echo "  help            : Displays this help message."
+    echo "  deployApps      : Deploy apps to doecker-compose containers."
 }
 
 function rebuild() {
@@ -173,6 +183,44 @@ function build() {
     echo "${GREEN}Build completed.${NC}"
 }
 
+function deployApps() {
+
+    if [ -z "$2" ]; then
+        echo "${RED}Error: Path argument is required for the build command.${NC}"
+        echo "Usage: ./frontend.sh deployApps <path>"
+        echo "Sample: ./frontend.sh deployApps ../"
+        exit 1
+    fi
+
+    local path="$2"
+
+    if docker ps --filter "name=$apps_service_name" --format "{{.Names}}" | grep -q "$apps_service_name"; then
+        echo "${GREEN}Found running container.${NC}"
+
+        echo "${GREEN}Searching for directories containing '$$app_build_dir_name' in 'front-end'...${NC}"
+        find_app_dirs "$path" | while read -r app_dir; do
+
+            app_build_dir="$app_dir/$app_build_dir_name"
+            app_name=$(basename "$app_dir")
+            container_path="$container_app_base_path/$app_name"
+            echo "${BOLD}Found app identified by: $app_name in $app_dir${NC}"
+            echo "${BOLD}Container path set to: $container_path${NC}"
+
+            # Create the directory in the container if it doesn't exist
+            echo "${GREEN}Creating directory $container_path in the container if it doesn't exist...${NC}"
+            docker exec "$apps_service_name" mkdir -p "$container_path"
+
+            # Copy the content of $app_dir to the container
+            echo "${GREEN}Copying content of $app_build_dir to $container_path in the container...${NC}"
+            docker cp "$app_build_dir/." "$apps_service_name:$container_path"
+
+        done
+
+    else
+        echo "${RED}Error: Unavailable service identified by lfroauth-apps. Be aware of starting your environment before using this script.${NC}"
+    fi
+}
+
 if [ $# -eq 0 ]; then
     manual
     exit 0
@@ -181,6 +229,9 @@ fi
 case "$1" in
     "clean")
         clean "$@"
+        ;;
+    "deployApps")
+        deployApps "$@"
         ;;
     "npmInstall")
         npmInstall "$@"
