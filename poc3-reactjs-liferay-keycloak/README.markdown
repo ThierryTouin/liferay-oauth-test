@@ -19,6 +19,7 @@ This also demonstrates
 graph LR
 
 %% Nodes
+
 APPS[App1 App2 App3 - ReactJS<br>apps.dev.local]
 Portal[Portal - Liferay<br>portal.dev.local]
 APIM[APIM - Kong<br>apim.dev.local]
@@ -27,6 +28,7 @@ C([Browser])
 SSO([SSO - Keycloak<br>sso.dev.local])
 
 %% Links	
+
   C <--> Portal
   APPS <--> SSO
   APPS <--> APIM
