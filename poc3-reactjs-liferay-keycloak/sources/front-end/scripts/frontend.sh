@@ -3,6 +3,7 @@
 RED=`tput setaf 1`
 GREEN=`tput setaf 2`
 BOLD=$(tput bold)
+ORANGE=`tput setaf 3`
 NC=`tput sgr0` # Reset color
 
 # Exit on error
@@ -18,26 +19,53 @@ apps_service_name="lfroauth-apps"
 app_build_dir_name="build"
 common_modules_prefix="common-"
 
+function find_app_dirs() {
+    local path="$1"
+    local module="$2"
+    find_module_dirs "$path" "$module" | while read -r package_dir; do
+        if [[ "$package_dir" != *"/$common_modules_prefix"* ]]; then
+            echo "$package_dir"
+        fi
+    done
+}
+
+function find_module_dirs() { 
+    local path="$1"
+    local module="$2"
+
+    if [ -z "$module" ]; then
+        echo "Searching for app directories in $path ..." >&2
+    else
+        echo "Searching for app directories in $path for module $module ..." >&2
+    fi
+
+    find_package_dirs "$path" | while read -r package_dir; do
+        if [ -z "$module" ]; then
+            echo "$package_dir"
+        else
+            app_name=$(basename "$package_dir")
+            if [[ "$app_name" == *"$module"* ]]; then
+                echo "$package_dir"
+            fi
+        fi
+    done
+}
+
 # Utility function to find all directories containing package.json, excluding node_modules and build directories
 function find_package_dirs() {
     local path=$1
     find "$path" -type f -name "package.json" ! -path "*/node_modules/*" ! -path "*/$app_build_dir_name/*" -exec dirname {} \;
 }
 
-function find_app_dirs() {
-    local path=$1
-    find "$path" -type d -name "$app_build_dir_name" ! -path "*/node_modules/*" ! -path "*/$common_modules_prefix*" -exec dirname {} \;
-}
-
 function manual() {
     echo "${BOLD}Available commands:${NC}"
-    echo "  clean <path>    : Deletes 'node_modules', 'build', and 'package-lock.json' in directories with a package.json."
-    echo "  npmInstall <path>  : Executes 'npm install --no-cache' in directories with a package.json."
-    echo "  build <path>    : Deletes existing output folder and executes 'npm run build' in all directories containing a package.json. Usage: ./frontend.sh build <path> [module]"
-    echo "  rebuild <path>  : Build all apps cleaning output directory before"
-    echo "  refresh <path>  : Executes clean, install and build  "
-    echo "  help            : Displays this help message."
-    echo "  deployApps      : Deploy apps to doecker-compose containers."
+    echo "  clean <path> [module]   : Deletes 'node_modules', 'build', and 'package-lock.json' in directories with a package.json. The 'module' parameter is optional."
+    echo "  npmInstall <path>       : Executes 'npm install --no-cache' in directories with a package.json."
+    echo "  build <path> [module]   : Deletes existing output folder and executes 'npm run build' in all directories containing a package.json. The 'module' parameter is optional."
+    echo "  rebuild <path> [module] : Build all apps cleaning the output directory before. The 'module' parameter is optional."
+    echo "  refresh <path>          : Executes clean, install, and build."
+    echo "  deployApps <path>       : Deploy apps to docker-compose containers."
+    echo "  help                    : Displays this help message."
 }
 
 function rebuild() {
@@ -79,21 +107,19 @@ function cleanNodeModule() {
         exit 1
     fi
 
-    path=$2
+    local path="$2"
+    local module="$3"
+
     echo "${GREEN}Starting cleanup INSTALLATION in path: $path ${NC}"
 
-    find_package_dirs "$path" | while read -r project_dir; do
+    find_module_dirs "$path" "$module" | while read -r project_dir; do
         echo "${BOLD}Cleaning in: $project_dir${NC}"
 
         if [ -d "$project_dir/node_modules" ]; then
-            echo "  Removing node_modules..."
+            echo "  Removing $project_dir/node_modules ..."
             rm -rf "$project_dir/node_modules"
         fi
 
-        if [ -f "$project_dir/package-lock.json" ]; then
-            echo "  Removing package-lock.json..."
-            rm -f "$project_dir/package-lock.json"
-        fi
     done
 
     echo "${GREEN}Cleanup of INSTALLATION completed.${NC}"
@@ -106,25 +132,30 @@ function cleanOutput() {
         exit 1
     fi
 
-    path=$2
+    local path="$2"
+    local module="$3"
+
     echo "${GREEN}Starting cleanup BUILD in path: $path ${NC}"
 
-    find_package_dirs "$path" | while read -r project_dir; do
+    find_module_dirs "$path" "$module" | while read -r project_dir; do
         echo "${BOLD}Cleaning in: $project_dir${NC}"
 
-        if [ -d "$project_dir/build" ]; then
-            echo "  Removing build..."
-            rm -rf "$project_dir/build"
+        if [ -d "$project_dir/$app_build_dir_name" ]; then
+
+            echo "  Removing $project_dir/$app_build_dir_name ..."
+            rm -rf "$project_dir/$app_build_dir_name"
+
         fi
 
     done
 
     echo "${GREEN}Cleanup BUILD completed.${NC}"
+
 }
 
 function clean() {
 
-    path=$2
+    local path="$2"
     echo "${GREEN}Starting cleanup in path: $path ${NC}"
 
     cleanNodeModule "$@" && cleanOutput "$@"
@@ -139,7 +170,7 @@ function npmInstall() {
         exit 1
     fi
 
-    path=$2
+    local path="$2"
     echo "${GREEN}Starting npm install in path: $path"
 
     cd "$path"
@@ -193,12 +224,12 @@ function deployApps() {
     fi
 
     local path="$2"
-
+    local module="$3"
     if docker ps --filter "name=$apps_service_name" --format "{{.Names}}" | grep -q "$apps_service_name"; then
         echo "${GREEN}Found running container.${NC}"
+        echo "${GREEN}Searching for directories in '$path' for module '$module'...${NC}"
 
-        echo "${GREEN}Searching for directories containing '$$app_build_dir_name' in 'front-end'...${NC}"
-        find_app_dirs "$path" | while read -r app_dir; do
+        find_app_dirs "$path" "$module" | while read -r app_dir; do
 
             app_build_dir="$app_dir/$app_build_dir_name"
             app_name=$(basename "$app_dir")
@@ -206,13 +237,17 @@ function deployApps() {
             echo "${BOLD}Found app identified by: $app_name in $app_dir${NC}"
             echo "${BOLD}Container path set to: $container_path${NC}"
 
-            # Create the directory in the container if it doesn't exist
-            echo "${GREEN}Creating directory $container_path in the container if it doesn't exist...${NC}"
-            docker exec "$apps_service_name" mkdir -p "$container_path"
+            if [ -d "$app_build_dir" ]; then
+                # Create the directory in the container if it doesn't exist
+                echo "${GREEN}Creating directory $container_path in the container if it doesn't exist...${NC}"
+                docker exec "$apps_service_name" mkdir -p "$container_path"
 
-            # Copy the content of $app_dir to the container
-            echo "${GREEN}Copying content of $app_build_dir to $container_path in the container...${NC}"
-            docker cp "$app_build_dir/." "$apps_service_name:$container_path"
+                # Copy the content of $app_dir to the container
+                echo "${GREEN}Copying content of $app_build_dir to $container_path in the container...${NC}"
+                docker cp "$app_build_dir/." "$apps_service_name:$container_path"
+            else
+                echo "${ORANGE}Warning: Build directory $app_build_dir does not exist. Skipping deployment for $app_name.${NC}"
+            fi
 
         done
 

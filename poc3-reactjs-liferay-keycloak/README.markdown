@@ -75,16 +75,88 @@ class cluster cluster
 
 see [Initial Setup](../README.markdown#2-initial-setup)
 
-## 3. Usefull commands & tips
+## 3. Get started
+
+### Production mode / First start 
 
 #### Start all containers stack
 ```
-cd ./poc3-reactjs-liferay-keycloak
-build.sh
-start.sh
+$ cd ./poc3-reactjs-liferay-keycloak
+$ build.sh
+$ start.sh
 ```
 
+### Development mode
+
+This environment support 2 modes
+
+#### Option 01 - Detached mode 
+
+This mode allow to develop apps without Liferay using standard npm development server.
+
+##### 1. Start 3rd party dependencies
+```
+$ cd ./poc3-reactjs-liferay-keycloak/runtime/scripts
+$ ./start-apps-dependencies.sh
+```
+##### 2. Start application
+```
+$ cd ./poc3-reactjs-liferay-keycloak/sources/front-end/packages/<APP_NAME>
+$ npm run start
+```
+A browser is opened automatically showing the application
+
+#### Option 02 - Runtime mode
+
+This mode allow to develop apps without Liferay but deploying inside docker-compose stack. This method is usefull if you need to work on several applications at the same time.
+
+##### 1. Start app server and 3rd party dependencies
+```
+$ cd ./poc3-reactjs-liferay-keycloak/runtime/scripts
+$ ./start-apps.sh
+```
+##### 2. build application
+```
+$ cd ./poc3-reactjs-liferay-keycloak/sources/front-end
+$ ./frontend.sh refresh ../
+```
+To see all available option from command manual : 
+
+```
+$ ./frontend.sh
+Available commands:
+  clean <path> [module]   : Deletes 'node_modules', 'build', and 'package-lock.json' in directories with a package.json. The 'module' parameter is optional.
+  npmInstall <path>       : Executes 'npm install --no-cache' in directories with a package.json.
+  build <path> [module]   : Deletes existing output folder and executes 'npm run build' in all directories containing a package.json. The 'module' parameter is optional.
+  rebuild <path> [module] : Build all apps cleaning the output directory before. The 'module' parameter is optional.
+  refresh <path>          : Executes clean, install, and build.
+  deployApps <path>       : Deploy apps to docker-compose containers.
+  help                    : Displays this help message.
+```
+
+##### 3. deploy application
+```
+cd ./poc3-reactjs-liferay-keycloak/sources/front-end
+./frontend.sh deployApps ../
+```
+It is also possible to build a single app using : 
+```
+./frontend.sh deployApps ../ <app_name> 
+```
+ex : ./frontend.sh deployApps ../ app1
+
+#### 4. Access application uding domain
+Click on [Index of URLs](./index.html) and then click on the application URL you want to use.
+
+### Usefull commands & tips
+#### Gracefully stops all containers
+```
+cd ./poc3-reactjs-liferay-keycloak/runtime/scripts
+stop-all.sh
+
+```
 #### Clean current compose containers, images and volumes
+Be aware this action deletes all datas stored in volumes
 ```
 cd ./poc3-reactjs-liferay-keycloak/runtime/scripts
 clean-all.sh

@@ -11,7 +11,7 @@ const App: React.FC = () => {
     appId: appName,
     appDomain: "",
     appImagesCompleteUrl: "",
-    appVersion: "1.0.12",
+    appVersion: "1.0.14",
     embedded: false,
     signInSilently: false
   };
