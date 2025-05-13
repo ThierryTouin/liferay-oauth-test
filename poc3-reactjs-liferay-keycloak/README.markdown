@@ -146,7 +146,7 @@ It is also possible to build a single app using :
 ex : ./frontend.sh deployApps ../ app1
 
 #### 4. Access application uding domain
-Click on [Index of URLs](./index.html) and then click on the application URL you want to use.
+Open ./poc3-reactjs-liferay-keycloak/index.html and then click on the application URL you want to use. Modify the app and then repeat step 2 and 3 to build and redeploy it.
 
 ### Usefull commands & tips
 #### Gracefully stops all containers
