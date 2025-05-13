@@ -68,7 +68,7 @@ classDef k8s fill:#326ce5,stroke:#fff,stroke-width:4px,color:#fff
 classDef cluster fill:#fff,stroke:#bbb,stroke-width:2px,color:#326ce5
 
 %% Assigning styles to nodes
-class Portal,APP1,APP2,APP3,APIM,API,SSO k8s
+class Portal,APPS,APIM,API,SSO k8s
 class C plain
 class cluster cluster
 ```

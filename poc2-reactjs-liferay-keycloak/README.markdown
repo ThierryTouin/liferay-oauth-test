@@ -22,6 +22,7 @@ POC 3 should demonstrate the ability to solve these problems.
 graph LR
 
 %% Nodes
+
 APP1[App1 - ReactJS<br>app1.dev.local]
 APP2[App2 - ReactJS<br>app2.dev.local]
 APP3[App3 - ReactJS<br>app3.dev.local]
@@ -32,6 +33,7 @@ C([Browser])
 SSO([SSO - Keycloak<br>sso.dev.local])
 
 %% Links	
+
   C <--> Portal
   APP1 <--> SSO
   APP2 <--> SSO
