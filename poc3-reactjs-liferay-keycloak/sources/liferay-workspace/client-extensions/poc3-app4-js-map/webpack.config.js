@@ -11,6 +11,7 @@ const DEVELOPMENT = process.env.NODE_ENV === 'development';
 module.exports = {
 	devtool: DEVELOPMENT ? 'source-map' : false,
 	entry: {
+		// This file need to be copied to the build folder manually
 		app4DynamicImport: './assets/bundle.js',
 	},
 	experiments: {

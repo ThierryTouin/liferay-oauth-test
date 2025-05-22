@@ -126,7 +126,7 @@ An evolution of APP1
 
 ##### App4
 
-App4 provide great integration inside Liferay using js-maps without having to store source code in a Liferay workspace. The generated bundle.js is copied in Liferay workspace inside poc3-app4-js-map client extension
+App4 provide great integration inside Liferay using js-maps without having to store source code in a Liferay workspace. The generated bundle.js is copied in Liferay workspace inside poc3-app4-js-map client extension.
 
 * Integrated in Liferay as FRAGMENT using standard js-map client extension. Custom Fragment implementation is available in Liferay workspace inside site initializer client extension.
   ![Liferay Integration](./images/liferay-integration-app4.png "Liferay Integration")
