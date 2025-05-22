@@ -1,0 +1,33 @@
+{
+  "name": "app4",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "common-components": "file:../common-components"
+  },
+  "scripts": {
+    "prestart": "sudo setcap 'cap_net_bind_service=+ep' $(which node)",
+    "start": "PORT=443 HOST=app4.dev.local HTTPS=true SSL_CRT_FILE=../../../../runtime/traefik/providers/files/app4.dev.local.crt SSL_KEY_FILE=../../../../runtime/traefik/providers/files/app4.dev.local.key react-app-rewired  start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-app-rewired  eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

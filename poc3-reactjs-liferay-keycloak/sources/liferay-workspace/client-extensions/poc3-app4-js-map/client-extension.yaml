@@ -1,0 +1,8 @@
+assemble:
+    - from: build/static
+      into: static
+poc3-app4-js-map:
+    bareSpecifier: app4DynamicImport
+    name: APP4 Dynamic Import
+    type: jsImportMapsEntry
+    url: app4DynamicImport.*.js

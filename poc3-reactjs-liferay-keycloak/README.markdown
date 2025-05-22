@@ -73,6 +73,72 @@ class C plain
 class cluster cluster
 ```
 
+#### 2. Applications description
+
+##### App1
+
+* Standard Open Id Connect integration using Keycloak (Silent Mode used when deployed inside Liferay)
+* Using standard React Router (HashRouter)
+* Integrated in Liferay as REMOTE APP using OSGI configuration : see com.liferay.client.extension.type.configuration.CETConfiguration_app1-docker-example.config
+
+  ![Liferay Integration](./images/liferay-integration-app1.png "Liferay Integration")
+
+* Served in Dedicated Nginx container using dedicated hostname 
+![Nginx App1](./images/nginx-app1.png "Nginx App1")
+
+| URL                       | Liferay Integration | Stack         | Common Library | Web Component | Lerna | OIDC |
+|---------------------------|---------------------|---------------|----------------|---------------|-------|------|
+| `https://app1.dev.local`  | Yes                 | React, Webpack| Yes            | Yes           | Yes   |Yes
+
+##### App2
+
+* Very simple application  designed to be integrated as Web Component to App3
+* This receive data from APP3 using shared context.
+* Integrated in Liferay as REMOTE APP using OSGI configuration : see com.liferay.client.extension.type.configuration.CETConfiguration_app2-docker-example.config
+
+  ![Liferay Integration](./images/liferay-integration-app2.png "Liferay Integration")
+
+* Served in Dedicated Nginx container using dedicated hostname 
+![Nginx App2](./images/nginx-app2.png "Nginx App2")
+
+| URL                       | Liferay Integration | Stack         | Common Library | Web Component | Lerna | OIDC |
+|---------------------------|---------------------|---------------|----------------|---------------|-------|------|
+| `https://app2.dev.local`  | Yes                 | React, Webpack| Yes            | Yes           | Yes   |No
+
+
+##### App3
+
+An evolution of APP1
+
+* Standard Open Id Connect integration using Keycloak (Silent Mode used when deployed inside Liferay)
+* Using standard React Router (HashRouter)
+* This application include APP3 as Web Component. 
+* This application is able to receive parameters from Liferay and then send it to APP2
+* Integrated in Liferay as FRAGMENT using custom library implementation to include 3rd party resources.Fragment implementation is available in Liferay workspace inside site initializer client extension.
+  ![Liferay Integration](./images/liferay-integration-app3.png "Liferay Integration")
+
+* Served in Dedicated Nginx container using dedicated hostname 
+![Nginx App3](./images/nginx-app2.png "Nginx App3)
+
+| URL                       | Liferay Integration | Stack         | Common Library | Web Component | Lerna | OIDC |
+|---------------------------|---------------------|---------------|----------------|---------------|-------|------|
+| `https://app3.dev.local`  | Yes                 | React, Webpack| Yes            | Yes           | Yes   |Yes
+
+##### App4
+
+App4 provide great integration inside Liferay using js-maps without having to store source code in a Liferay workspace. The generated bundle.js is copied in Liferay workspace inside poc3-app4-js-map client extension
+
+* Integrated in Liferay as FRAGMENT using standard js-map client extension. Custom Fragment implementation is available in Liferay workspace inside site initializer client extension.
+  ![Liferay Integration](./images/liferay-integration-app4.png "Liferay Integration")
+* Served in Dedicated Nginx container using dedicated hostname 
+![Nginx App4](./images/nginx-app4.png "Nginx App4)
+* The application is hosted in Liferay (not in using Nginx)
+
+| URL                       | Liferay Integration | Stack         | Common Library | Web Component | Lerna | OIDC |
+|---------------------------|---------------------|---------------|----------------|---------------|-------|------|
+| Not Available  | Yes                 | React, Webpack| Yes            | Yes           | Yes   |No
+
+
 ## 2. Initial Setup 
 
 see [Initial Setup](../README.markdown#2-initial-setup)

@@ -4,6 +4,7 @@ domains=$(printf "%s\n" \
     "app1.dev.local:/traefik/providers/files/app1.dev.local.crt:/traefik/providers/files/app1.dev.local.key" \
     "app2.dev.local:/traefik/providers/files/app2.dev.local.crt:/traefik/providers/files/app2.dev.local.key" \
     "app3.dev.local:/traefik/providers/files/app3.dev.local.crt:/traefik/providers/files/app3.dev.local.key" \
+    "app4.dev.local:/traefik/providers/files/app4.dev.local.crt:/traefik/providers/files/app4.dev.local.key" \
     "apim.dev.local:/traefik/providers/files/apim.dev.local.crt:/traefik/providers/files/apim.dev.local.key" \
     "portal.dev.local:/traefik/providers/files/portal.dev.local.crt:/traefik/providers/files/portal.dev.local.key" \
     "sso.dev.local:/traefik/providers/files/sso.dev.local.crt:/traefik/providers/files/sso.dev.local.key")

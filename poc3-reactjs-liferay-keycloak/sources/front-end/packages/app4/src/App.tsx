@@ -7,7 +7,7 @@ interface AppSharedProps {
 
 const App: React.FC<AppSharedProps> = ({ appSharedContextParams  }) => {
 
-  const appName: string = "app2";
+  const appName: string = "app4";
 
   const providedConfig: ProvidedAppConfiguration = {
     appId: appName,
@@ -23,9 +23,9 @@ const App: React.FC<AppSharedProps> = ({ appSharedContextParams  }) => {
   return (
     <StrictMode>
         <AppProvider appConfig={appConfig}>  
-          <StyledBox borderColor="blue" bgColor="#e0f7fa" headerColor="blue" textColor="blue">
+        <StyledBox borderColor="orange" bgColor="#fff3cd" headerColor="orange" textColor="orange">
             <MFEAppContainer>
-            <h3>APP 02 Description</h3>
+            <h3>APP 04 Description</h3>
             <ul>
               <li>
                 <b>AUTHENTICATION: none this app is public</b>
@@ -35,7 +35,7 @@ const App: React.FC<AppSharedProps> = ({ appSharedContextParams  }) => {
                 <ul>
                   <li>Defined as web component</li>
                   <li>This application is deployed <b>in separate resource server hosted outside of Liferay</b> portal with <b>limited adherence</b> with Liferay.</li> 
-                  <li>This application <b>is not integrated in Liferay because of it's inclusion inside APP3</b></li>
+                  <li>This application <b>is not integrated in Liferay using js-map feature</b></li>
                 </ul>
               </li>
               <li>
@@ -45,17 +45,6 @@ const App: React.FC<AppSharedProps> = ({ appSharedContextParams  }) => {
                 </ul>
               </li>         
             </ul>
-              {appSharedContextParams && (
-                <div>
-                  <h3>Context loaded from APP1 using secured shared context :</h3>
-                  <ul>
-                    <li><strong>First Name:</strong> {appSharedContextParams.firstName}</li>
-                    <li><strong>Last Name:</strong> {appSharedContextParams.lastName}</li>
-                    <li><strong>Email:</strong> {appSharedContextParams.email}</li>
-                    <li><strong>Access Token:</strong> {appSharedContextParams.accessToken}</li>
-                  </ul>
-                </div>
-              )}
             </MFEAppContainer>
           </StyledBox>
         </AppProvider>
